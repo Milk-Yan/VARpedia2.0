@@ -30,7 +30,8 @@ public class ViewController {
 	 * current creations is implemented on a different thread to
 	 * allow concurrency.
 	 */
-	public ViewController() {
+	@FXML
+	private void initialize() {
 
 		ViewTask viewTask = new ViewTask();
 

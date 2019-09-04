@@ -35,8 +35,8 @@ public class VideoPlayerController {
 	private MediaPlayer _player;
 	
 
-	
-	public VideoPlayerController() {
+	@FXML
+	public void initialize() {
 
 		_player = WikiApplication.getInstance().getCurrentPlayer();
 

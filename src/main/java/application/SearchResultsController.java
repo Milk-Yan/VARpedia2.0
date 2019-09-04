@@ -26,7 +26,8 @@ public class SearchResultsController {
 	
 	private SearchTask _searchTask;
 	
-	public SearchResultsController() {
+	@FXML
+	public void initialize() {
 		_searchTask = WikiApplication.getInstance().getCurrentSearchTask();
 		_searchResults.textProperty().bind(_searchTask.messageProperty());
 		_enquiryText = new Text("How many sentences would you like to include in your creation (1-" + _searchTask.lineCount() + ")?");
