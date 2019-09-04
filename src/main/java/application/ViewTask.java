@@ -1,4 +1,4 @@
-package application;
+package main.java.application;
 
 import java.io.File;
 import java.util.Arrays;

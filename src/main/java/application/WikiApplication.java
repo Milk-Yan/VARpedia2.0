@@ -1,0 +1,221 @@
+package main.java.application;
+
+
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+
+import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+
+/**
+ * Main class of the WikiApplication. Extends JavaFX Application.
+ * Allows user to create and manage movie creations from Wikipedia
+ * entries of the user's choice. Enjoy! 
+ * @author Milk
+ *
+ */
+public class WikiApplication extends Application {
+	
+	private static WikiApplication _wikiApp;
+
+	private Scene _currentScene;
+	private Stage _primaryStage;
+	
+	private String _currentTerm;
+	private String _currentText;
+	private int _currentLineNumber;
+	private String _currentVideoName;
+	private MediaPlayer _currentPlayer;
+	private Task<Void> _currentTask;
+	private SearchTask _currentSearchTask;
+	
+	public WikiApplication() {
+		_wikiApp = this;
+	}
+	
+	protected static WikiApplication getInstance() {
+		return _wikiApp;
+	}
+
+	public static void main (String args[]) {
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+
+		_primaryStage = primaryStage;
+		primaryStage.setTitle("Wiki Application");
+
+		createFolders();
+		displayMainMenu();
+
+	}
+
+	protected void displayMainMenu() {
+		Scene mainMenuScene = new SceneMaker(SceneType.MainMenu).getScene();
+		
+		_currentScene = mainMenuScene;
+		update();
+	}
+
+
+	protected void displayCreateScene() {
+
+		Scene createScene = new SceneMaker(SceneType.Create).getScene();
+
+		_currentScene = createScene;
+		update();
+	}
+
+	protected void displayLoadingScene(Task<Void> task) {
+		
+		Scene loadingScene = new SceneMaker(SceneType.Loading).getScene();
+		
+		_currentScene = loadingScene;
+		update();
+		
+	}
+	
+	protected Task<Void> getCurrentTask() {
+		return _currentTask;
+	}
+	
+
+	protected void displayViewScene() {
+		
+		Scene viewScene = new SceneMaker(SceneType.View).getScene();
+		
+		_currentScene = viewScene;
+		update();
+	}
+
+	protected void displayNamingScene(String chosenText, int lineNumber) {
+		
+		_currentText = chosenText;
+		_currentLineNumber = lineNumber;
+		
+		Scene namingScene = new SceneMaker(SceneType.Naming).getScene();
+		
+		_currentScene = namingScene;
+		update();
+	}
+	
+	protected String getCurrentTerm() {
+		return _currentTerm;
+	}
+	
+	protected String getCurrentText() {
+		return _currentText;
+	}
+	
+	protected int getCurrentLineNumber() {
+		return _currentLineNumber;
+	}
+	
+	protected void displaySearchResultsScene(String term) {
+		
+		_currentTerm = term;
+		
+		SearchTask searchTask = new SearchTask(term);
+		_currentSearchTask = searchTask;
+		
+		Scene searchResultsScene = new SceneMaker(SceneType.SearchResults).getScene();
+		
+		_currentScene = searchResultsScene;
+		update();
+	}
+
+	protected SearchTask getCurrentSearchTask() {
+		return _currentSearchTask;
+	}
+
+
+	/**
+	 * Update the primary stage to show the current scene.
+	 */
+	private void update() {
+		_primaryStage.setScene(_currentScene);
+		_primaryStage.show();
+	}
+
+
+	/**
+	 * Creates the stage for a new creation to play.
+	 * @param name
+	 */
+	protected void playVideo(String name) {
+		
+		createPlayer(name);
+		MediaPlayer player = _currentPlayer;
+		
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource(SceneType.VideoPlayer.getAddress()));
+		
+		try {
+			Parent layout = loader.load();
+			Scene scene = new Scene(layout);
+			Stage videoStage = new Stage();
+			videoStage.setScene(scene);
+			videoStage.show();
+			
+			// Media functionality
+			player.setOnEndOfMedia(() -> {
+				player.dispose();
+				videoStage.close();
+			});
+
+			videoStage.setOnCloseRequest(closeEvent -> {
+				player.stop();
+			});
+			
+			
+			
+		} catch (IOException e) {
+			new AlertMaker(AlertType.ERROR, "IOException", "Oops", "Something wrong happened when making the scene. Sorry :(");
+		}
+		
+	}
+	
+	protected MediaPlayer getCurrentPlayer() {
+		
+		return _currentPlayer;
+	}
+	
+	private void createPlayer(String name) {
+		Media video = new Media(Paths.get("./bin/creations/" + WikiApplication.getInstance().getVideoName() + ".mp4").toUri().toString());
+		MediaPlayer player = new MediaPlayer(video);
+		player.setAutoPlay(true);
+		
+		_currentPlayer = player;
+	}
+	
+
+	
+	protected String getVideoName() {
+		
+		return _currentVideoName;
+		
+	}
+
+
+	/**
+	 * Initialises folders if they do not already exist.
+	 */
+	private void createFolders() {
+		new File("./bin/creations").mkdirs();
+		new File("./bin/videos").mkdirs();
+		new File("./bin/audio").mkdirs();
+	}
+
+
+}

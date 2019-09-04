@@ -1,4 +1,4 @@
-package application;
+package main.java.application;
 
 import java.io.IOException;
 
@@ -17,7 +17,7 @@ public class CreateTask extends Task<Void>{
 	int _lineNumber;
 	Process _process;
 
-	protected CreateTask(String name,String term, String text, int lineNumber) {
+	public CreateTask(String name,String term, String text, int lineNumber) {
 		_term = term;
 		_name = name;
 		_text = text;
@@ -66,7 +66,7 @@ public class CreateTask extends Task<Void>{
 	/**
 	 * destroys the current process.
 	 */
-	protected void destroy() {
+	public void destroy() {
 		_process.destroy();
 	}
 

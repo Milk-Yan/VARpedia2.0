@@ -1,4 +1,4 @@
-package application;
+package main.java.application;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class SearchTask extends Task<Void>{
 	/**
 	 * @return the line count of the text of the searched term.
 	 */
-	protected int lineCount() {
+	public int lineCount() {
 		return _lineCount;
 	}
 	
@@ -95,14 +95,14 @@ public class SearchTask extends Task<Void>{
 	/**
 	 * @return if the term searched is invalid
 	 */
-	protected boolean isInvalid() {
+	public boolean isInvalid() {
 		return _isInvalid;
 	}
 	
 	/**
 	 * @return Only the number of sentences of the text that is chosen by the user.
 	 */
-	protected String getChosenText() {
+	public String getChosenText() {
 		BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.ENGLISH);
 		iterator.setText(_source);
 		List<String> outputList = new ArrayList<String>();
@@ -128,7 +128,7 @@ public class SearchTask extends Task<Void>{
 	/**
 	 * @param lineNumber sets number of lines of the chosen text.
 	 */
-	protected void setLineNumber(int lineNumber) {
+	public void setLineNumber(int lineNumber) {
 		_lineNumber = lineNumber;
 	}
 
