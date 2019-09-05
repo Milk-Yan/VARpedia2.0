@@ -12,6 +12,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for functionality of View.fxml
+ * @author Milk
+ *
+ */
 public class ViewController {
 
 	@FXML
@@ -37,6 +42,7 @@ public class ViewController {
 	@FXML
 	private void initialize() {
 		
+		// could possibly move the viewtask in here but too lazy as of now.
 		ObservableList<String> creationList = FXCollections.observableArrayList();
 		for (String creation:WikiApplication.getInstance().getCurrentCreations().getItems()) {
 			creationList.add(creation);

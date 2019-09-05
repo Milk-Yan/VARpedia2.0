@@ -1,5 +1,10 @@
 package main.java.application;
 
+/**
+ * Constant type names and addresses so easy to change.
+ * @author Milk
+ *
+ */
 public enum SceneType {
 
 	MainMenu("/main/resources/application/Main.fxml"),
@@ -16,6 +21,10 @@ public enum SceneType {
 		this._address = address;
 	}
 	
+	/**
+	 * 
+	 * @return Address of the fxml for the SceneType.
+	 */
 	public String getAddress() {
 		// string is immutable so ok to send like this
 		return _address;

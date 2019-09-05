@@ -8,7 +8,11 @@ import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 
-
+/**
+ * Controller for functionality of VideoPlayer.fxml
+ * @author Milk
+ *
+ */
 public class VideoPlayerController {
 
 	@FXML
@@ -35,6 +39,9 @@ public class VideoPlayerController {
 	private MediaPlayer _player;
 	
 
+	/**
+	 * Initialises the player to show what the user chose.
+	 */
 	@FXML
 	public void initialize() {
 

@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for functionality of Loading.fxml
+ * @author Milk
+ *
+ */
 public class LoadingController {
 
 	@FXML
@@ -18,7 +23,7 @@ public class LoadingController {
 		
 		Task<Void> task = WikiApplication.getInstance().getCurrentTask();
 		
-		// cancel current tasks
+		// cancel current tasks before going back to main menu
 		if (task != null && !task.isCancelled()) {
 			if (task instanceof SearchTask || task instanceof ViewTask) {
 				task.cancel();

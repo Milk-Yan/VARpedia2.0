@@ -6,6 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for functionality of Create.fxml
+ * @author Milk
+ *
+ */
 public class CreateController {
 
 	@FXML
@@ -22,12 +27,16 @@ public class CreateController {
 
 	@FXML
 	private void search() {
+		
 		if (_termInput.getText().isEmpty()) {
+			
 			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "The term cannot be empty.");
+			
 		} else {
 
 			String term = _termInput.getText();
 
+			// use a new thread to complete the search task
 			SearchTask searchTask = new SearchTask(term);
 			WikiApplication.getInstance().displayLoadingScene(searchTask);
 

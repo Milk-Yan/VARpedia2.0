@@ -10,6 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for functionality of Naming.fxml
+ * @author Milk
+ *
+ */
 public class NamingController {
 
 	@FXML
@@ -43,6 +48,7 @@ public class NamingController {
 			
 		} else if (new File("./bin/creations/" + _name + ".mp4").isFile()) {
 			
+			// check if want to overwrite
 			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "File already exists",
 										"Would you like to overwrite the existing file?").getAlert();
 			if (alert.getResult() == ButtonType.OK) {
@@ -56,6 +62,7 @@ public class NamingController {
 	
 	private void create() {
 		
+		// use new thread to create in bg
 		CreateTask createTask = new CreateTask(_name, _application.getCurrentTerm(), _application.getCurrentText(), _application.getCurrentLineNumber());
 		new Thread(createTask).start();
 

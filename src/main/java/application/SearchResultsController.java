@@ -7,6 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for functionality of SearchResults.fxml
+ * @author Milk
+ *
+ */
 public class SearchResultsController {
 
 	@FXML
@@ -26,6 +31,9 @@ public class SearchResultsController {
 	
 	private SearchTask _searchTask;
 	
+	/**
+	 * Initialise the searchResults TextArea and also the number of lines displayed to user.
+	 */
 	@FXML
 	public void initialize() {
 		_searchTask = WikiApplication.getInstance().getCurrentSearchTask();

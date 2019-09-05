@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * Creates alerts.
+ * Creates alerts and shows them.
  * @author Milk
  *
  */
@@ -28,6 +28,10 @@ public class AlertMaker {
 		_alert.showAndWait();
 	}
 	
+	/**
+	 * 
+	 * @return The alert created.
+	 */
 	public Alert getAlert() {
 		return _alert;
 	}

@@ -7,7 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 
-
+/**
+ * Loads the scenes with FXMLLoader.
+ * @author Milk
+ *
+ */
 public class SceneMaker {
 	
 	private Scene _scene;
@@ -24,6 +28,10 @@ public class SceneMaker {
 		
 	}
 	
+	/**
+	 * 
+	 * @return Scene loaded.
+	 */
 	public Scene getScene() {
 		return _scene;
 	}

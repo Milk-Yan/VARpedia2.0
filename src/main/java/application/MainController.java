@@ -4,6 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for functionality of Main.fxml
+ * @author Milk
+ *
+ */
 public class MainController {
 
 	@FXML

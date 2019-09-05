@@ -139,6 +139,7 @@ public class WikiApplication extends Application {
 	
 	protected void displaySearchResultsScene(String term) {
 		
+		// yeah this could probably be put in searchResultsController sometime.
 		_currentTerm = term;
 		
 		SearchTask searchTask = new SearchTask(term);
@@ -175,6 +176,7 @@ public class WikiApplication extends Application {
 	 */
 	protected void playVideo(String name) {
 		
+		// could potentially make a new VideoPlayer class...but not today
 		createPlayer(name);
 		MediaPlayer player = _currentPlayer;
 		
