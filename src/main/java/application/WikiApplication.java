@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -33,10 +34,10 @@ public class WikiApplication extends Application {
 	private String _currentTerm;
 	private String _currentText;
 	private int _currentLineNumber;
-	private String _currentVideoName;
 	private MediaPlayer _currentPlayer;
 	private Task<Void> _currentTask;
 	private SearchTask _currentSearchTask;
+	private ListView<String> _currentCreations;
 	
 	public WikiApplication() {
 		_wikiApp = this;
@@ -93,10 +94,24 @@ public class WikiApplication extends Application {
 
 	protected void displayViewScene() {
 		
-		Scene viewScene = new SceneMaker(SceneType.View).getScene();
+		ViewTask viewTask = new ViewTask();
 		
-		_currentScene = viewScene;
-		update();
+		new Thread(viewTask).start();
+		
+		displayLoadingScene(viewTask);
+		
+		viewTask.setOnSucceeded(succeededEvent -> {
+			_currentCreations = viewTask.getCurrentCreations();
+			Scene viewScene = new SceneMaker(SceneType.View).getScene();
+			
+			_currentScene = viewScene;
+			update();
+		});
+		
+	}
+	
+	protected ListView<String> getCurrentCreations() {
+		return _currentCreations;
 	}
 
 	protected void displayNamingScene(String chosenText, int lineNumber) {
@@ -129,10 +144,15 @@ public class WikiApplication extends Application {
 		SearchTask searchTask = new SearchTask(term);
 		_currentSearchTask = searchTask;
 		
-		Scene searchResultsScene = new SceneMaker(SceneType.SearchResults).getScene();
+		new Thread(searchTask).start();
 		
-		_currentScene = searchResultsScene;
-		update();
+		searchTask.setOnSucceeded(succeededevent -> {
+			Scene searchResultsScene = new SceneMaker(SceneType.SearchResults).getScene();
+			
+			_currentScene = searchResultsScene;
+			update();
+		});
+		
 	}
 
 	protected SearchTask getCurrentSearchTask() {
@@ -192,7 +212,7 @@ public class WikiApplication extends Application {
 	}
 	
 	private void createPlayer(String name) {
-		Media video = new Media(Paths.get("./bin/creations/" + WikiApplication.getInstance().getVideoName() + ".mp4").toUri().toString());
+		Media video = new Media(Paths.get("./bin/creations/" + name + ".mp4").toUri().toString());
 		MediaPlayer player = new MediaPlayer(video);
 		player.setAutoPlay(true);
 		
@@ -201,11 +221,6 @@ public class WikiApplication extends Application {
 	
 
 	
-	protected String getVideoName() {
-		
-		return _currentVideoName;
-		
-	}
 
 
 	/**

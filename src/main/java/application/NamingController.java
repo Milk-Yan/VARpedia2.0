@@ -41,7 +41,7 @@ public class NamingController {
 			
 			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain spaces");
 			
-		} if (new File("./bin/creations/" + _name + ".mp4").isFile()) {
+		} else if (new File("./bin/creations/" + _name + ".mp4").isFile()) {
 			
 			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "File already exists",
 										"Would you like to overwrite the existing file?").getAlert();

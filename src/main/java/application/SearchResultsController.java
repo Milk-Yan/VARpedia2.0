@@ -56,7 +56,7 @@ public class SearchResultsController {
 	private boolean validLineNumber(String text) {
 		try {
 			int lineNumber = Integer.parseInt(text);
-			if (lineNumber >=0 && lineNumber <= _searchTask.lineCount()) {
+			if (lineNumber > 0 && lineNumber <= _searchTask.lineCount()) {
 				return true;
 			}
 		} catch(NumberFormatException e) {

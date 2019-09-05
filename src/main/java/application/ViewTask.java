@@ -13,10 +13,12 @@ import javafx.scene.control.ListView;
  * @author Milk
  *
  */
-public class ViewTask extends Task<ListView<String>>{
+public class ViewTask extends Task<Void>{
 
+	private ListView<String> _currentCreations;
+	
 	@Override
-	protected ListView<String> call(){
+	protected Void call(){
 		
 		File folder = new File("./bin/creations");
 		
@@ -43,8 +45,14 @@ public class ViewTask extends Task<ListView<String>>{
 			lineNumber++;
 		}
 
-		outputList.setEditable(false);
-		return outputList;
+		_currentCreations = outputList;
+		
+		return null;
 	}
+	
+	protected ListView<String> getCurrentCreations() {
+		return _currentCreations;
+	}
+	
 
 }

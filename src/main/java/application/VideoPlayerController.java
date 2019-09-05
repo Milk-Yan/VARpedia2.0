@@ -40,7 +40,7 @@ public class VideoPlayerController {
 
 		_player = WikiApplication.getInstance().getCurrentPlayer();
 
-		_viewer = new MediaView(_player);
+		_viewer.setMediaPlayer(_player);
 
 	}
 	

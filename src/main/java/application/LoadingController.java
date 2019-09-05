@@ -20,7 +20,7 @@ public class LoadingController {
 		
 		// cancel current tasks
 		if (task != null && !task.isCancelled()) {
-			if (task instanceof SearchTask) {
+			if (task instanceof SearchTask || task instanceof ViewTask) {
 				task.cancel();
 			}
 			else if (task instanceof CreateTask) {
