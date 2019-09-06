@@ -54,11 +54,10 @@ public class ViewController {
 	private void play() {
 		
 		String selectionName = _listOfCreations.getSelectionModel().getSelectedItem();
-		String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
 		
-		if (videoName == null) {
-			new AlertMaker(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot be null");
-		} else {
+		
+		if (!(selectionName == null)) {
+			String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
 			WikiApplication.getInstance().playVideo(videoName);
 		}
 		
