@@ -124,7 +124,11 @@ public class SearchTask extends Task<Void>{
 		}
 		return String.join("", outputList).replace("\"", "\\\"");
 	}
-	
+
+	public void updateText(String editted){
+		_source=editted;
+	}
+
 	/**
 	 * @param lineNumber sets number of lines of the chosen text.
 	 */

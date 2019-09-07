@@ -62,6 +62,9 @@ public class WikiApplication extends Application {
 
 	}
 
+	/**
+	 * method which calls the main menu to appear
+	 */
 	protected void displayMainMenu() {
 		Scene mainMenuScene = new SceneMaker(SceneType.MainMenu).getScene();
 		
@@ -90,8 +93,10 @@ public class WikiApplication extends Application {
 	protected Task<Void> getCurrentTask() {
 		return _currentTask;
 	}
-	
 
+	/**
+	 * method which calls the view scene. called from MainController
+	 */
 	protected void displayViewScene() {
 		
 		ViewTask viewTask = new ViewTask();
@@ -214,7 +219,8 @@ public class WikiApplication extends Application {
 	}
 	
 	private void createPlayer(String name) {
-		Media video = new Media(Paths.get("./bin/creations/" + name + ".mp4").toUri().toString());
+		Media video = new Media(Paths.get("bin/creations/" + name + ".mp4").toUri().toString());
+		System.out.println(Paths.get("bin/creations/" + name + ".mp4").toUri().toString());
 		MediaPlayer player = new MediaPlayer(video);
 		player.setAutoPlay(true);
 		
