@@ -21,7 +21,8 @@ public class LoadingController {
 	@FXML
 	private void mainMenu() {
 		
-		Task<Void> task = WikiApplication.getInstance().getCurrentTask();
+		@SuppressWarnings("rawtypes")
+		Task task = WikiApplication.getInstance().getCurrentTask();
 		
 		// cancel current tasks before going back to main menu
 		if (task != null && !task.isCancelled()) {

@@ -1,5 +1,7 @@
 package main.java.application;
 
+import java.util.concurrent.ExecutionException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -30,31 +32,86 @@ public class SearchResultsController {
 	private Button _mainMenuBtn;
 
 	@FXML
-	private Button _editButton;
+	private Button _editSaveBtn;
 	
-	private SearchTask _searchTask;
+	@FXML
+	private Button _resetCancelBtn;
+	
+	//private SearchTask _searchTask;
+	private StringManipulator _stringManipulator = new StringManipulator();
+	
+	private String _originalText;
+	private String _currentText;
+	
+	/**
+	 * enum to determine type of button.
+	 */
+	private enum ButtonType {
+		EDIT("Edit Text"), 
+		SAVE("Save Text"), 
+		RESET("Reset to Default Text"), 
+		CANCEL("Cancel Editing");
+		
+		private String _message;
+		
+		ButtonType(String message) {
+			this._message = message;
+		}
+		
+		/**
+		 * 
+		 * @return Message of the button for the specified type.
+		 */
+		public String getMessage() {
+			// string is immutable so ok to send like this
+			return _message;
+		}
+	};
 	
 	/**
 	 * Initialise the searchResults TextArea and also the number of lines displayed to user.
 	 */
 	@FXML
 	public void initialize() {
-		_searchTask = WikiApplication.getInstance().getCurrentSearchTask();
-		//does display text as intended without freezing
-//		_searchResults.textProperty().bind(_searchTask.messageProperty());
-		_searchResults.setText(_searchTask.getMessage());
-		//doesnt allow the textArea to be ediited
+		
+		SearchTask searchTask = WikiApplication.getInstance().getCurrentSearchTask();
+		try {
+			_originalText = searchTask.get();
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		_currentText = _originalText;
+
+		_searchResults.setText(_originalText);
+		// doesn't allow the textArea to be edited
 		_searchResults.setEditable(false);
-		_enquiryText = new Text("How many sentences would you like to include in your creation (1-" + _searchTask.lineCount() + ")?");
+		
+		int lineCount = _stringManipulator.countLines(_originalText);
+		
+		_enquiryText.setText("How many sentences would you like to include in your creation (1-" + lineCount + ")?");
 	}
 	
 	@FXML
 	private void create() {
-		String lineNumber = _lineNumberInput.getText();
-		if (validLineNumber(lineNumber)) {
-			WikiApplication.getInstance().displayNamingScene(_searchTask.getChosenText(), Integer.parseInt(lineNumber));
+		
+		String inputLineNumber = _lineNumberInput.getText();
+		
+		if (validLineNumber(inputLineNumber)) {
+			
+			int lineNumber = Integer.parseInt(inputLineNumber);
+			String chosenText = _stringManipulator.getChosenText(_currentText, lineNumber);
+			
+			WikiApplication.getInstance().setChosenText(chosenText);
+			
+			WikiApplication.getInstance().displayNamingScene();
+			
 		} else {
-			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid value", "Please enter an integer between 1-"+_searchResults.getText().split("\n").length);
+			
+			int maxLineNumber = _stringManipulator.countLines(_currentText);
+			
+			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid value", "Please enter an integer between 1-" + maxLineNumber);
+		
 		}
 	}
 
@@ -72,8 +129,8 @@ public class SearchResultsController {
 		try {
 			int lineNumber = Integer.parseInt(text);
 
-			//counting the number of lines from the textArea as it may be editted
-			if (lineNumber > 0 && lineNumber <= _searchResults.getText().split("\n").length) {
+			//counting the number of lines from the textArea as it may be edited
+			if (lineNumber > 0 && lineNumber <= _stringManipulator.countLines(text)) {
 				return true;
 			}
 		} catch(NumberFormatException e) {
@@ -83,41 +140,74 @@ public class SearchResultsController {
 	}
 
 	/**
-	 * helper method to enable editing properties for the search text
+	 * Edit/Save text functionality when the button is pressed.
 	 */
 	@FXML
-	private void editProperty(){
-		if (_editButton.getText().equals("Edit Search Text")){
+	private void editSave(){
+		
+		// save text functionality
+		if (_editSaveBtn.getText().equals(ButtonType.EDIT.getMessage())){
+			
 			_searchResults.setEditable(true);
-			_editButton.setText("Cancel Editing");
+			_editSaveBtn.setText(ButtonType.SAVE.getMessage());
+			_resetCancelBtn.setText(ButtonType.CANCEL.getMessage());
+			
 		} else {
-			//removes all edited text and freezes the text box again
-			_editButton.setText("Edit Search Text");
-			_searchResults.setEditable(false);
-			//undoes all edits
-			while(_searchResults.isUndoable()) {
-				_searchResults.undo();
+			
+			// save current edit
+			
+			// if text is empty, it is invalid.
+			if (_searchResults.getText().isEmpty()) {
+				new AlertMaker(AlertType.ERROR, "Error", "Invalid input", "Text field cannot be empty");
 			}
+			
+			//removes all edited text and freezes the text box again
+			_editSaveBtn.setText(ButtonType.EDIT.getMessage());
+			_resetCancelBtn.setText(ButtonType.RESET.getMessage());
+			_searchResults.setEditable(false);
+			
+			// reformats current text
+			reformatText();
+			
+			_searchResults.setText(_currentText);
+		
 		}
 	}
 
+	@FXML
+	private void resetCancel() {
+		
+		// reset functionality
+		if (_resetCancelBtn.getText().equals(ButtonType.RESET.getMessage())) {
+			_searchResults.setText(_originalText);
+			_currentText = _originalText;
+		}
+		
+		// cancel edit functionality
+		else {
+			
+			// changes button text
+			_editSaveBtn.setText(ButtonType.EDIT.getMessage());
+			_resetCancelBtn.setText(ButtonType.RESET.getMessage());
+			
+			// revert text to what was before the edit button was pressed
+			_searchResults.setText(_currentText);
+			_searchResults.setEditable(false);
+		}
+	}
+	
 	/**
-	 * method to edit the textArea to what it originally was
-	 * very very jank
-	 * sorts up to the hundreds, which is probably not very useful
-	 * @return
+	 * method to reformat the TextArea to what the user has edited.
 	 */
-	private String textContent(){
-		String edit=_searchResults.getText();
-		edit=edit.replaceAll("."+" "+"\n"," "+"."+"\n");
-		edit=edit.replace("1. ","");
-		edit =edit.replaceAll("\n"+"\\d","\n");
-		edit =edit.replaceAll("\n"+"\\d","\n");
-		edit =edit.replaceAll("\n"+"\\d","\n");
-		edit =edit.replaceAll("\n"+"."+" ","\n");
-		edit=edit.replaceAll(" "+"."+"\n","."+"\n");
-		_searchTask.updateText(edit);
-		return edit;
+	private void reformatText(){
+		String newText = _searchResults.getText();
+		
+		// remove the previous line numbers and add new numbers
+		String rawText = _stringManipulator.removeNumberedLines(newText);
+		String formattedText = _stringManipulator.createNumberedText(rawText);
+		
+		_currentText = formattedText;
+		_searchResults.setText(formattedText);
 
 	}
 

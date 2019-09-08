@@ -18,11 +18,11 @@ import javafx.scene.control.Alert.AlertType;
  * @author Milk
  *
  */
-public class SearchTask extends Task<Void>{
+public class SearchTask extends Task<String>{
 
 	private String _term;
 	private int _lineCount;
-	private String _source;
+	private String _sourceText;
 	private int _lineNumber;
 	private boolean _isInvalid = false;
 
@@ -31,7 +31,7 @@ public class SearchTask extends Task<Void>{
 	}
 
 	@Override
-	protected Void call() throws Exception {
+	protected String call() throws Exception {
 		try {
 			Process process = new ProcessBuilder("bash", "-c", "wikit \"" + _term + "\"").start();
 			try {
@@ -43,12 +43,19 @@ public class SearchTask extends Task<Void>{
 			if (process.exitValue() != 0) {
 				new AlertMaker(AlertType.ERROR, "Error encountered", "Problem finding term.", makeString(process.getErrorStream()));
 			} else {
-				updateMessage(createMessage(process.getInputStream()));
+				String text = makeString(process.getInputStream());
+				_sourceText = text;
+				
+				StringManipulator manipulator = new StringManipulator();
+				String numberedText = manipulator.createNumberedText(text);
+				
+				return numberedText;
 			}
 
 			
 		} catch (IOException e) {
 			new AlertMaker(AlertType.ERROR, "Error encountered", "I/O Exception", e.getStackTrace().toString());
+			WikiApplication.getInstance().displayMainMenu();
 		}
 		
 		return null;
@@ -61,36 +68,7 @@ public class SearchTask extends Task<Void>{
 		return _lineCount;
 	}
 	
-	/**
-	 * creates and numbers the inputstream into a string.
-	 * @param inputStream the input stream of the process.
-	 * @return the created string.
-	 */
-	private String createMessage(InputStream inputStream) {
-		BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.ENGLISH);
-		_source = makeString(inputStream);
-		iterator.setText(_source);
-		_lineCount = 1;
-		List<String> outputList = new ArrayList<String>();
-		
-		int start = iterator.first();
-		for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
-			
-			if (start == 0) {
-				outputList.add(Integer.toString(_lineCount++) + ". " + _source.substring(2,end) + "\n");
-			} else {
-				outputList.add(Integer.toString(_lineCount++) + ". " + _source.substring(start,end) + "\n");
-			}	
-		}
-		_lineCount--;
-		
-		if (outputList.get(0).contains(":^(")) {
-			_isInvalid = true;
-			cancel();
-		}
-
-		return String.join("", outputList);
-	}
+	
 	
 	/**
 	 * @return if the term searched is invalid
@@ -99,34 +77,10 @@ public class SearchTask extends Task<Void>{
 		return _isInvalid;
 	}
 	
-	/**
-	 * @return Only the number of sentences of the text that is chosen by the user.
-	 */
-	public String getChosenText() {
-		BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.ENGLISH);
-		iterator.setText(_source);
-		List<String> outputList = new ArrayList<String>();
-		int start = iterator.first();
-		int count = 0;
-		for (int end = iterator.next(); end != BreakIterator.DONE; start = end, end = iterator.next()) {
-			
-			count++;
-			if (start == 0) {
-				outputList.add(_source.substring(2,end) + "\n");
-			} else {
-				outputList.add(_source.substring(start,end) + "\n");
-			}
-			
-			if (count == _lineNumber) {
-				break;
-			}
-			
-		}
-		return String.join("", outputList).replace("\"", "\\\"");
-	}
+	
 
 	public void updateText(String editted){
-		_source=editted;
+		_sourceText=editted;
 	}
 
 	/**

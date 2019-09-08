@@ -5,6 +5,7 @@ package main.java.application;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
  * @author Milk
  *
  */
+@SuppressWarnings("rawtypes")
 public class WikiApplication extends Application {
 	
 	private static WikiApplication _wikiApp;
@@ -31,11 +33,13 @@ public class WikiApplication extends Application {
 	private Scene _currentScene;
 	private Stage _primaryStage;
 	
+	// stored to use when creating creation
 	private String _currentTerm;
-	private String _currentText;
-	private int _currentLineNumber;
+	private String _chosenText;
+	
 	private MediaPlayer _currentPlayer;
-	private Task<Void> _currentTask;
+
+	private Task _currentTask;
 	private SearchTask _currentSearchTask;
 	private ListView<String> _currentCreations;
 	
@@ -81,7 +85,7 @@ public class WikiApplication extends Application {
 		update();
 	}
 
-	protected void displayLoadingScene(Task<Void> task) {
+	protected void displayLoadingScene(Task task) {
 		
 		Scene loadingScene = new SceneMaker(SceneType.Loading).getScene();
 		
@@ -90,7 +94,7 @@ public class WikiApplication extends Application {
 		
 	}
 	
-	protected Task<Void> getCurrentTask() {
+	protected Task getCurrentTask() {
 		return _currentTask;
 	}
 
@@ -99,14 +103,19 @@ public class WikiApplication extends Application {
 	 */
 	protected void displayViewScene() {
 		
-		ViewTask viewTask = new ViewTask();
+		Task<ListView<String>> viewTask = new ViewTask();
 		
 		new Thread(viewTask).start();
 		
 		displayLoadingScene(viewTask);
 		
 		viewTask.setOnSucceeded(succeededEvent -> {
-			_currentCreations = viewTask.getCurrentCreations();
+			try {
+				_currentCreations = viewTask.get();
+			} catch (InterruptedException | ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Scene viewScene = new SceneMaker(SceneType.View).getScene();
 			
 			_currentScene = viewScene;
@@ -119,10 +128,7 @@ public class WikiApplication extends Application {
 		return _currentCreations;
 	}
 
-	protected void displayNamingScene(String chosenText, int lineNumber) {
-		
-		_currentText = chosenText;
-		_currentLineNumber = lineNumber;
+	protected void displayNamingScene() {
 		
 		Scene namingScene = new SceneMaker(SceneType.Naming).getScene();
 		
@@ -130,16 +136,18 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	protected void setChosenText(String chosenText) {
+		_chosenText = chosenText;
+	}
+	
+
+	
 	protected String getCurrentTerm() {
 		return _currentTerm;
 	}
 	
-	protected String getCurrentText() {
-		return _currentText;
-	}
-	
-	protected int getCurrentLineNumber() {
-		return _currentLineNumber;
+	protected String getChosenText() {
+		return _chosenText;
 	}
 	
 	protected void displaySearchResultsScene(String term) {
@@ -209,6 +217,7 @@ public class WikiApplication extends Application {
 			
 		} catch (IOException e) {
 			new AlertMaker(AlertType.ERROR, "IOException", "Oops", "Something wrong happened when making the scene. Sorry :(");
+			displayMainMenu();
 		}
 		
 	}

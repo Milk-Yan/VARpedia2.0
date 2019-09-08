@@ -63,7 +63,7 @@ public class NamingController {
 	private void create() {
 		
 		// use new thread to create in bg
-		CreateTask createTask = new CreateTask(_name, _application.getCurrentTerm(), _application.getCurrentText(), _application.getCurrentLineNumber());
+		CreateTask createTask = new CreateTask(_name, _application.getCurrentTerm(), _application.getChosenText());
 		new Thread(createTask).start();
 
 		createTask.setOnRunning(runningEvent -> {

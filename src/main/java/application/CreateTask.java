@@ -17,11 +17,10 @@ public class CreateTask extends Task<Void>{
 	int _lineNumber;
 	Process _process;
 
-	public CreateTask(String name,String term, String text, int lineNumber) {
+	public CreateTask(String name,String term, String text) {
 		_term = term;
 		_name = name;
 		_text = text;
-		_lineNumber = lineNumber;
 	}
 
 	@Override
