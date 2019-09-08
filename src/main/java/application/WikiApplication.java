@@ -229,7 +229,6 @@ public class WikiApplication extends Application {
 	
 	private void createPlayer(String name) {
 		Media video = new Media(Paths.get("bin/creations/" + name + ".mp4").toUri().toString());
-		System.out.println(Paths.get("bin/creations/" + name + ".mp4").toUri().toString());
 		MediaPlayer player = new MediaPlayer(video);
 		player.setAutoPlay(true);
 		
