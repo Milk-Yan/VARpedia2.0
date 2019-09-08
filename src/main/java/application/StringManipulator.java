@@ -56,18 +56,6 @@ public class StringManipulator {
 	 */
 	protected int countLines(String text) {
 
-//		_iterator.setText(text);
-//
-//		int count = -1;
-//
-//		int end = _iterator.first();
-//		while (end != BreakIterator.DONE) {
-//			count++;
-//			end = _iterator.next();
-//		}
-//
-//		return count;
-		
 		return text.split("\r\n|\r|\n").length;
 	}
 

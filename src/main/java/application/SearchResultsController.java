@@ -94,13 +94,21 @@ public class SearchResultsController {
 
 	@FXML
 	private void create() {
+		
+		// check if in edit mode
+		if (_editSaveBtn.getText() == ButtonType.SAVE.getMessage()) {
+			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid operation", "Cannot create while in editing mode.");
+			return;
+		}
 
 		String inputLineNumber = _lineNumberInput.getText();
 
 		if (validLineNumber(inputLineNumber)) {
 
 			int lineNumber = Integer.parseInt(inputLineNumber);
-			String chosenText = _stringManipulator.getChosenText(_currentText, lineNumber);
+			
+			String rawText = _stringManipulator.removeNumberedLines(_currentText);
+			String chosenText = _stringManipulator.getChosenText(rawText, lineNumber);
 
 			WikiApplication.getInstance().setChosenText(chosenText);
 
@@ -130,7 +138,7 @@ public class SearchResultsController {
 			int lineNumber = Integer.parseInt(text);
 
 			//counting the number of lines from the textArea as it may be edited
-			if (lineNumber > 0 && lineNumber <= _stringManipulator.countLines(text)) {
+			if (lineNumber > 0 && lineNumber <= _stringManipulator.countLines(_currentText)) {
 				return true;
 			}
 		} catch(NumberFormatException e) {
