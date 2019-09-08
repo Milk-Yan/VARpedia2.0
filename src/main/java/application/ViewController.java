@@ -41,7 +41,7 @@ public class ViewController {
 	 */
 	@FXML
 	private void initialize() {
-		
+
 		// could possibly move the viewtask in here but too lazy as of now.
 		ObservableList<String> creationList = FXCollections.observableArrayList();
 		for (String creation:WikiApplication.getInstance().getCurrentCreations().getItems()) {
@@ -52,18 +52,22 @@ public class ViewController {
 
 	@FXML
 	private void play() {
-		
+
 		String selectionName = _listOfCreations.getSelectionModel().getSelectedItem();
 		String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
 
 		if (videoName == null) {
 			new AlertMaker(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot be null");
 		} else {
-			WikiApplication.getInstance().playVideo(videoName);
+
+
+			if (!(selectionName == null)) {
+				WikiApplication.getInstance().playVideo(videoName);
+			}
+
 		}
-		
 	}
-	
+
 	@FXML
 	private void delete() {
 		String creationName = _listOfCreations.getSelectionModel().getSelectedItem();
