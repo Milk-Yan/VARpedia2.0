@@ -36,6 +36,7 @@ public class WikiApplication extends Application {
 	// stored to use when creating creation
 	private String _currentTerm;
 	private String _chosenText;
+	private String _currentPreviewText;
 	
 	private MediaPlayer _currentPlayer;
 
@@ -136,6 +137,19 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	protected void displayPreviewScene(String previewText) {
+		
+		_currentPreviewText = previewText;
+		Scene previewScene = new SceneMaker(SceneType.Preview).getScene();
+		
+		_currentScene = previewScene;
+		update();
+	}
+	
+	protected String getCurrentPreviewText() {
+		return _currentPreviewText;
+	}
+	
 	protected void setChosenText(String chosenText) {
 		_chosenText = chosenText;
 	}
@@ -168,6 +182,8 @@ public class WikiApplication extends Application {
 		});
 		
 	}
+	
+
 
 	protected SearchTask getCurrentSearchTask() {
 		return _currentSearchTask;

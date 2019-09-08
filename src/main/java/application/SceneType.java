@@ -13,7 +13,8 @@ public enum SceneType {
 	Loading("/main/resources/application/Loading.fxml"), 
 	Naming("/main/resources/application/Naming.fxml"),
 	SearchResults("/main/resources/application/SearchResults.fxml"),
-	VideoPlayer("/main/resources/application/VideoPlayer.fxml");
+	VideoPlayer("/main/resources/application/VideoPlayer.fxml"),
+	Preview("/main/resources/application/Preview.fxml");
 	
 	private String _address;
 	

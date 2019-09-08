@@ -20,17 +20,22 @@
       <TextField fx:id="_lineNumberInput" />
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button fx:id="_createBtn" mnemonicParsing="false" onAction="#create" prefWidth="250.0" text="Create">
+            <Button fx:id="_createBtn" mnemonicParsing="false" onAction="#create" prefWidth="100.0" text="Create">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="_editSaveBtn" mnemonicParsing="false" onAction="#editSave" prefWidth="250.0" text="Edit Text">
+            <Button fx:id="_editSaveBtn" mnemonicParsing="false" onAction="#editSave" prefWidth="100.0" text="Edit Text">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="_resetCancelBtn" mnemonicParsing="false" onAction="#resetCancel" prefWidth="250.0" text="Reset to Default Text">
+            <Button fx:id="_resetCancelBtn" mnemonicParsing="false" onAction="#resetCancel" prefWidth="200.0" text="Reset to Default Text">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="_previewBtn" mnemonicParsing="false" onAction="#preview" prefWidth="100.0" text="Preview">
                <font>
                   <Font size="14.0" />
                </font>

@@ -36,6 +36,9 @@ public class SearchResultsController {
 
 	@FXML
 	private Button _resetCancelBtn;
+	
+	@FXML
+	private Button _previewBtn;
 
 	//private SearchTask _searchTask;
 	private StringManipulator _stringManipulator = new StringManipulator();
@@ -229,4 +232,13 @@ public class SearchResultsController {
 		return ("How many sentences would you like to include in your creation (1-" + lineCount + ")?");
 	}
 
+	@FXML
+	private void preview() {
+		String selectedText = _searchResults.getSelectedText();
+		if (selectedText.length() > 40) {
+			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is too large", "Please choose a chunck of text within 40 characters.");
+		} else {
+			WikiApplication.getInstance().displayPreviewScene(_searchResults.getSelectedText());
+		}
+	}
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.application.PreviewController">
+   <children>
+      <MediaView fx:id="_audioPlay" fitHeight="200.0" fitWidth="400.0" />
+      <ChoiceBox fx:id="_voiceSelection" onMouseReleased="#changeVoice" prefHeight="30.0" prefWidth="200.0">
+         <effect>
+            <Blend />
+         </effect>
+      </ChoiceBox>
+      <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0" spacing="5.0">
+         <children>
+            <Button fx:id="_pausePlayBtn" mnemonicParsing="false" onAction="#pausePlay" prefWidth="140.0" text="Pause">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+          <Button fx:id="_replayBtn" mnemonicParsing="false" onAction="#replay" prefWidth="140.0" text="Replay">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="_saveBtn" mnemonicParsing="false" onAction="#save" prefWidth="140.0" text="Save">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="_backBtn" mnemonicParsing="false" prefWidth="140.0" text="Back">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
