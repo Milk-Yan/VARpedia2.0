@@ -21,28 +21,28 @@ public class SearchResultsController {
 
 	@FXML
 	private Text _enquiryText;
-	
+
 	@FXML
 	private TextField _lineNumberInput;
-	
+
 	@FXML
 	private Button _createBtn;
-	
+
 	@FXML
 	private Button _mainMenuBtn;
 
 	@FXML
 	private Button _editSaveBtn;
-	
+
 	@FXML
 	private Button _resetCancelBtn;
-	
+
 	//private SearchTask _searchTask;
 	private StringManipulator _stringManipulator = new StringManipulator();
-	
+
 	private String _originalText;
 	private String _currentText;
-	
+
 	/**
 	 * enum to determine type of button.
 	 */
@@ -51,13 +51,13 @@ public class SearchResultsController {
 		SAVE("Save Text"), 
 		RESET("Reset to Default Text"), 
 		CANCEL("Cancel Editing");
-		
+
 		private String _message;
-		
+
 		ButtonType(String message) {
 			this._message = message;
 		}
-		
+
 		/**
 		 * 
 		 * @return Message of the button for the specified type.
@@ -67,13 +67,13 @@ public class SearchResultsController {
 			return _message;
 		}
 	};
-	
+
 	/**
 	 * Initialise the searchResults TextArea and also the number of lines displayed to user.
 	 */
 	@FXML
 	public void initialize() {
-		
+
 		SearchTask searchTask = WikiApplication.getInstance().getCurrentSearchTask();
 		try {
 			_originalText = searchTask.get();
@@ -86,32 +86,32 @@ public class SearchResultsController {
 		_searchResults.setText(_originalText);
 		// doesn't allow the textArea to be edited
 		_searchResults.setEditable(false);
-		
+
 		int lineCount = _stringManipulator.countLines(_originalText);
-		
-		_enquiryText.setText("How many sentences would you like to include in your creation (1-" + lineCount + ")?");
+
+		_enquiryText.setText(getEnquiryMessage(lineCount));
 	}
-	
+
 	@FXML
 	private void create() {
-		
+
 		String inputLineNumber = _lineNumberInput.getText();
-		
+
 		if (validLineNumber(inputLineNumber)) {
-			
+
 			int lineNumber = Integer.parseInt(inputLineNumber);
 			String chosenText = _stringManipulator.getChosenText(_currentText, lineNumber);
-			
+
 			WikiApplication.getInstance().setChosenText(chosenText);
-			
+
 			WikiApplication.getInstance().displayNamingScene();
-			
+
 		} else {
-			
+
 			int maxLineNumber = _stringManipulator.countLines(_currentText);
-			
+
 			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid value", "Please enter an integer between 1-" + maxLineNumber);
-		
+
 		}
 	}
 
@@ -119,7 +119,7 @@ public class SearchResultsController {
 	private void mainMenu() {
 		WikiApplication.getInstance().displayMainMenu();
 	}
-	
+
 	/**
 	 * Helper method to check if the input is numeric.
 	 * @param text The input text, normally entered by user.
@@ -144,71 +144,81 @@ public class SearchResultsController {
 	 */
 	@FXML
 	private void editSave(){
-		
-		// save text functionality
+
+		// edit text functionality
 		if (_editSaveBtn.getText().equals(ButtonType.EDIT.getMessage())){
-			
+
 			_searchResults.setEditable(true);
 			_editSaveBtn.setText(ButtonType.SAVE.getMessage());
 			_resetCancelBtn.setText(ButtonType.CANCEL.getMessage());
-			
+
+		// save text functionality
 		} else {
-			
-			// save current edit
-			
+
 			// if text is empty, it is invalid.
-			if (_searchResults.getText().isEmpty()) {
+			if (_searchResults.getText().trim().isEmpty()) {
 				new AlertMaker(AlertType.ERROR, "Error", "Invalid input", "Text field cannot be empty");
+			} else {
+
+				//removes all edited text and freezes the text box again
+				_editSaveBtn.setText(ButtonType.EDIT.getMessage());
+				_resetCancelBtn.setText(ButtonType.RESET.getMessage());
+				_searchResults.setEditable(false);
+
+				// reformats current text
+				reformatText();
+
+				_searchResults.setText(_currentText);
+
+				int lineCount = _stringManipulator.countLines(_currentText);
+				_enquiryText.setText(getEnquiryMessage(lineCount));
 			}
-			
-			//removes all edited text and freezes the text box again
-			_editSaveBtn.setText(ButtonType.EDIT.getMessage());
-			_resetCancelBtn.setText(ButtonType.RESET.getMessage());
-			_searchResults.setEditable(false);
-			
-			// reformats current text
-			reformatText();
-			
-			_searchResults.setText(_currentText);
-		
+
 		}
 	}
 
 	@FXML
 	private void resetCancel() {
-		
+
 		// reset functionality
 		if (_resetCancelBtn.getText().equals(ButtonType.RESET.getMessage())) {
 			_searchResults.setText(_originalText);
 			_currentText = _originalText;
+
+			int lineCount = _stringManipulator.countLines(_currentText);
+			_enquiryText.setText(getEnquiryMessage(lineCount));
 		}
-		
+
 		// cancel edit functionality
 		else {
-			
+
 			// changes button text
 			_editSaveBtn.setText(ButtonType.EDIT.getMessage());
 			_resetCancelBtn.setText(ButtonType.RESET.getMessage());
-			
+
 			// revert text to what was before the edit button was pressed
 			_searchResults.setText(_currentText);
 			_searchResults.setEditable(false);
 		}
 	}
-	
+
 	/**
 	 * method to reformat the TextArea to what the user has edited.
 	 */
 	private void reformatText(){
 		String newText = _searchResults.getText();
-		
+
 		// remove the previous line numbers and add new numbers
 		String rawText = _stringManipulator.removeNumberedLines(newText);
 		String formattedText = _stringManipulator.createNumberedText(rawText);
-		
+
 		_currentText = formattedText;
 		_searchResults.setText(formattedText);
 
+	}
+
+	private String getEnquiryMessage(int lineCount) {
+		return ("How many sentences would you like to include in your creation (1-" + lineCount + ")?");
 	}
 
 }
