@@ -146,6 +146,10 @@ public class WikiApplication extends Application {
 		return _currentTerm;
 	}
 	
+	protected void setCurrentTerm(String term) {
+		_currentTerm = term;
+	}
+	
 	protected String getChosenText() {
 		return _chosenText;
 	}
@@ -246,6 +250,7 @@ public class WikiApplication extends Application {
 		new File("./bin/creations").mkdirs();
 		new File("./bin/videos").mkdirs();
 		new File("./bin/audio").mkdirs();
+		new File("./bin/temp").mkdirs();
 	}
 
 
