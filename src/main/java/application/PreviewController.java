@@ -2,6 +2,7 @@ package main.java.application;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,46 +33,31 @@ public class PreviewController {
 	
 	@FXML
 	private void initialize() {
-		
-		_thread = new Thread(new playAudio());
-		_pausePlayBtn.setText("Play");
-		_previewText = WikiApplication.getInstance().getCurrentPreviewText();		
-		
+
+		_previewText = WikiApplication.getInstance().getCurrentPreviewText();
+//		_thread = new Thread(new playAudio());
+//		_pausePlayBtn.setText("Play");
+
 	}
 	
 	@FXML
 	private void changeVoice() {
 		
 	}
-	
-	@SuppressWarnings("deprecation")
+
+
 	@FXML
-	private void pausePlay() {
+	private void pausePlay() throws InterruptedException {
+
 		
-		if (_thread.isAlive()) {
-			if (_pausePlayBtn.getText().equals("Pause")) {
-				_thread.destroy();
-			}
+		if(_pausePlayBtn.getText().equals("Play")) {
+			_thread = new Thread(new playAudio());
+			_thread.start();
 		}
-		
-		if(!_thread.isAlive()) {
-			_pausePlayBtn.setText("Pause");
-	       	_thread.start(); 	
-		} 
-
-		
-		
-
-		
-		
-
-		
-//		if(_pausePlayBtn.getText().equals("Play")) {
-//			_thread.start();
-//
-//		} else if (_pausePlayBtn.getText().equals("Pause")) {
-//			System.out.println("YAY");
-//			_pausePlayBtn.setText("Play");
+//		else if (_pausePlayBtn.getText().equals("Pause")) {
+//			System.out.println("Enter?");
+//			_pausePlayBtn.setText("Resume");
+//			_process.destroy();
 //		}
 		
 
@@ -79,6 +65,7 @@ public class PreviewController {
 	
 	@FXML
 	private void save() {
+		
 		
 	}
 	
@@ -93,35 +80,19 @@ public class PreviewController {
 		@Override
 		protected Void call() throws Exception {
 			
-		
+
+			//you cant stop the festival speaker since its from bash
 				try {
 					_process= new ProcessBuilder("/bin/bash", "-c", "echo "+_previewText+" | festival --tts").start();
 
-					try {
-						_process.waitFor();
-					} catch (InterruptedException e) {
-						
-					}
-
-					if (_process.exitValue() != 0) {
-						_process.destroy();
-					}
-					
-					
 				} catch (IOException e) {
 
 					_process.destroy();
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
 				}
 
-				
-			
-			
 			return null;
 		}
-		
 	}
-	
 
 }
