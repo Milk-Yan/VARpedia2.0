@@ -26,15 +26,17 @@ public class CreateCreationCreateSlideshowController {
 		String imageNumberStr = _imageNumber.getText();
 		int imageNumber = checkValidity(imageNumberStr);
 		if (imageNumber != -1) {
-			Task<Void> imageScraper = new ImageScraperTask();
+			Task<Void> imageScraper = new ImageScraperTask(imageNumber);
 			WikiApplication.getInstance().displayLoadingScene(imageScraper);
 			new Thread(imageScraper).start();
 			
 			imageScraper.setOnSucceeded(succeededEvent -> {
-				if (imageNumber > imageScraper.getTotalNumberOfImages()) {
+				if (imageNumber > ((ImageScraperTask) imageScraper).getTotalNumberOfImages()) {
 					imageScraper.cancel();
 					new AlertMaker(AlertType.ERROR, "Error", "Not enough images", "There are not enough images for this search term to proceed");
 					WikiApplication.getInstance().displayPreviousCreateCreationCreateSlideShowScene();
+				} else {
+					imageScraper.
 				}
 			});
 		}
