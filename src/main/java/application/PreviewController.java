@@ -37,8 +37,6 @@ public class PreviewController {
 	private void initialize() {
 
 		_previewText = WikiApplication.getInstance().getCurrentPreviewText();
-//		_thread = new Thread(new playAudio());
-//		_pausePlayBtn.setText("Play");
 		_searchTerm=WikiApplication.getInstance().getCurrentTerm();
 
 	}
@@ -57,22 +55,16 @@ public class PreviewController {
 			_thread.start();
 			
 		}
-//		else if (_pausePlayBtn.getText().equals("Pause")) {
-//			System.out.println("Enter?");
-//			_pausePlayBtn.setText("Resume");
-//			_process.destroy();
-//		}
-		
 
 	}
 	
 	@FXML
 	private void save() {
-//		new File("./bin/audio/"+_searchTerm).mkdirs();
-//		Thread _audioThread = new Thread(new makeAudio());
-//		_audioThread.start();
-//		//Temporarily goes back to the full search kappa change this later
-//		back();
+		new File("./bin/audio/"+_searchTerm).mkdirs();
+		Thread _audioThread = new Thread(new makeAudio());
+		_audioThread.start();
+		//Temporarily goes back to the full search kappa change this later
+		back();
 		
 	}
 	
@@ -102,15 +94,19 @@ public class PreviewController {
 		}
 	}
 	
-//	private class makeAudio extends Task<Void>{
-//
-//		@Override
-//		protected Void call() throws Exception {
-//			_process = new ProcessBuilder("/bin/bash", "-c", 
-//					"echo "+_previewText+" | text2wave -o ./bin/audio/"+_searchTerm+".wav").start();
-//			return null;
-//		}
-//		
-//	}
+	private class makeAudio extends Task<Void>{
+
+		@Override
+		protected Void call() throws Exception {
+			System.out.println("WORKS?");
+			System.out.println(_previewText);
+			System.out.println("/bin/bash -c "+
+					"echo \""+_previewText+"\" | text2wave >"+_searchTerm+".wav;");
+			_process = new ProcessBuilder("/bin/bash", "-c",
+					"echo \""+_previewText+"\" | text2wave >"+_searchTerm+".wav; mv "+_searchTerm+".wav ./bin/audio/"+_searchTerm+"/").start();
+			return null;
+		}
+
+	}
 
 }
