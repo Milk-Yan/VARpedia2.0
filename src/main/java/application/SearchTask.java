@@ -78,8 +78,6 @@ public class SearchTask extends Task<String>{
 	public boolean isInvalid() {
 		return _isInvalid;
 	}
-	
-	
 
 	public void updateText(String editted){
 		_sourceText=editted;

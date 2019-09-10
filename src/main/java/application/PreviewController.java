@@ -1,5 +1,6 @@
 package main.java.application;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Platform;
@@ -12,8 +13,9 @@ import javafx.scene.media.MediaView;
 public class PreviewController {
 
 	private String _previewText;
-	Process _process;
-	Thread _thread;
+	private Process _process;
+	private Thread _thread;
+	private String _searchTerm;
 	
 	
 	@FXML
@@ -37,6 +39,7 @@ public class PreviewController {
 		_previewText = WikiApplication.getInstance().getCurrentPreviewText();
 //		_thread = new Thread(new playAudio());
 //		_pausePlayBtn.setText("Play");
+		_searchTerm=WikiApplication.getInstance().getCurrentTerm();
 
 	}
 	
@@ -48,11 +51,11 @@ public class PreviewController {
 
 	@FXML
 	private void pausePlay() throws InterruptedException {
-
 		
 		if(_pausePlayBtn.getText().equals("Play")) {
 			_thread = new Thread(new playAudio());
 			_thread.start();
+			
 		}
 //		else if (_pausePlayBtn.getText().equals("Pause")) {
 //			System.out.println("Enter?");
@@ -65,7 +68,11 @@ public class PreviewController {
 	
 	@FXML
 	private void save() {
-		
+//		new File("./bin/audio/"+_searchTerm).mkdirs();
+//		Thread _audioThread = new Thread(new makeAudio());
+//		_audioThread.start();
+//		//Temporarily goes back to the full search kappa change this later
+//		back();
 		
 	}
 	
@@ -94,5 +101,16 @@ public class PreviewController {
 			return null;
 		}
 	}
+	
+//	private class makeAudio extends Task<Void>{
+//
+//		@Override
+//		protected Void call() throws Exception {
+//			_process = new ProcessBuilder("/bin/bash", "-c", 
+//					"echo "+_previewText+" | text2wave -o ./bin/audio/"+_searchTerm+".wav").start();
+//			return null;
+//		}
+//		
+//	}
 
 }
