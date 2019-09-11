@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.application.SearchResultsController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.CreateAudioSearchResultsController">
    <children>
       <TextArea fx:id="_searchResults" prefHeight="200.0" prefWidth="200.0" />
       <Text fx:id="_enquiryText" strokeType="OUTSIDE" strokeWidth="0.0" text="How many sentences would you like to include in your creation?" textAlignment="CENTER">
@@ -17,6 +17,7 @@
             <Font size="16.0" />
          </font>
       </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Select text to preview)" />
       <TextField fx:id="_lineNumberInput" />
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
          <children>

@@ -7,15 +7,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.CreateCreationSearchController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.CreateAudioNamingController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Which wikit term would you like to make a creation of?">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter the name of your creation:">
          <font>
-            <Font size="19.0" />
+            <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="_wikitTerm" />
-      <Button fx:id="_enterBtn" mnemonicParsing="false" onAction="#enter" prefWidth="300.0" text="Enter">
+      <TextField fx:id="_nameInput" />
+      <Button fx:id="_createBtn" mnemonicParsing="false" onAction="#enter" prefWidth="300.0" text="Enter">
          <font>
             <Font size="18.0" />
          </font>

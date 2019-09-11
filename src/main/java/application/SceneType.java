@@ -14,6 +14,11 @@ public enum SceneType {
 	CreateAudioNaming("/main/resources/application/CreateAudioNaming.fxml"),
 	LoadingCreateAudio("/main/resources/application/LoadingCreateAudio.fxml"),
 	CreateAudioPreview("/main/resources/application/CreateAudioPreview.fxml"),
+	CreateCreationSearch("/main/resources/application/CreateCreationSearch.fxml"),
+	CreateCreationChooseAudio("/main/resources/application/CreateCreationChooseAudio.fxml"),
+	CreateCreationCreateSlideshow("/main/resources/application/CreateCreationCreateSlideshow.fxml"),
+	LoadingCreateCreation("/main/resources/application/LoadingCreateCreation.fxml"),
+	CreateCreationNaming("/main/resources/application/CreateCreationNaming.fxml"),
 	
 	View("/main/resources/application/View.fxml"), 
 	VideoPlayer("/main/resources/application/VideoPlayer.fxml");

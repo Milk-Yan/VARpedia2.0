@@ -25,7 +25,7 @@ public class MainMenuController extends Controller{
 	
 	@FXML
 	private void createCreation() {
-		_mainApp.displayCreateCreationScene();
+		_mainApp.displayCreateCreationSearchScene();
 	}
 	
 	@FXML

@@ -1,16 +1,15 @@
 package main.java.controllers;
 
-import javafx.concurrent.Task;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.text.Text;
+import main.java.tasks.CreateCreationTask;
 
 public class CreateCreationCreateSlideshowController extends Controller{
-
-	@FXML
-	private Text _enquiryText;
+	
+	private String _term;
+	private ObservableList<String> _audioList;
 	
 	@FXML
 	private TextField _imageNumber;
@@ -21,33 +20,31 @@ public class CreateCreationCreateSlideshowController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 	
+	public void setUp(String term, ObservableList<String> audioList) {
+		_term = term;
+		_audioList = audioList;
+	}
+	
 	@FXML
 	private void create() {
+		
 		String imageNumberStr = _imageNumber.getText();
 		int imageNumber = checkValidity(imageNumberStr);
+		
 		if (imageNumber != -1) {
-			Task<Void> imageScraper = new ImageScraperTask(imageNumber);
-			WikiApplication.getInstance().displayLoadingScene(imageScraper);
-			new Thread(imageScraper).start();
 			
-			imageScraper.setOnSucceeded(succeededEvent -> {
-				if (imageNumber > ((ImageScraperTask) imageScraper).getTotalNumberOfImages()) {
-					imageScraper.cancel();
-					new AlertMaker(AlertType.ERROR, "Error", "Not enough images", "There are not enough images for this search term to proceed");
-					WikiApplication.getInstance().displayPreviousCreateCreationCreateSlideShowScene();
-				} else {
-					//imageScraper.
-				}
-			});
+			_mainApp.displayCreateCreationNaming(_term, _audioList);
+			
 		}
 	}
 	
 	@FXML
 	private void mainMenu() {
-		WikiApplication.getInstance().displayMainMenu();
+		_mainApp.displayMainMenu();
 	}
 	
 	private int checkValidity(String numberStr) {
+		
 		try {
 			int number = Integer.parseInt(numberStr);
 			if (number > 0 && number <= 10) {

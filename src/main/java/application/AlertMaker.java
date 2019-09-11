@@ -25,6 +25,7 @@ public class AlertMaker {
 			_alert.setContentText(contentText);
 		}
 
+		
 		_alert.showAndWait();
 	}
 	

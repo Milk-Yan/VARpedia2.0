@@ -41,10 +41,8 @@ public class CreateAudioPreviewController extends Controller{
 		_previewText = previewText;
 		_previousScene = searchResultsScene;
 		
-	}
-	
-	@FXML
-	private void initialize() {
+		_previewTextArea.setText(previewText);
+		
 		// auto play with current voice
 		replay();
 	}
@@ -58,7 +56,9 @@ public class CreateAudioPreviewController extends Controller{
 	@FXML
 	private void replay() {
 		// kill the current task and start a new one
-		_task.cancel();
+		if (_task != null) {
+			_task.cancel();
+		}
 		
 		_task = new PreviewAudioTask(_previewText);
 		new Thread(_task).start();

@@ -11,10 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import main.java.application.AlertMaker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class CreateCreationChooseAudioController extends Controller{
+
+	private String _term;
 
 	@FXML
 	private ListView<String> _audioList;
@@ -31,21 +34,22 @@ public class CreateCreationChooseAudioController extends Controller{
 	@FXML 
 	private Button _mainMenuBtn;
 
-	@FXML
-	private void initialize() {
+	public void setUp(String term) {
+		_term = term;
+
 		// make the ListView multiple-selection
 		_audioList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		//_audioList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-		//	
-		//});
 
-		File folder = new File("./bin/audio/" + WikiApplication.getInstance().getCurrentTerm());
+		File folder = new File("./bin/audio/" + _term);
+
 		File[] arrayOfAudioFiles = folder.listFiles((file) -> {
+
 			if (file.getName().contains(".wav") ) {
 				return true;
 			} else {
 				return false;
 			}
+
 		});
 
 		// sorts the list of creations in alphabetical order.
@@ -68,16 +72,26 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	@FXML
 	private void confirm() {
+		
 		ObservableList<String> selectedList = _audioList.getSelectionModel().getSelectedItems();
+		
 		if (selectedList.isEmpty()) {
+			
 			new AlertMaker(AlertType.ERROR, "Error", "No items selected", "Please select at least one audio file.");
+			
 		} else if (selectedList.size() > 10) {
+			
 			new AlertMaker(AlertType.ERROR, "Error", "Too many items selected", "Please selected less than 10 audio files");
+			
 		} else {
-			for (String audioName:selectedList) {
-				// TO-DO: implement audio merging here (maybe a new task)
-			}
+			
+			_mainApp.displayCreateCreationCreateSlideshowScene(_term, selectedList);
+//			for (String audioName:selectedList) {
+//				// TO-DO: implement audio merging here (maybe a new task. likely a new task.)
+//			}
 		}
+		
+		
 	}
 
 	@FXML
@@ -88,19 +102,30 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	@FXML
 	private void delete() {
+		
 		ObservableList<String> selectedList = _audioList.getSelectionModel().getSelectedItems();
+		
 		if (selectedList.isEmpty()) {
+			
 			new AlertMaker(AlertType.ERROR,"Error", "No items to delete", "Please select the item you wish to delete");
+			
 		} else {
+			
 			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Confirmation", "Deleting files", 
-					"Are you sure you want to delete " + selectedList.size() + " items?").getAlert();
+									"Are you sure you want to delete " + selectedList.size() + " items?").getAlert();
+			
 			if (alert.getResult() == ButtonType.OK) {
+				
 				for (String audioName:selectedList) {
+					
 					String s = File.separator;
 					String fileName = audioName.replaceFirst("\\d+. ", "") + ".wav";
+					
 					File audioFile = new File(System.getProperty("user.dir") + s + "bin" + s + "audio" +
-										WikiApplication.getInstance().getCurrentTerm() + s + fileName);
+											_term + s + fileName);
+					
 					audioFile.delete();
+					
 				}
 			}
 		}
@@ -108,6 +133,6 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	@FXML
 	private void mainMenu() {
-		WikiApplication.getInstance().displayMainMenu();
+		_mainApp.displayMainMenu();
 	}
 }

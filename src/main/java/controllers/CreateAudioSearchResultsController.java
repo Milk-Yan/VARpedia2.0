@@ -63,6 +63,8 @@ public class CreateAudioSearchResultsController extends Controller{
 		// doesn't allow the textArea to be edited
 		_searchResults.setEditable(false);
 
+		_searchResults.setWrapText(true);
+
 		int lineCount = _stringManipulator.countLines(_currentTextFormatted);
 		_enquiryText.setText(getEnquiryMessage(lineCount));
 	}
@@ -133,7 +135,7 @@ public class CreateAudioSearchResultsController extends Controller{
 			_resetCancelBtn.setText(ButtonState.CANCEL.getText());
 			_searchResults.setText(_currentTextNotFormatted);
 
-		// save text functionality
+			// save text functionality
 		} else {
 
 			// if text is empty, it is invalid.
@@ -203,16 +205,25 @@ public class CreateAudioSearchResultsController extends Controller{
 
 	@FXML
 	private void preview() {
+
+		// check if in edit mode
+		if (_editSaveBtn.getText() == ButtonState.SAVE.getText()) {
+			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid operation", "Cannot preview while in editing mode.");
+			return;
+		}
 		
 		String selectedText = _searchResults.getSelectedText();
 		String selectedTextNotFormatted = _stringManipulator.removeNumberedLines(selectedText);
-		
+
 		if (selectedTextNotFormatted.length() > 40) {
 			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is too large", "Please choose a chunck of text within 40 characters.");
+		} else if (selectedTextNotFormatted.trim().isEmpty()) {
+			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is empty", "There is no text to preview.");
 		} else {
 			_mainApp.displayCreateAudioPreviewScene(_term, selectedTextNotFormatted, _previewBtn.getScene());
 		}
 	}
-
-
 }
+
+
+

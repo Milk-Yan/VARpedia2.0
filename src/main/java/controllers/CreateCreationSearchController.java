@@ -6,11 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.text.Text;
+import main.java.application.AlertMaker;
 
 public class CreateCreationSearchController extends Controller{
-	@FXML
-	private Text _wikitTermEnquiryText;
 
 	@FXML
 	private TextField _wikitTerm;
@@ -27,16 +25,20 @@ public class CreateCreationSearchController extends Controller{
 		
 		// check if audio files exists
 		File file = new File("./bin/audio/" + term);
+		
 		if (file.isDirectory() && file.list().length>0) {
-			WikiApplication.getInstance().setCurrentTerm(term);
-			WikiApplication.getInstance().displayCreateCreationChooseAudioScene();
+			
+			_mainApp.displayCreateCreationChooseAudioScene(term);
+			
 		} else {
+			
 			new AlertMaker(AlertType.ERROR, "Error", "Audio files do not exist.", "You need to create audio files for this wikit term first.");
+		
 		}
 	}
 
 	@FXML
 	private void mainMenu() {
-		WikiApplication.getInstance().displayMainMenu();
+		_mainApp.displayMainMenu();
 	}
 }
