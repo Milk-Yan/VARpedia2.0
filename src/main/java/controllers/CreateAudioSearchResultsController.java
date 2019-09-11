@@ -1,6 +1,4 @@
-package main.java.application;
-
-import java.util.concurrent.ExecutionException;
+package main.java.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,13 +6,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
+import main.java.application.AlertMaker;
+import main.java.application.ButtonState;
+import main.java.application.StringManipulator;
 
 /**
  * Controller for functionality of SearchResults.fxml
  * @author Milk
  *
  */
-public class SearchResultsController {
+public class CreateAudioSearchResultsController extends Controller{
 
 	@FXML
 	private TextArea _searchResults;
@@ -36,70 +37,41 @@ public class SearchResultsController {
 
 	@FXML
 	private Button _resetCancelBtn;
-	
+
 	@FXML
 	private Button _previewBtn;
 
-	//private SearchTask _searchTask;
 	private StringManipulator _stringManipulator = new StringManipulator();
 
-	private String _originalText;
-	private String _currentText;
+	private String _term;
+	private String _sourceString;
 
-	/**
-	 * enum to determine type of button.
-	 */
-	private enum ButtonType {
-		EDIT("Edit Text"), 
-		SAVE("Save Text"), 
-		RESET("Reset to Default Text"), 
-		CANCEL("Cancel Editing");
-
-		private String _message;
-
-		ButtonType(String message) {
-			this._message = message;
-		}
-
-		/**
-		 * 
-		 * @return Message of the button for the specified type.
-		 */
-		public String getMessage() {
-			// string is immutable so ok to send like this
-			return _message;
-		}
-	};
+	private String _currentTextFormatted;
+	private String _currentTextNotFormatted;
 
 	/**
 	 * Initialise the searchResults TextArea and also the number of lines displayed to user.
 	 */
-	@FXML
-	public void initialize() {
+	public void setUp(String term, String searchResults) {
+		_term = term;
+		_sourceString = searchResults;
 
-		SearchTask searchTask = WikiApplication.getInstance().getCurrentSearchTask();
-		try {
-			_originalText = searchTask.get();
-		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		_currentText = _originalText;
+		_currentTextNotFormatted = _sourceString;
+		_currentTextFormatted = _stringManipulator.createNumberedText(_sourceString);
 
-		_searchResults.setText(_originalText);
+		_searchResults.setText(_currentTextFormatted);
 		// doesn't allow the textArea to be edited
 		_searchResults.setEditable(false);
 
-		int lineCount = _stringManipulator.countLines(_originalText);
-
+		int lineCount = _stringManipulator.countLines(_currentTextFormatted);
 		_enquiryText.setText(getEnquiryMessage(lineCount));
 	}
 
 	@FXML
 	private void create() {
-		
+
 		// check if in edit mode
-		if (_editSaveBtn.getText() == ButtonType.SAVE.getMessage()) {
+		if (_editSaveBtn.getText() == ButtonState.SAVE.getText()) {
 			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid operation", "Cannot create while in editing mode.");
 			return;
 		}
@@ -109,17 +81,14 @@ public class SearchResultsController {
 		if (validLineNumber(inputLineNumber)) {
 
 			int lineNumber = Integer.parseInt(inputLineNumber);
-			
-			String rawText = _stringManipulator.removeNumberedLines(_currentText);
-			String chosenText = _stringManipulator.getChosenText(rawText, lineNumber);
 
-			WikiApplication.getInstance().setChosenText(chosenText);
+			String chosenText = _stringManipulator.getChosenText(_currentTextNotFormatted, lineNumber);
 
-			WikiApplication.getInstance().displayNamingScene();
+			_mainApp.displayCreateAudioNamingScene(_term, chosenText);
 
 		} else {
 
-			int maxLineNumber = _stringManipulator.countLines(_currentText);
+			int maxLineNumber = _stringManipulator.countLines(_currentTextFormatted);
 
 			new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid value", "Please enter an integer between 1-" + maxLineNumber);
 
@@ -128,7 +97,7 @@ public class SearchResultsController {
 
 	@FXML
 	private void mainMenu() {
-		WikiApplication.getInstance().displayMainMenu();
+		_mainApp.displayMainMenu();
 	}
 
 	/**
@@ -141,7 +110,7 @@ public class SearchResultsController {
 			int lineNumber = Integer.parseInt(text);
 
 			//counting the number of lines from the textArea as it may be edited
-			if (lineNumber > 0 && lineNumber <= _stringManipulator.countLines(_currentText)) {
+			if (lineNumber > 0 && lineNumber <= _stringManipulator.countLines(_currentTextFormatted)) {
 				return true;
 			}
 		} catch(NumberFormatException e) {
@@ -157,11 +126,12 @@ public class SearchResultsController {
 	private void editSave(){
 
 		// edit text functionality
-		if (_editSaveBtn.getText().equals(ButtonType.EDIT.getMessage())){
+		if (_editSaveBtn.getText().equals(ButtonState.EDIT.getText())){
 
 			_searchResults.setEditable(true);
-			_editSaveBtn.setText(ButtonType.SAVE.getMessage());
-			_resetCancelBtn.setText(ButtonType.CANCEL.getMessage());
+			_editSaveBtn.setText(ButtonState.SAVE.getText());
+			_resetCancelBtn.setText(ButtonState.CANCEL.getText());
+			_searchResults.setText(_currentTextNotFormatted);
 
 		// save text functionality
 		} else {
@@ -169,21 +139,20 @@ public class SearchResultsController {
 			// if text is empty, it is invalid.
 			if (_searchResults.getText().trim().isEmpty()) {
 				new AlertMaker(AlertType.ERROR, "Error", "Invalid input", "Text field cannot be empty");
-			} else {
-
-				//removes all edited text and freezes the text box again
-				_editSaveBtn.setText(ButtonType.EDIT.getMessage());
-				_resetCancelBtn.setText(ButtonType.RESET.getMessage());
-				_searchResults.setEditable(false);
-
-				// reformats current text
-				reformatText();
-
-				_searchResults.setText(_currentText);
-
-				int lineCount = _stringManipulator.countLines(_currentText);
-				_enquiryText.setText(getEnquiryMessage(lineCount));
+				return;
 			}
+
+			//removes all edited text and freezes the text box again
+			_editSaveBtn.setText(ButtonState.EDIT.getText());
+			_resetCancelBtn.setText(ButtonState.RESET.getText());
+			_searchResults.setEditable(false);
+
+			// reformats current text
+			reformatText();
+
+			// refresh the linecount shown to the user
+			int lineCount = _stringManipulator.countLines(_currentTextFormatted);
+			_enquiryText.setText(getEnquiryMessage(lineCount));
 
 		}
 	}
@@ -192,11 +161,12 @@ public class SearchResultsController {
 	private void resetCancel() {
 
 		// reset functionality
-		if (_resetCancelBtn.getText().equals(ButtonType.RESET.getMessage())) {
-			_searchResults.setText(_originalText);
-			_currentText = _originalText;
+		if (_resetCancelBtn.getText().equals(ButtonState.RESET.getText())) {
+			_currentTextNotFormatted = _sourceString;
+			_currentTextFormatted = _stringManipulator.createNumberedText(_currentTextNotFormatted);
+			_searchResults.setText(_currentTextFormatted);
 
-			int lineCount = _stringManipulator.countLines(_currentText);
+			int lineCount = _stringManipulator.countLines(_currentTextFormatted);
 			_enquiryText.setText(getEnquiryMessage(lineCount));
 		}
 
@@ -204,11 +174,11 @@ public class SearchResultsController {
 		else {
 
 			// changes button text
-			_editSaveBtn.setText(ButtonType.EDIT.getMessage());
-			_resetCancelBtn.setText(ButtonType.RESET.getMessage());
+			_editSaveBtn.setText(ButtonState.EDIT.getText());
+			_resetCancelBtn.setText(ButtonState.RESET.getText());
 
 			// revert text to what was before the edit button was pressed
-			_searchResults.setText(_currentText);
+			_searchResults.setText(_currentTextFormatted);
 			_searchResults.setEditable(false);
 		}
 	}
@@ -220,11 +190,10 @@ public class SearchResultsController {
 		String newText = _searchResults.getText();
 
 		// remove the previous line numbers and add new numbers
-		String rawText = _stringManipulator.removeNumberedLines(newText);
-		String formattedText = _stringManipulator.createNumberedText(rawText);
+		_currentTextNotFormatted = _stringManipulator.removeNumberedLines(newText);
+		_currentTextFormatted = _stringManipulator.createNumberedText(_currentTextNotFormatted);
 
-		_currentText = formattedText;
-		_searchResults.setText(formattedText);
+		_searchResults.setText(_currentTextFormatted);
 
 	}
 
@@ -234,11 +203,16 @@ public class SearchResultsController {
 
 	@FXML
 	private void preview() {
+		
 		String selectedText = _searchResults.getSelectedText();
-		if (selectedText.length() > 40) {
+		String selectedTextNotFormatted = _stringManipulator.removeNumberedLines(selectedText);
+		
+		if (selectedTextNotFormatted.length() > 40) {
 			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is too large", "Please choose a chunck of text within 40 characters.");
 		} else {
-			WikiApplication.getInstance().displayPreviewScene(_searchResults.getSelectedText());
+			_mainApp.displayCreateAudioPreviewScene(_term, selectedTextNotFormatted, _previewBtn.getScene());
 		}
 	}
+
+
 }

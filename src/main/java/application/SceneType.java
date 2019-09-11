@@ -7,14 +7,16 @@ package main.java.application;
  */
 public enum SceneType {
 
-	MainMenu("/main/resources/application/Main.fxml"),
-	Create("/main/resources/application/Create.fxml"), 
+	MainMenu("/main/resources/application/MainMenu.fxml"),
+	CreateAudioSearch("/main/resources/application/CreateAudioSearch.fxml"), 
+	LoadingSearchResults("/main/resources/application/LoadingSearchResults.fxml"), 
+	CreateAudioSearchResults("/main/resources/application/CreateAudioSearchResults.fxml"),
+	CreateAudioNaming("/main/resources/application/CreateAudioNaming.fxml"),
+	LoadingCreateAudio("/main/resources/application/LoadingCreateAudio.fxml"),
+	CreateAudioPreview("/main/resources/application/CreateAudioPreview.fxml"),
+	
 	View("/main/resources/application/View.fxml"), 
-	Loading("/main/resources/application/Loading.fxml"), 
-	Naming("/main/resources/application/Naming.fxml"),
-	SearchResults("/main/resources/application/SearchResults.fxml"),
-	VideoPlayer("/main/resources/application/VideoPlayer.fxml"),
-	Preview("/main/resources/application/Preview.fxml");
+	VideoPlayer("/main/resources/application/VideoPlayer.fxml");
 	
 	private String _address;
 	

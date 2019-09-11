@@ -1,4 +1,4 @@
-package main.java.application;
+package main.java.controllers;
 
 import java.io.File;
 
@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
  * @author Milk
  *
  */
-public class ViewController {
+public class ViewController extends Controller{
 
 	@FXML
 	private Text _infoText;

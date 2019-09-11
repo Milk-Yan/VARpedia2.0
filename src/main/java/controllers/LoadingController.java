@@ -1,4 +1,4 @@
-package main.java.application;
+package main.java.controllers;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
  * @author Milk
  *
  */
-public class LoadingController {
+public class LoadingController extends Controller{
 
 	@FXML
 	private Text _loadingText;

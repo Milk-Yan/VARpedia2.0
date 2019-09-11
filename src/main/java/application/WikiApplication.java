@@ -17,40 +17,41 @@ import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import main.java.controllers.Controller;
+import main.java.controllers.CreateAudioNamingController;
+import main.java.controllers.CreateAudioPreviewController;
+import main.java.controllers.CreateAudioSearchResultsController;
+import main.java.controllers.LoadingCreateAudioController;
+import main.java.controllers.LoadingSearchResultsController;
+import main.java.tasks.CreateAudioTask;
+import main.java.tasks.SearchTask;
+import main.java.tasks.SearchTermTask;
+import main.java.tasks.ViewTask;
 
 /**
  * Main class of the WikiApplication. Extends JavaFX Application.
  * Allows user to create and manage movie creations from Wikipedia
  * entries of the user's choice. Enjoy! 
- * @author Milk
+ * @author Milk, OverCry
  *
  */
-@SuppressWarnings("rawtypes")
 public class WikiApplication extends Application {
-	
-	private static WikiApplication _wikiApp;
 
 	private Scene _currentScene;
 	private Stage _primaryStage;
-	
+
 	// stored to use when creating creation
 	private String _currentTerm;
 	private String _chosenText;
 	private String _currentPreviewText;
-	
+
 	private MediaPlayer _currentPlayer;
 
-	private Task _currentTask;
-	private SearchTask _currentSearchTask;
 	private ListView<String> _currentCreations;
-	
-	public WikiApplication() {
-		_wikiApp = this;
-	}
-	
-	protected static WikiApplication getInstance() {
-		return _wikiApp;
-	}
+
+	// -----------------------------------------------------------------------------------
+	// -----------------------------INITIALISATION----------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	public static void main (String args[]) {
 		launch(args);
@@ -68,48 +69,107 @@ public class WikiApplication extends Application {
 	}
 
 	/**
-	 * method which calls the main menu to appear
+	 * Initialises folders if they do not already exist.
 	 */
-	protected void displayMainMenu() {
-		Scene mainMenuScene = new SceneMaker(SceneType.MainMenu).getScene();
-		
+	private void createFolders() {
+		String s = File.separator;
+		new File(System.getProperty("user.dir") + s + "bin" + s + "creations").mkdirs();
+		new File(System.getProperty("user.dir") + s + "bin" + s + "audio").mkdirs();
+		new File(System.getProperty("user.dir") + s + "bin" + s + "temp").mkdirs();
+	}
+
+	// -----------------------------------------------------------------------------------
+	// -----------------------------DISPLAY METHODS---------------------------------------
+	// -----------------------------------------------------------------------------------
+
+	public void displayMainMenu() {
+		Scene mainMenuScene = new SceneMaker(SceneType.MainMenu, this).getScene();
+
 		_currentScene = mainMenuScene;
 		update();
 	}
 
+	public void displayCreateAudioSearchScene() {
 
-	protected void displayCreateScene() {
-
-		Scene createScene = new SceneMaker(SceneType.Create).getScene();
+		Scene createScene = new SceneMaker(SceneType.CreateAudioSearch, this).getScene();
 
 		_currentScene = createScene;
 		update();
 	}
 
-	protected void displayLoadingScene(Task task) {
-		
-		Scene loadingScene = new SceneMaker(SceneType.Loading).getScene();
-		
-		_currentScene = loadingScene;
+	public void displayLoadingSearchResultsScene(SearchTermTask task) {
+
+		SceneMaker loadingSceneMaker = new SceneMaker(SceneType.LoadingSearchResults, this);
+
+		// get the loading search results controller so that the search task can be
+		// passed in
+		LoadingSearchResultsController controller = (LoadingSearchResultsController) loadingSceneMaker.getController();
+		controller.setTask(task);
+
+		_currentScene = loadingSceneMaker.getScene();
 		update();
-		
+
+	}
+
+	public void displayCreateAudioSearchResultsScene(String term, String searchResults) {
+
+		// get the loading search results controller so that the term and 
+		// searchResults can be passed in
+		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioSearchResults, this);
+
+		CreateAudioSearchResultsController controller = (CreateAudioSearchResultsController) sceneMaker.getController();
+		controller.setUp(term, searchResults);
+
+		_currentScene = sceneMaker.getScene();
+		update();
+	}
+
+	public void displayCreateAudioNamingScene(String term, String chosenText) {
+
+		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioNaming, this);
+		CreateAudioNamingController controller = (CreateAudioNamingController) sceneMaker.getController();
+		controller.setUp(term, chosenText);
+
+		_currentScene = sceneMaker.getScene();
+		update();
 	}
 	
-	protected Task getCurrentTask() {
-		return _currentTask;
+	public void displayLoadingCreateAudioScene(CreateAudioTask task) {
+		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingCreateAudio, this);
+		LoadingCreateAudioController controller = (LoadingCreateAudioController) sceneMaker.getController();
+		controller.setTask(task);
+		
+		_currentScene = sceneMaker.getScene();
+		update();
+	}
+
+	public void displayCreateAudioPreviewScene(String term, String previewText, Scene searchResultsScene) {
+
+		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioPreview, this);
+		CreateAudioPreviewController controller = (CreateAudioPreviewController) sceneMaker.getController();
+		controller.setUp(term, previewText, searchResultsScene);
+
+		_currentScene = sceneMaker.getScene();
+		update();
+	}
+	
+	public void displayPreviousScene(Scene previousScene) {
+		
+		_currentScene = previousScene;
+		update();
 	}
 
 	/**
 	 * method which calls the view scene. called from MainController
 	 */
-	protected void displayViewScene() {
-		
+	public void displayViewScene() {
+
 		Task<ListView<String>> viewTask = new ViewTask();
-		
+
 		new Thread(viewTask).start();
-		
+
 		displayLoadingScene(viewTask);
-		
+
 		viewTask.setOnSucceeded(succeededEvent -> {
 			try {
 				_currentCreations = viewTask.get();
@@ -118,88 +178,67 @@ public class WikiApplication extends Application {
 				e.printStackTrace();
 			}
 			Scene viewScene = new SceneMaker(SceneType.View).getScene();
-			
+
 			_currentScene = viewScene;
 			update();
 		});
-		
-	}
-	
-	protected ListView<String> getCurrentCreations() {
-		return _currentCreations;
+
 	}
 
-	protected void displayNamingScene() {
-		
-		Scene namingScene = new SceneMaker(SceneType.Naming).getScene();
-		
-		_currentScene = namingScene;
-		update();
-	}
-	
-	protected void displayPreviewScene(String previewText) {
-		
-		_currentPreviewText = previewText;
-		Scene previewScene = new SceneMaker(SceneType.Preview).getScene();
-		
-		_currentScene = previewScene;
-		update();
-	}
-	
-	protected String getCurrentPreviewText() {
-		return _currentPreviewText;
-	}
-	
-	protected void setChosenText(String chosenText) {
-		_chosenText = chosenText;
-	}
-	
 
-	
-	protected String getCurrentTerm() {
-		return _currentTerm;
-	}
-	
-	protected void setCurrentTerm(String term) {
-		_currentTerm = term;
-	}
-	
-	protected String getChosenText() {
-		return _chosenText;
-	}
-	
-	protected void displaySearchResultsScene(String term) {
-		
-		// yeah this could probably be put in searchResultsController sometime.
-		_currentTerm = term;
-		
-		SearchTask searchTask = new SearchTask(term);
-		_currentSearchTask = searchTask;
-		
-		new Thread(searchTask).start();
-		
-		searchTask.setOnSucceeded(succeededevent -> {
-			Scene searchResultsScene = new SceneMaker(SceneType.SearchResults).getScene();
-			
-			_currentScene = searchResultsScene;
-			update();
-		});
-		
-	}
-	
-	protected void displaySearchReturn() {
+
+
+
+	public void displaySearchReturn() {
 		Scene searchResultsScene = new SceneMaker(SceneType.SearchResults).getScene();
-		
+
 		_currentScene = searchResultsScene;
 		update();
 
 	}
-	
 
+	// -----------------------------------------------------------------------------------
+	// ---------------------------------GETTERS-------------------------------------------
+	// -----------------------------------------------------------------------------------
 
-	protected SearchTask getCurrentSearchTask() {
-		return _currentSearchTask;
+	protected Task getCurrentTask() {
+		return _currentTask;
 	}
+
+	protected ListView<String> getCurrentCreations() {
+		return _currentCreations;
+	}
+
+
+
+	protected String getCurrentPreviewText() {
+		return _currentPreviewText;
+	}
+
+	// -----------------------------------------------------------------------------------
+	// ---------------------------------SETTERS-------------------------------------------
+	// -----------------------------------------------------------------------------------
+
+	public void setChosenText(String chosenText) {
+		_chosenText = chosenText;
+	}
+
+
+
+	protected String getCurrentTerm() {
+		return _currentTerm;
+	}
+
+	protected void setCurrentTerm(String term) {
+		_currentTerm = term;
+	}
+
+	protected String getChosenText() {
+		return _chosenText;
+	}
+
+
+
 
 
 	/**
@@ -210,27 +249,30 @@ public class WikiApplication extends Application {
 		_primaryStage.show();
 	}
 
+	// -----------------------------------------------------------------------------------
+	// ---------------------------------REFACTOR------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Creates the stage for a new creation to play.
 	 * @param name
 	 */
 	protected void playVideo(String name) {
-		
+
 		// could potentially make a new VideoPlayer class...but not today
 		createPlayer(name);
 		MediaPlayer player = _currentPlayer;
-		
+
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource(SceneType.VideoPlayer.getAddress()));
-		
+
 		try {
 			Parent layout = loader.load();
 			Scene scene = new Scene(layout);
 			Stage videoStage = new Stage();
 			videoStage.setScene(scene);
 			videoStage.show();
-			
+
 			// Media functionality
 			player.setOnEndOfMedia(() -> {
 				player.dispose();
@@ -240,42 +282,33 @@ public class WikiApplication extends Application {
 			videoStage.setOnCloseRequest(closeEvent -> {
 				player.stop();
 			});
-			
-			
-			
+
+
+
 		} catch (IOException e) {
 			new AlertMaker(AlertType.ERROR, "IOException", "Oops", "Something wrong happened when making the scene. Sorry :(");
 			displayMainMenu();
 		}
-		
+
 	}
-	
+
 	protected MediaPlayer getCurrentPlayer() {
-		
+
 		return _currentPlayer;
 	}
-	
+
 	private void createPlayer(String name) {
 		Media video = new Media(Paths.get("bin/creations/" + name + ".mp4").toUri().toString());
 		MediaPlayer player = new MediaPlayer(video);
 		player.setAutoPlay(true);
-		
+
 		_currentPlayer = player;
 	}
-	
-
-	
 
 
-	/**
-	 * Initialises folders if they do not already exist.
-	 */
-	private void createFolders() {
-		new File("./bin/creations").mkdirs();
-		new File("./bin/videos").mkdirs();
-		new File("./bin/audio").mkdirs();
-		new File("./bin/temp").mkdirs();
-	}
+
+
+
 
 
 }

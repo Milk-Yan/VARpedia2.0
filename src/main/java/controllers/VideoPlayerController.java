@@ -1,4 +1,4 @@
-package main.java.application;
+package main.java.controllers;
 
 import javafx.fxml.FXML;
 
@@ -13,7 +13,7 @@ import javafx.util.Duration;
  * @author Milk
  *
  */
-public class VideoPlayerController {
+public class VideoPlayerController extends Controller{
 
 	@FXML
 	private MediaView _viewer;

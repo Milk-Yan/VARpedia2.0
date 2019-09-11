@@ -1,11 +1,11 @@
-package main.java.application;
+package main.java.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class CreateCreationNameCreationController {
+public class CreateCreationNameCreationController extends Controller{
 
 
 	

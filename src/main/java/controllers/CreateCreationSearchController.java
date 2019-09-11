@@ -1,4 +1,4 @@
-package main.java.application;
+package main.java.controllers;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 
-public class CreateCreationSearchController {
+public class CreateCreationSearchController extends Controller{
 	@FXML
 	private Text _wikitTermEnquiryText;
 

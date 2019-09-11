@@ -1,4 +1,4 @@
-package main.java.application;
+package main.java.controllers;
 
 import java.io.File;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class CreateCreationChooseAudioController {
+public class CreateCreationChooseAudioController extends Controller{
 
 	@FXML
 	private ListView<String> _audioList;

@@ -1,9 +1,16 @@
 package main.java.application;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import java.text.BreakIterator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Assists with the creation and manipulation of strings.
@@ -20,7 +27,7 @@ public class StringManipulator {
 	 * @param inputStream the input string to process.
 	 * @return the created numbered string.
 	 */
-	protected String createNumberedText(String text) {
+	public String createNumberedText(String text) {
 		// remove extra whitespaces at start
 		if (text.length() > 1 && text.charAt(0) == text.charAt(1) && text.charAt(0) == 32) {
 			text = text.substring(2);
@@ -54,7 +61,7 @@ public class StringManipulator {
 	/**
 	 * Counts the number of lines of the input string and returns as int.
 	 */
-	protected int countLines(String text) {
+	public int countLines(String text) {
 
 		return text.split("\r\n|\r|\n").length;
 	}
@@ -85,5 +92,19 @@ public class StringManipulator {
 	public String removeNumberedLines(String text) {
 		String newText = text.replaceAll("\\d+\\. ", "").replaceAll("\n", "");
 		return newText;
+	}
+	
+	public String inputStreamToString(InputStream inputStream) {
+		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String result = bufferedReader.lines().collect(Collectors.joining("\n"));
+		try {
+			bufferedReader.close();
+			//inputStreamReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

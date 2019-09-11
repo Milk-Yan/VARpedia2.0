@@ -1,24 +1,24 @@
-package main.java.application;
+package main.java.controllers;
 
 import java.io.File;
 
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.text.Text;
+
+import main.java.application.AlertMaker;
+import main.java.tasks.CreateAudioTask;
 
 /**
  * Controller for functionality of Naming.fxml
  * @author Milk
  *
  */
-public class NamingController {
-
-	@FXML
-	private Text _enquiryText;
+public class CreateAudioNamingController extends Controller{
 	
 	@FXML
 	private TextField _nameInput;
@@ -30,7 +30,13 @@ public class NamingController {
 	private Button _mainMenuBtn;
 	
 	private String _name;
-	private WikiApplication _application = WikiApplication.getInstance();
+	private String _term;
+	private String _chosenText;
+	
+	public void setUp(String term, String chosenText) {
+		_term = term;
+		_chosenText = chosenText;
+	}
 	
 	@FXML
 	private void enter() {
@@ -63,26 +69,14 @@ public class NamingController {
 	private void create() {
 		
 		// use new thread to create in bg
-		CreateTask createTask = new CreateTask(_name, _application.getCurrentTerm(), _application.getChosenText());
+		CreateAudioTask createTask = new CreateAudioTask(_name, _term, _chosenText, _mainApp);
 		new Thread(createTask).start();
 
-		createTask.setOnRunning(runningEvent -> {
-			_application.displayLoadingScene(createTask);
-		});
 		
-		createTask.setOnSucceeded(succeededEvent -> {
-			new AlertMaker(AlertType.INFORMATION, "Completed", "Creation completed", "Press OK to exit to the main menu.");
-			_application.displayMainMenu();
-		});
-		
-		createTask.setOnCancelled(cancelledEvent -> {
-			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "The input is valid.");
-			_application.displayMainMenu();
-		});
 	}
 	
 	@FXML
 	private void mainMenu() {
-		_application.displayMainMenu();
+		_mainApp.displayMainMenu();
 	}
 }
