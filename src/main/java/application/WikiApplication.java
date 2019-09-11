@@ -183,6 +183,14 @@ public class WikiApplication extends Application {
 		
 	}
 	
+	protected void displaySearchReturn() {
+		Scene searchResultsScene = new SceneMaker(SceneType.SearchResults).getScene();
+		
+		_currentScene = searchResultsScene;
+		update();
+
+	}
+	
 
 
 	protected SearchTask getCurrentSearchTask() {

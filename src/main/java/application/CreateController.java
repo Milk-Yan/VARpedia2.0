@@ -36,9 +36,12 @@ public class CreateController {
 
 			String term = _termInput.getText();
 
+
 			// use a new thread to complete the search task
 			SearchTask searchTask = new SearchTask(term);
+
 			WikiApplication.getInstance().displayLoadingScene(searchTask);
+
 
 			new Thread(searchTask).start();
 

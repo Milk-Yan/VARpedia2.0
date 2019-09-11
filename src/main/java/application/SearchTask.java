@@ -33,7 +33,9 @@ public class SearchTask extends Task<String>{
 	@Override
 	protected String call() throws Exception {
 		try {
-			Process process = new ProcessBuilder("bash", "-c", "wikit \"" + _term + "\"").start();
+
+			Process process = new ProcessBuilder("/bin/bash", "-c", "wikit \"" + _term + "\"").start();
+
 			try {
 				process.waitFor();
 			} catch (InterruptedException e) {
@@ -76,8 +78,6 @@ public class SearchTask extends Task<String>{
 	public boolean isInvalid() {
 		return _isInvalid;
 	}
-	
-	
 
 	public void updateText(String editted){
 		_sourceText=editted;
