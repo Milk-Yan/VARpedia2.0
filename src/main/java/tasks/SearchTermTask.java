@@ -34,7 +34,7 @@ public class SearchTermTask extends Task<String>{
 			StringManipulator manipulator = new StringManipulator();
 
 			// wikit the term given
-			Process process = new ProcessBuilder("/bin/bash", "-c", "wikit \"" + _term + "\"").start();
+			Process process = new ProcessBuilder("bash", "-c", "wikit \"" + _term + "\"").start();
 
 			try {
 				process.waitFor();

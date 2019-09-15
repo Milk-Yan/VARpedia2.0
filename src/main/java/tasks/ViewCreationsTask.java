@@ -19,7 +19,7 @@ public class ViewCreationsTask extends Task<ObservableList<String>>{
 	@Override
 	protected ObservableList<String> call(){
 		
-		File folder = new File("./bin/creations");
+		File folder = new File(System.getProperty("user.dir")+File.separator+"bin"+File.separator+"creations");
 		
 		File[] arrayOfCreations = folder.listFiles((file) -> {
 			if (file.getName().contains(".mp4") ) {

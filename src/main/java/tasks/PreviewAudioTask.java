@@ -14,7 +14,7 @@ public class PreviewAudioTask extends Task<Void>{
 	@Override
 	protected Void call() throws Exception {
 		
-		_process = new ProcessBuilder("/bin/bash", "-c",
+		_process = new ProcessBuilder("bash", "-c",
 				"echo \""+_previewText+"\" | text2wave -o").start();
 		
 		return null;

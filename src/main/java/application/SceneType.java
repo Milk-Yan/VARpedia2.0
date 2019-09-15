@@ -1,10 +1,13 @@
 package main.java.application;
 
+import java.io.File;
+
 /**
  * Constant type names and addresses so easy to change.
  * @author Milk
  *
  */
+
 public enum SceneType {
 
 	MainMenu("/main/resources/application/MainMenu.fxml"),
@@ -26,7 +29,7 @@ public enum SceneType {
 	private String _address;
 	
 	SceneType(String address) {
-		this._address = address;
+		this._address = address.replaceAll("/", File.separator);
 	}
 	
 	/**

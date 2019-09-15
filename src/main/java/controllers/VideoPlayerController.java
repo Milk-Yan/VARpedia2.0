@@ -1,5 +1,6 @@
 package main.java.controllers;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 import javafx.fxml.FXML;
@@ -115,7 +116,7 @@ public class VideoPlayerController extends Controller{
 	}
 
 	private MediaPlayer createPlayer() {
-		Media video = new Media(Paths.get("bin/creations/" + _videoName + ".mp4").toUri().toString());
+		Media video = new Media(Paths.get("bin"+File.separator+"creations"+File.separator + _videoName + ".mp4").toUri().toString());
 		_player = new MediaPlayer(video);
 		_player.setAutoPlay(true);
 

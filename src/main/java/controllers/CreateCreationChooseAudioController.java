@@ -40,7 +40,7 @@ public class CreateCreationChooseAudioController extends Controller{
 		// make the ListView multiple-selection
 		_audioList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		File folder = new File("./bin/audio/" + _term);
+		File folder = new File(System.getProperty("user.dir")+File.separator+"bin"+File.separator+"audio"+File.separator+_term);
 
 		File[] arrayOfAudioFiles = folder.listFiles((file) -> {
 

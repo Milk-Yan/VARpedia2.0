@@ -24,7 +24,7 @@ public class CreateCreationSearchController extends Controller{
 		String term = _wikitTerm.getText();
 		
 		// check if audio files exists
-		File file = new File("./bin/audio/" + term);
+		File file = new File(System.getProperty("user.dir")+File.separator+"bin"+File.separator+"audio"+File.separator+term);
 		
 		if (file.isDirectory() && file.list().length>0) {
 			

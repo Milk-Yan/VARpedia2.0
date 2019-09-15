@@ -101,12 +101,11 @@ public class ViewCreationsController extends Controller{
 			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Confirmation",
 					"Would you like to delete " + videoName + "?").getAlert();
 			if (alert.getResult() == ButtonType.OK) {
-				File fileCreation = new File("./bin/creations/" + videoName + ".mp4");
-				File fileAudio = new File("./bin/audio/" + videoName + ".mp4");
-				File fileVideo = new File("./bin/video/" + videoName + ".mp4");
+				String s = File.separator;
+				File fileCreation = new File(System.getProperty("user.dir")+s+"bin"+s+"creations"+s+videoName+".mp4");
+				//File fileAudio = new File(System.getProperty("user.dir")+s+"bin"+s+"audio"+s+videoName+".mp4");
 				fileCreation.delete();
-				fileAudio.delete();
-				fileVideo.delete();
+				//fileAudio.delete();
 
 				_mainApp.displayViewCreationsScene();
 			}
