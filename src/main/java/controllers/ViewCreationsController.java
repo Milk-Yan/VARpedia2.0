@@ -1,27 +1,31 @@
 package main.java.controllers;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
-import javafx.collections.FXCollections;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.control.Alert.AlertType;
+import main.java.application.AlertMaker;
+import main.java.tasks.ViewCreationsTask;
 
 /**
  * Controller for functionality of View.fxml
  * @author Milk
  *
  */
-public class ViewController extends Controller{
+public class ViewCreationsController extends Controller{
 
 	@FXML
-	private Text _infoText;
-
+	private VBox _container;
+	
 	@FXML
 	private ListView<String> _listOfCreations;
 
@@ -39,15 +43,37 @@ public class ViewController extends Controller{
 	 * current creations is implemented on a different thread to
 	 * allow concurrency.
 	 */
-	@FXML
-	private void initialize() {
-
-		// could possibly move the viewtask in here but too lazy as of now.
-		ObservableList<String> creationList = FXCollections.observableArrayList();
-		for (String creation:WikiApplication.getInstance().getCurrentCreations().getItems()) {
-			creationList.add(creation);
+	public void setUp() {
+		
+		ViewCreationsTask viewTask = new ViewCreationsTask();
+		new Thread(viewTask).start();
+		
+		_mainApp.displayLoadingViewCreationsScene(viewTask);
+		
+		try {
+			ObservableList<String> creationsList = viewTask.get();
+			
+			if (creationsList.isEmpty()) {
+				_listOfCreations.setVisible(false);
+				_playBtn.setVisible(false);
+				_deleteBtn.setVisible(false);
+				
+				Text text = new Text("There are currently no creations available.");
+				_container.getChildren().add(1, text);
+				
+			} else {
+				_listOfCreations.setItems(creationsList);
+			}
+			
+			
+		} catch (InterruptedException e) {
+			// probably intended, don't do anything
+		} catch (ExecutionException e) {
+			Platform.runLater(() -> {
+				new AlertMaker(AlertType.ERROR, "Error", "Execution Exception", "Could not execute the view function");
+			});
 		}
-		_listOfCreations.setItems(creationList);
+		
 	}
 
 	@FXML
@@ -60,9 +86,8 @@ public class ViewController extends Controller{
 			new AlertMaker(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot be null");
 		} else {
 
-
 			if (!(selectionName == null)) {
-				WikiApplication.getInstance().playVideo(videoName);
+				_mainApp.playVideo(videoName);
 			}
 
 		}
@@ -83,7 +108,7 @@ public class ViewController extends Controller{
 				fileAudio.delete();
 				fileVideo.delete();
 
-				WikiApplication.getInstance().displayViewScene();
+				_mainApp.displayViewCreationsScene();
 			}
 		}
 	}
@@ -91,7 +116,7 @@ public class ViewController extends Controller{
 	@FXML
 	private void mainMenu() {
 
-		WikiApplication.getInstance().displayMainMenu();
+		_mainApp.displayMainMenuScene();
 
 	}
 }

@@ -5,18 +5,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.scene.control.ListView;
 
 /**
  * Searches and returns the list of current creations.
  * @author Milk
  *
  */
-public class ViewTask extends Task<ListView<String>>{
+public class ViewCreationsTask extends Task<ObservableList<String>>{
 	
 	@Override
-	protected ListView<String> call(){
+	protected ObservableList<String> call(){
 		
 		File folder = new File("./bin/creations");
 		
@@ -32,19 +33,21 @@ public class ViewTask extends Task<ListView<String>>{
 		List<File> listOfCreations = Arrays.asList(arrayOfCreations);
 		Collections.sort(listOfCreations);
 
-		ListView<String> outputList = new ListView<String>();
+		ObservableList<String> outputList = FXCollections.observableArrayList();
 		int lineNumber = 1;
 
 		// only gives the name of the file, and gives a number as 
 		// indication of the number of current creations.
 		for (File file: listOfCreations) {
 			String name = file.getName().replace(".mp4", "");
-			outputList.getItems().add(lineNumber + ". " + name + "\n");
+			outputList.add(lineNumber + ". " + name + "\n");
 			lineNumber++;
 		}
-
+		
 		return outputList;
 	}
+	
+
 	
 	
 

@@ -62,7 +62,7 @@ public class SearchTermTask extends Task<String>{
 			// run on GUI thread
 			Platform.runLater(() -> {
 				new AlertMaker(AlertType.ERROR, "Error encountered", "I/O Exception", e.getStackTrace().toString());
-				_mainApp.displayMainMenu();
+				_mainApp.displayMainMenuScene();
 			});
 		}
 
@@ -71,6 +71,13 @@ public class SearchTermTask extends Task<String>{
 
 	@Override
 	protected void succeeded() {
+		
+		if (_searchResults.contains(":^(")) {
+			_isInvalid = true;
+			cancelled(); // run cancel operations
+			return;
+		}
+		
 		// run on GUI thread
 		Platform.runLater(() -> {
 			_mainApp.displayCreateAudioSearchResultsScene(_term, _searchResults);
@@ -80,7 +87,6 @@ public class SearchTermTask extends Task<String>{
 
 	@Override
 	protected void cancelled() {
-		
 		if (_isInvalid) {
 			// run on GUI thread
 			Platform.runLater(() -> {

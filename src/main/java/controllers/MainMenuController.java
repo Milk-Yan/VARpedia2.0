@@ -30,6 +30,6 @@ public class MainMenuController extends Controller{
 	
 	@FXML
 	private void viewCreations() {
-		_mainApp.displayViewScene();
+		_mainApp.displayViewCreationsScene();
 	}
 }

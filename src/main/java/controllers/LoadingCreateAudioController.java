@@ -19,7 +19,7 @@ public class LoadingCreateAudioController extends Controller{
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 	
 	public void setTask(CreateAudioTask task) {

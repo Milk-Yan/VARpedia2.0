@@ -16,6 +16,7 @@ import main.java.application.WikiApplication;
 
 public class CreateCreationTask extends Task<Void>{
 
+	private String _name;
 	private String _term;
 	private ObservableList<String> _audioList;
 	private WikiApplication _mainApp;
@@ -29,7 +30,8 @@ public class CreateCreationTask extends Task<Void>{
 	private Process _createVideoProcess;
 	private Process _mergeOverallProcess;
 	
-	public CreateCreationTask(String term, ObservableList<String> audioList, int imageNumber, WikiApplication mainApp, Scene previousScene) {
+	public CreateCreationTask(String name, String term, ObservableList<String> audioList, int imageNumber, WikiApplication mainApp, Scene previousScene) {
+		_name = name;
 		_term = term;
 		_audioList = audioList;
 		_mainApp = mainApp;
@@ -159,12 +161,12 @@ public class CreateCreationTask extends Task<Void>{
 		// to be moved inside imageScrape
 		if (_wantedImageNumber > _totalImageNumber) {
 			
-			this.cancel();
-			
 			Platform.runLater(() -> {
 				new AlertMaker(AlertType.ERROR, "Error", "Not enough images", "There are not enough images for this creation to proceed");
 				_mainApp.displayPreviousScene(_previousScene);
 			});
+			
+			this.cancelled();
 
 			
 		} else {

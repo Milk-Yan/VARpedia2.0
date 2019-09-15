@@ -14,11 +14,10 @@ public class LoadingCreateCreationController extends Controller{
 	private void mainMenu() {
 		// cancel current task before going back to main menu
 		if (_task != null) {
-			_task.destroyProcess(); // need to destroy process before interrupting task 
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 
 	public void setTask(CreateCreationTask task) {

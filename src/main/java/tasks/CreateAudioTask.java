@@ -55,19 +55,22 @@ public class CreateAudioTask extends Task<Void>{
 			}
 			
 			if (_process.exitValue() != 0) {
-				Platform.runLater(() -> {
-					new AlertMaker(AlertType.ERROR, "Error", "Something went wrong", "Could not make audio file.");
-				});
-				_process.destroy();
-				this.cancel();
+				this.cancelled();
 			}
 			
 		} catch (IOException e) {
-			this.cancel();
-			_process.destroy();
+			this.cancelled();
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void cancelled() {
+		_process.destroy();
+		Platform.runLater(() -> {
+			new AlertMaker(AlertType.ERROR, "Error", "Something went wrong", "Could not make audio file.");
+		});
 	}
 	
 	/**
@@ -88,17 +91,10 @@ public class CreateAudioTask extends Task<Void>{
 	public void succeeded() {
 		Platform.runLater(() -> {
 			new AlertMaker(AlertType.INFORMATION, "Completed", "Creation completed", "Press OK to exit to the main menu.");
-			_mainApp.displayMainMenu();
+			_mainApp.displayMainMenuScene();
 		});
 		
 	}
-	
-	@Override
-	public void cancelled() {
-		Platform.runLater(() -> {
-			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "The input is valid.");
-			_mainApp.displayMainMenu();
-		});
-	}
+
 
 }

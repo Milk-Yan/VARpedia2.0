@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.application.ViewController">
+<VBox fx:id="_container" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.ViewCreationsController">
    <children>
-      <Text fx:id="_infoText" strokeType="OUTSIDE" strokeWidth="0.0" text="Here is the list of current creations:">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Here is the list of current creations:">
          <font>
             <Font size="18.0" />
          </font>

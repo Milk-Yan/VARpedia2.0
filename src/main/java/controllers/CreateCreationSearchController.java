@@ -39,6 +39,6 @@ public class CreateCreationSearchController extends Controller{
 
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 }

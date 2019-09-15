@@ -99,7 +99,7 @@ public class CreateAudioSearchResultsController extends Controller{
 
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 
 	/**

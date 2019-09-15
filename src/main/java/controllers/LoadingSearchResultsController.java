@@ -19,7 +19,7 @@ public class LoadingSearchResultsController extends Controller{
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 
 	public void setTask(SearchTermTask task) {

@@ -2,20 +2,22 @@ package main.java.controllers;
 
 import java.io.File;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
-import main.java.tasks.CreateAudioTask;
 import main.java.tasks.CreateCreationTask;
 
 public class CreateCreationNamingController extends Controller{
 
 	private String _name;
+	private String _term;
+	private ObservableList<String> _audioList;
+	private int _wantedImageNumber;
 
 	@FXML
 	private TextField _nameInput;
@@ -26,6 +28,12 @@ public class CreateCreationNamingController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 
+	public void setUp(String term, ObservableList<String> audioList, int imageNumber) {
+		_term = term;
+		_audioList = audioList;
+		_wantedImageNumber = imageNumber;
+	}
+	
 	@FXML
 	private void create() {
 
@@ -48,18 +56,18 @@ public class CreateCreationNamingController extends Controller{
 			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Creation already exists",
 					"Would you like to overwrite the existing file?").getAlert();
 			if (alert.getResult() == ButtonType.OK) {
-				create();
+				createCreation();
 			}
 
 		} else {
-			create();
+			createCreation();
 		}
 	}
 
 	private void createCreation() {
 
 		// use new thread to create in bg
-		CreateCreationTask task = new CreateCreationTask(_term, _audioList, imageNumber, _mainApp, _createBtn.getScene());
+		CreateCreationTask task = new CreateCreationTask(_name, _term, _audioList, _wantedImageNumber, _mainApp, _createBtn.getScene());
 		_mainApp.displayLoadingCreateCreationScene(task);
 
 		new Thread(task).start();
@@ -69,7 +77,7 @@ public class CreateCreationNamingController extends Controller{
 
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 
 }

@@ -42,13 +42,6 @@ public class StringManipulator {
 			outputList.add(Integer.toString(++lineCount) + ". " + text.substring(start,end) + "\n");
 		}
 
-
-
-		//		if (outputList.get(0).contains(":^(")) {
-		//			_isInvalid = true;
-		//			cancel();
-		//		}
-
 		// join the list into one string
 		String outputString = String.join("", outputList);
 

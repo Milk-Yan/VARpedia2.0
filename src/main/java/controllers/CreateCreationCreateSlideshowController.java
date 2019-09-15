@@ -4,7 +4,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import main.java.tasks.CreateCreationTask;
 
 public class CreateCreationCreateSlideshowController extends Controller{
 	
@@ -33,14 +32,14 @@ public class CreateCreationCreateSlideshowController extends Controller{
 		
 		if (imageNumber != -1) {
 			
-			_mainApp.displayCreateCreationNaming(_term, _audioList);
+			_mainApp.displayCreateCreationNamingScene(_term, _audioList, imageNumber);
 			
 		}
 	}
 	
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenu();
+		_mainApp.displayMainMenuScene();
 	}
 	
 	private int checkValidity(String numberStr) {
