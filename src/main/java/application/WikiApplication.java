@@ -16,6 +16,7 @@ import main.java.controllers.CreateCreationCreateSlideshowController;
 import main.java.controllers.CreateCreationNamingController;
 import main.java.controllers.LoadingCreateAudioController;
 import main.java.controllers.LoadingCreateCreationController;
+import main.java.controllers.LoadingScrapingImagesController;
 import main.java.controllers.LoadingSearchResultsController;
 import main.java.controllers.LoadingViewCreationsController;
 import main.java.controllers.VideoPlayerController;
@@ -23,6 +24,7 @@ import main.java.controllers.ViewCreationsController;
 // tasks
 import main.java.tasks.CreateAudioTask;
 import main.java.tasks.CreateCreationTask;
+import main.java.tasks.ScrapeImagesTask;
 import main.java.tasks.SearchTermTask;
 import main.java.tasks.ViewCreationsTask;
 
@@ -182,6 +184,15 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	public void displayLoadingScrapingImagesScene(String term, ScrapeImagesTask task) {
+		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingScrapingImages, this);
+		LoadingScrapingImagesController controller = (LoadingScrapingImagesController) sceneMaker.getController();
+		controller.setTask(task, term);
+		
+		_currentScene = sceneMaker.getScene();
+		update();
+	}
+	
 	public void displayLoadingCreateCreationScene(CreateCreationTask task) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingCreateCreation, this);
@@ -210,6 +221,10 @@ public class WikiApplication extends Application {
 		
 		_currentScene = sceneMaker.getScene();
 		update();
+	}
+	
+	public void displayCreateCreationsChooseImagesScene(String term, ObservableList<String> audioList) {
+		
 	}
 	
 	// -----------------------------------------------------------------------------------

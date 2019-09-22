@@ -62,47 +62,7 @@ public class CreateCreationTask extends Task<Void>{
 	
 	private void imageScrape() {
 		
-		String s = File.separator;
 		
-		try {
-			_imageScrapeProcess = new ProcessBuilder("bash", "-c", 
-				
-					// save the total number of images in a variable
-					"urls=$(" +
-					// grab the html from the url
-					"curl www.flickr.com/search/?text=" + _term + " | " +
-					// find the image URLs from the html
-					"grep -oh live.staticflickr.com/.*jpg);" + 
-					// count the number of images
-					"totalImageNumber=$(wc -l $urls);" + 
-					// compare wanted number and total number
-					"if [ " + _wantedImageNumber + "-gt $totalImageNumber ];" +
-					"then;" +
-						"return $totalImageNumber;" +
-					"else;" +
-						// download the wanted number of images
-						"wantedUrls=$($urls -head -n " + _wantedImageNumber + ")" +
-						"wget -i $wantedUrls -P " + System.getProperty("user.dir") +
-						 s +"bin" + s + "temp;" +
-					"fi"
-					).start();
-			
-			if (_imageScrapeProcess.exitValue() != 0) {
-				Platform.runLater(() -> {
-					new AlertMaker(AlertType.ERROR, "Error", "Not enough images", "There are only " 
-								+ _imageScrapeProcess.exitValue() + " images available for this term.");
-					
-				}); 
-				return;
-			} else {
-				audioMerge();
-			}
-			
-		} catch (IOException e) {
-			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Image scraping process exception.");
-			});
-		}
 		
 	}
 	

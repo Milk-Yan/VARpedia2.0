@@ -24,7 +24,8 @@ public enum SceneType {
 	CreateCreationNaming("/main/resources/application/CreateCreationNaming.fxml"),
 	LoadingViewCreations("/main/resources/application/LoadingViewCreations.fxml"),
 	ViewCreations("/main/resources/application/ViewCreations.fxml"),
-	VideoPlayer("/main/resources/application/VideoPlayer.fxml");
+	VideoPlayer("/main/resources/application/VideoPlayer.fxml"),
+	LoadingScrapingImages("/main/resources/application/LoadingScrapingImages.fxml");
 	
 	private String _address;
 	
