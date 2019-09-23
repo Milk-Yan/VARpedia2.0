@@ -44,7 +44,7 @@ public class CreateAudioPreviewController extends Controller{
 		_term = term;
 		_previewText = previewText;
 		_previousScene = searchResultsScene;
-
+		_previewTextArea.setWrapText(true);
 		_previewTextArea.setText(previewText);
 		_previewTextArea.setEditable(false);
 
