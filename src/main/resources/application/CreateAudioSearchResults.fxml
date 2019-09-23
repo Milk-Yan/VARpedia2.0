@@ -17,7 +17,7 @@
             <Font size="16.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Select text to preview)" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Highlight text to preview)" />
       <TextField fx:id="_lineNumberInput" />
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
          <children>
