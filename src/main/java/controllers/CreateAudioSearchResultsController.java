@@ -86,7 +86,7 @@ public class CreateAudioSearchResultsController extends Controller{
 
 			String chosenText = _stringManipulator.getChosenText(_currentTextNotFormatted, lineNumber);
 
-			_mainApp.displayCreateAudioNamingScene(_term, chosenText);
+			_mainApp.displayCreateAudioNamingScene(_term, chosenText, null);
 
 		} else {
 

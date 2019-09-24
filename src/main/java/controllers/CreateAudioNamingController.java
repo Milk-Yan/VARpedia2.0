@@ -32,10 +32,12 @@ public class CreateAudioNamingController extends Controller{
 	private String _name;
 	private String _term;
 	private String _chosenText;
+	private String _voice=null;
 	
-	public void setUp(String term, String chosenText) {
+	public void setUp(String term, String chosenText, String voice) {
 		_term = term;
 		_chosenText = chosenText;
+		_voice=voice;
 	}
 	
 	@FXML
@@ -72,8 +74,14 @@ public class CreateAudioNamingController extends Controller{
 	private void create() {
 		
 		// use new thread to create in bg
-		CreateAudioTask createTask = new CreateAudioTask(_name, _term, _chosenText, _mainApp);
-		new Thread(createTask).start();
+		if (_voice==null){
+			CreateAudioTask createTask = new CreateAudioTask(_name, _term, _chosenText, _mainApp);
+			new Thread(createTask).start();
+		} else {
+			CreateAudioTask createTask = new CreateAudioTask(_name, _term, _chosenText, _mainApp, _voice);
+			_voice=null;
+			new Thread(createTask).start();
+		}
 
 		
 	}

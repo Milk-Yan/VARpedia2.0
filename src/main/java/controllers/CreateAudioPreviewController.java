@@ -52,7 +52,7 @@ public class CreateAudioPreviewController extends Controller{
 		_voiceSelection.setItems(FXCollections.observableArrayList(listOfVoices()));
 		_voiceSelection.getSelectionModel().selectFirst();
 		//gets the selected choice not currently appropriate
-		_voiceSelection.getSelectionModel().getSelectedItem();
+//		_voiceSelection.getSelectionModel().getSelectedItem();
 		// auto play with current voice
 		replay();
 	}
@@ -93,7 +93,7 @@ public class CreateAudioPreviewController extends Controller{
 		} else {
 			//creates the audio
 			//need to change to have voice type input
-			_mainApp.displayCreateAudioNamingScene(_term, _previewText);
+			_mainApp.displayCreateAudioNamingScene(_term, _previewText, _voiceSelection.getSelectionModel().getSelectedItem());
 		}
 	}
 	
@@ -113,10 +113,12 @@ public class CreateAudioPreviewController extends Controller{
 		ArrayList<String> voices= new ArrayList<>();
 		voices.add(_defaultChoice);
 		//add voices soon TM
-		voices.add("TEST VOICE");
+		voices.add("kal_diphone");
 
 		return voices;
 	}
+	
+	
 
 
 

@@ -15,7 +15,7 @@ import main.java.application.WikiApplication;
  *
  */
 public class CreateAudioTask extends Task<Void>{
-
+	String _voice=null;
 	String _name;
 	String _term;
 	String _text;
@@ -29,6 +29,14 @@ public class CreateAudioTask extends Task<Void>{
 		_name = name;
 		_text = text;
 		_mainApp = mainApp;
+	}
+	
+	public CreateAudioTask(String name,String term, String text, WikiApplication mainApp, String voice) {
+		_term = term;
+		_name = name;
+		_text = text;
+		_mainApp = mainApp;
+		_voice=voice;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package main.java.tasks;
 
+import java.io.IOException;
+
 import javafx.concurrent.Task;
 
 public class PreviewAudioTask extends Task<Void>{
@@ -17,14 +19,18 @@ public class PreviewAudioTask extends Task<Void>{
 	protected Void call() throws Exception {
 
 		if (_voice==null) {
-			System.out.println("No Voice");
 			_process = new ProcessBuilder("bash", "-c",
-					"echo \"" + _previewText + "\" | text2wave -o").start();
+					"echo \"" + _previewText + "\" | festival --tts").start();
 		} else {
 			//make it with voice
-			System.out.println("Voice");
+			generatePreview();
+			_process = new ProcessBuilder("bash", "-c",
+					"festival -b .preview.scm").start();
+			
 			//set back to null
 			_voice=null;
+			//to remove teh generated .scm file
+//			_process = new ProcessBuilder("bash", "-c", "rm -f .preview.scm").start();
 		}
 
 		return null;
@@ -41,4 +47,14 @@ public class PreviewAudioTask extends Task<Void>{
 		_process.destroy();
 	}
 	
+	/**
+	 * method generates scm file for festival to play
+	 * @throws Exception
+	 */
+	private void generatePreview() throws Exception {
+		_process = new ProcessBuilder("bash", "-c",
+				"echo -e \"(voice_"+_voice+") ;; \n(SayText \\\""+
+		_previewText+"\\\" )\" > .preview.scm").start();
+		
+	}
 }

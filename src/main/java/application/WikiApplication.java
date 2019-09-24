@@ -121,11 +121,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 
-	public void displayCreateAudioNamingScene(String term, String chosenText) {
+	public void displayCreateAudioNamingScene(String term, String chosenText, String voice) {
 
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioNaming, this);
 		CreateAudioNamingController controller = (CreateAudioNamingController) sceneMaker.getController();
-		controller.setUp(term, chosenText);
+		controller.setUp(term, chosenText, voice);
 
 		_currentScene = sceneMaker.getScene();
 		update();
