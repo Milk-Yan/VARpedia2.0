@@ -218,7 +218,7 @@ public class CreateAudioSearchResultsController extends Controller{
 		int words = new java.util.StringTokenizer(selectedTextNotFormatted," ").countTokens();
 
 		if (words > 40) {
-			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is too large", "Please choose a chunck of text within 40 characters.");
+			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is too large", "Please choose a chunck of text within 40 words.");
 		} else if (selectedTextNotFormatted.trim().isEmpty()) {
 			new AlertMaker(AlertType.ERROR, "Error", "Text to preview is empty", "There is no text to preview.");
 		} else {

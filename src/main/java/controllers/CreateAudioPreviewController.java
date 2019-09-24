@@ -5,10 +5,12 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
+import main.java.application.AlertMaker;
 import main.java.tasks.PreviewAudioTask;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class CreateAudioPreviewController extends Controller{
 	private final String _defaultChoice="Please select a voice";
 	private String _term;
 	private String _previewText;
+	private String[] _voices= new String[]{"akl_nz_jdt_diphone","akl_nz_cw_cg_cg"};
 	
 	private Scene _previousScene;
 	
@@ -86,10 +89,9 @@ public class CreateAudioPreviewController extends Controller{
 		// cancel current preview task before saving
 		_task.cancel();
 
-		//check if a voice is choosen
+		//check if a voice is chosen
 		if (_voiceSelection.getSelectionModel().getSelectedItem().equals(_defaultChoice)){
-			System.out.println("ALERRRRT");
-			//make alert soon TM
+			new AlertMaker(Alert.AlertType.ERROR, "Error", "A voice has yet to be chosen", "Please choose a voice.");
 		} else {
 			//creates the audio
 			//need to change to have voice type input
@@ -112,8 +114,16 @@ public class CreateAudioPreviewController extends Controller{
 	private ArrayList<String> listOfVoices(){
 		ArrayList<String> voices= new ArrayList<>();
 		voices.add(_defaultChoice);
-		//add voices soon TM
+		//add voices soon TM these are voices currently used on my pc
 		voices.add("kal_diphone");
+		voices.add("ked_diphone");
+		voices.add("don_diphone");
+		voices.add("rab_diphone");
+
+		//for image
+//		for (String voice : _voices){
+//			voices.add(voice);
+//		}
 
 		return voices;
 	}
