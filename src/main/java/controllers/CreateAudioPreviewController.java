@@ -3,7 +3,6 @@ package main.java.controllers;
 import javafx.application.Platform;
 
 import javafx.collections.FXCollections;
-
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,7 +13,10 @@ import javafx.scene.control.TextArea;
 import main.java.application.AlertMaker;
 import main.java.tasks.PreviewAudioTask;
 
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class CreateAudioPreviewController extends Controller{
@@ -22,8 +24,11 @@ public class CreateAudioPreviewController extends Controller{
 	private final String _defaultChoice="Please select a voice";
 	private String _term;
 	private String _previewText;
-	private String[] _voices= new String[]{"kal_diphone","akl_nz_jdt_diphone","akl_nz_cw_cg_cg"};
-	private String[] _voiceName= new String[] {"Vanilla","Chocolate","Strawberry"};
+	//the actual name
+	private String[] _voices;
+	private String[] _voiceSample= new String[] {"Vanilla","Chocolate","Strawberry","Banana","Orange","Apple"};
+	//the displayed name
+	private String[] _voiceName;
 	
 	private Scene _previousScene;
 	
@@ -87,7 +92,6 @@ public class CreateAudioPreviewController extends Controller{
 				
 				if (voicename.equals(_voiceSelection.getSelectionModel().getSelectedItem())) {
 					_task = new PreviewAudioTask(_previewText,_voices[i]);
-					System.out.println(_voices[i]);
 					new Thread(_task).start();
 				}
 				i++;
@@ -125,17 +129,43 @@ public class CreateAudioPreviewController extends Controller{
 	private ArrayList<String> listOfVoices(){
 		ArrayList<String> voices= new ArrayList<>();
 		voices.add(_defaultChoice);
-		//add voices soon TM these are voices currently used on my pc
+
+		Process source;
+		try {
+			source = new ProcessBuilder("bash","-c","echo \"(voice.list)\" | festival -i"
+					+ " | grep \"festival> (\" | cut -d \"(\" -f2 | cut -d \")\" -f1").start();
+			InputStream stdout = source.getInputStream();
+			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
+			String lineofwords = stdoutBuffered.readLine();
+			
+			if (new java.util.StringTokenizer(lineofwords," ").countTokens()>1) {
+				String[] voicesOrder=lineofwords.split(" ");
+				_voices= new String[voicesOrder.length];
+				_voiceName = new String[voicesOrder.length];
+				_voices=voicesOrder;
+				for (int i=0; i <voicesOrder.length;i++) {
+					_voiceName[i]=_voiceSample[i];
+				}
+			} else {
+				voices.add(_voiceSample[0]);
+				_voices = new String[1];
+				_voiceName = new String[1];
+				_voices[0]=lineofwords;
+				_voiceName[0]=_voiceSample[0];
+			}
+			
+
+			
 		
-		//for image
-		for (String voice : _voiceName){
-			voices.add(voice);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 
 		return voices;
 	}
 	
-
 
 
 }

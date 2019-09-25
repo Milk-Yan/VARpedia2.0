@@ -23,14 +23,16 @@ public class PreviewAudioTask extends Task<Void>{
 					"echo \"" + _previewText + "\" | festival --tts").start();
 		} else {
 			//make it with voice
-			generatePreview();
+//			generatePreview();
+//			_process = new ProcessBuilder("bash", "-c",
+//					"festival -b .preview.scm").start();
+			
 			_process = new ProcessBuilder("bash", "-c",
-					"festival -b .preview.scm").start();
+					"echo -e \"(voice_"+_voice+") ;; \n(SayText \\\""+
+			_previewText+"\\\" )\" | festival -i &>/dev/null").start();
 			
 			//set back to null
 			_voice=null;
-			//to remove teh generated .scm file
-//			_process = new ProcessBuilder("bash", "-c", "rm -f .preview.scm").start();
 		}
 
 		return null;
@@ -48,13 +50,13 @@ public class PreviewAudioTask extends Task<Void>{
 	}
 	
 	/**
-	 * method generates scm file for festival to play
-	 * @throws Exception
-	 */
-	private void generatePreview() throws Exception {
-		_process = new ProcessBuilder("bash", "-c",
-				"echo -e \"(voice_"+_voice+") ;; \n(SayText \\\""+
-		_previewText+"\\\" )\" > .preview.scm").start();
-		
-	}
+//	 * method generates scm file for festival to play
+//	 * @throws Exception
+//	 */
+//	private void generatePreview() throws Exception {
+//		_process = new ProcessBuilder("bash", "-c",
+//				"echo -e \"(voice_"+_voice+") ;; \n(SayText \\\""+
+//		_previewText+"\\\" )\" > .preview.scm").start();
+//		
+//	}
 }
