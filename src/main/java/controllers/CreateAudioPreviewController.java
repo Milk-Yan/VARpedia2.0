@@ -3,6 +3,7 @@ package main.java.controllers;
 import javafx.application.Platform;
 
 import javafx.collections.FXCollections;
+
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextArea;
 
 import main.java.application.AlertMaker;
 import main.java.tasks.PreviewAudioTask;
+
 
 import java.util.ArrayList;
 
@@ -115,19 +117,14 @@ public class CreateAudioPreviewController extends Controller{
 		ArrayList<String> voices= new ArrayList<>();
 		voices.add(_defaultChoice);
 		//add voices soon TM these are voices currently used on my pc
-		voices.add("kal_diphone");
-		voices.add("ked_diphone");
-		voices.add("don_diphone");
-		voices.add("rab_diphone");
-
+		
 		//for image
-//		for (String voice : _voices){
-//			voices.add(voice);
-//		}
+		for (String voice : _voices){
+			voices.add(voice);
+		}
 
 		return voices;
 	}
-	
 	
 
 
