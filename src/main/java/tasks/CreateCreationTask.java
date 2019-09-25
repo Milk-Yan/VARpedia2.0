@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
@@ -18,138 +19,178 @@ public class CreateCreationTask extends Task<Void>{
 
 	private String _name;
 	private String _term;
-	private ObservableList<String> _audioList;
+	private ArrayList<String> _audioList;
+	private ArrayList<String> _imageList;
 	private WikiApplication _mainApp;
-	private Scene _previousScene;
 	
-	private int _totalImageNumber;
-	private int _wantedImageNumber;
-	
-	private Process _imageScrapeProcess;
 	private Process _audioMergeProcess;
-	private Process _createVideoProcess;
+	private Process _imageMergeProcess;
 	private Process _mergeOverallProcess;
 	
-	public CreateCreationTask(String name, String term, ObservableList<String> audioList, int imageNumber, WikiApplication mainApp, Scene previousScene) {
+	public CreateCreationTask(String name, String term, ArrayList<String> audioList, ArrayList<String> imageList, WikiApplication mainApp) {
 		_name = name;
 		_term = term;
 		_audioList = audioList;
+		_imageList = imageList;
 		_mainApp = mainApp;
-		_previousScene = previousScene;
 		
-		_wantedImageNumber = imageNumber;
 	}
+	
 	@Override
 	protected Void call() throws Exception {
 		
-		// make temp folder to store images
-		String s = File.separator;
-		new File(System.getProperty("user.dir") + s + "bin" + s + "temp").mkdirs();
-		
-		imageScrape();
-		
-		createVideo();
+		audioMerge();
+		imageMerge();
 		mergeOverall();
-		
-		
-		
-		
-		List<String> totalImageNumber = Files.readAllLines(Paths.get(System.getProperty("user.dir") + s + "bin" + s + "temp" + s + "urlNumber.txt"));
-		_totalImageNumber = Integer.parseInt(totalImageNumber.get(0));
 		
 		return null;
 	}
 	
-	private void imageScrape() {
-		
-		String s = File.separator;
-		
-		try {
-			_imageScrapeProcess = new ProcessBuilder("bash", "-c", 
-				
-					// save the total number of images in a variable
-					"urls=$(" +
-					// grab the html from the url
-					"curl www.flickr.com/search/?text=" + _term + " | " +
-					// find the image URLs from the html
-					"grep -oh live.staticflickr.com/.*jpg);" + 
-					// count the number of images
-					"totalImageNumber=$(wc -l $urls);" + 
-					// compare wanted number and total number
-					"if [ " + _wantedImageNumber + "-gt $totalImageNumber ];" +
-					"then;" +
-						"return $totalImageNumber;" +
-					"else;" +
-						// download the wanted number of images
-						"wantedUrls=$($urls -head -n " + _wantedImageNumber + ")" +
-						"wget -i $wantedUrls -P " + System.getProperty("user.dir") +
-						 s +"bin" + s + "temp;" +
-					"fi"
-					).start();
-			
-			if (_imageScrapeProcess.exitValue() != 0) {
-				Platform.runLater(() -> {
-					new AlertMaker(AlertType.ERROR, "Error", "Not enough images", "There are only " 
-								+ _imageScrapeProcess.exitValue() + " images available for this term.");
-					
-				}); 
-				return;
-			} else {
-				audioMerge();
-			}
-			
-		} catch (IOException e) {
-			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Image scraping process exception.");
-			});
-		}
-		
-	}
-	
 	private void audioMerge() {
-		
 		String s = File.separator;
 		
+		File tempFolder = new File(System.getProperty("user.dir") + s + "bin" + s + "tempAudio" + s + _term);
+		tempFolder.mkdirs();
+
 		// create string of all audio files
 		String audioFolder = System.getProperty("user.dir") + s + "bin" + s +
 						"audio" + s;
 		String audioFilesFolder = audioFolder + _term + s;
-		String audioFiles = new String();
-		
+		String audioFiles = "";
+
 		for (String fileName:_audioList) {
-			audioFiles.concat(audioFilesFolder + fileName + ".wav");
+			audioFiles = audioFiles.concat(audioFilesFolder + fileName + ".wav ");
 		}
-		
+
 		try {
 			_audioMergeProcess = new ProcessBuilder("bash", "-c", 
-					"sox " + audioFiles + " " + audioFolder + _name + ".wav"
+					"sox " + audioFiles + tempFolder + s + _name + ".wav"
 						).start();
+			try {
+				_audioMergeProcess.waitFor();
+				
+			} catch (InterruptedException e) {
+				// don't do anything
+			}
 			
 		} catch (IOException e) {
 			Platform.runLater(() -> {
 				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Audio merge process exception.");
+				_mainApp.displayMainMenuScene();
+			});
+		}
+		
+		if (_audioMergeProcess.exitValue() != 0) {
+			Platform.runLater(() -> {
+				new AlertMaker(AlertType.ERROR, "Error", "Process failed", "The audio did not merge properly");
+				_mainApp.displayMainMenuScene();
 			});
 		}
 	}
 	
-	private void createVideo() {
+	private void imageMerge() {
+		String s = File.separator;
 		
+		String imageFilesFolder = System.getProperty("user.dir") + s + "bin" + s + "tempImages" + s + _term + s;
+		String imageFiles = new String();
+		
+		String tempFolderPath = System.getProperty("user.dir") + s + "bin" + s + "tempVideo" + s + _term;
+		File tempFolder = new File(tempFolderPath);
+		tempFolder.mkdirs();
+		
+		int i = 0;
+		
+		for (String imageName:_imageList) {
+			File image = new File(imageFilesFolder + imageName);
+			File newImageName = new File(imageFilesFolder + "img" + i + ".jpg");
+			image.renameTo(newImageName);
+			
+			i++;
+		}
+		
+		try {
+			_imageMergeProcess = new ProcessBuilder("bash", "-c", 
+					// get length of audio file 
+					"VIDEO_LENGTH=$(soxi -D " + System.getProperty("user.dir") + s + "bin" + s + "tempAudio" + 
+					s + _term + s + _name + ".wav);" +
+					// create slideshow from images with same length as audio, images change every 2 seconds, 30 fps
+					"ffmpeg -framerate 1/2 -loop 1 -i " + imageFilesFolder + "img%01d.jpg -r 30 -t $VIDEO_LENGTH " +
+					"-vf \"drawtext=fontfile=Midnight Bangkok.ttf:fontsize=50:fontcolor=white:"
+					+ "x=(w-text_w)/2:y=(h-text_h)/2:text=\"" + _term +
+					// put video file in temp folder
+					" -y " + tempFolderPath + s + _name + ".mp4" +
+					" 2>error.txt").start();
+			try {
+				_imageMergeProcess.waitFor();
+				
+			} catch (InterruptedException e) {
+				// don't do anything
+			}
+			
+			if (_imageMergeProcess.exitValue() != 0) {
+				Platform.runLater(() -> {
+					new AlertMaker(AlertType.ERROR, "Error", "Process failed", "The image did not merge properly");
+					_mainApp.displayMainMenuScene();
+				});
+			}
+			
+		} catch (IOException e) {
+			Platform.runLater(() -> {
+				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Image merge process exception.");
+				_mainApp.displayMainMenuScene();
+			});
+		}
 	}
 	
 	private void mergeOverall() {
 		
+		String videoPath = System.getProperty("user.dir") + File.separator + "bin" + File.separator + "tempVideo" 
+							+ File.separator + _term + File.separator + _name + ".mp4";
+		String audioPath = System.getProperty("user.dir") + File.separator + "bin" + File.separator + "tempAudio" 
+							+ File.separator + _term + File.separator + _name + ".wav";
+		String creationPath = System.getProperty("user.dir") + File.separator + "bin" + File.separator + "creations" 
+							+ File.separator + _name + ".mp4";
+		try {
+			_mergeOverallProcess = new ProcessBuilder("bash", "-c", 
+					// get video
+					"ffmpeg -i " + videoPath + " "  +
+					// get audio
+					"-i " + audioPath + " " +
+					// combine
+					"-strict -2 -y " + creationPath + " &>error.txt"
+					).start();
+			
+			try {
+				_mergeOverallProcess.waitFor();
+				
+			} catch (InterruptedException e) {
+				// don't do anything
+			}
+			
+			
+			if (_mergeOverallProcess.exitValue() != 0) {
+				Platform.runLater(() -> {
+					new AlertMaker(AlertType.ERROR, "Error", "Process failed", "The video and image did not merge properly");
+					_mainApp.displayMainMenuScene();
+				});
+			}
+			
+		} catch (IOException e) {
+			Platform.runLater(() -> {
+				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Overall merge process exception.");
+				_mainApp.displayMainMenuScene();
+			});
+		}
 	}
 
 	@Override
 	public void cancelled() {
-		if (_imageScrapeProcess != null) {
-			_imageScrapeProcess.destroy();
-		}
+		
 		if (_audioMergeProcess != null) {
 			_audioMergeProcess.destroy();
 		}
-		if (_createVideoProcess != null) {
-			_createVideoProcess.destroy();
+		if (_imageMergeProcess != null) {
+			_imageMergeProcess.destroy();
 		}
 		if (_mergeOverallProcess != null) {
 			_mergeOverallProcess.destroy();
@@ -158,20 +199,11 @@ public class CreateCreationTask extends Task<Void>{
 	
 	@Override
 	public void succeeded() {
-		// to be moved inside imageScrape
-		if (_wantedImageNumber > _totalImageNumber) {
-			
-			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "Not enough images", "There are not enough images for this creation to proceed");
-				_mainApp.displayPreviousScene(_previousScene);
-			});
-			
-			this.cancelled();
-
-			
-		} else {
-			//imageScraper.
-		}
+		
+		Platform.runLater(() -> {
+			new AlertMaker(AlertType.INFORMATION, "Complete", "Creation complete", "Let's go back to the main menu!");
+			_mainApp.displayMainMenuScene();
+		});
 	}
 	
 

@@ -1,9 +1,9 @@
 package main.java.application;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,10 +12,11 @@ import main.java.controllers.CreateAudioNamingController;
 import main.java.controllers.CreateAudioPreviewController;
 import main.java.controllers.CreateAudioSearchResultsController;
 import main.java.controllers.CreateCreationChooseAudioController;
-import main.java.controllers.CreateCreationCreateSlideshowController;
+import main.java.controllers.CreateCreationChooseImagesController;
 import main.java.controllers.CreateCreationNamingController;
 import main.java.controllers.LoadingCreateAudioController;
 import main.java.controllers.LoadingCreateCreationController;
+import main.java.controllers.LoadingScrapingImagesController;
 import main.java.controllers.LoadingSearchResultsController;
 import main.java.controllers.LoadingViewCreationsController;
 import main.java.controllers.VideoPlayerController;
@@ -23,6 +24,7 @@ import main.java.controllers.ViewCreationsController;
 // tasks
 import main.java.tasks.CreateAudioTask;
 import main.java.tasks.CreateCreationTask;
+import main.java.tasks.ScrapeImagesTask;
 import main.java.tasks.SearchTermTask;
 import main.java.tasks.ViewCreationsTask;
 
@@ -72,6 +74,7 @@ public class WikiApplication extends Application {
 	// -----------------------------------------------------------------------------------
 
 	public void displayMainMenuScene() {
+		cleanUpTempFiles();
 		Scene mainMenuScene = new SceneMaker(SceneType.MainMenu, this).getScene();
 
 		_currentScene = mainMenuScene;
@@ -105,7 +108,6 @@ public class WikiApplication extends Application {
 
 		_currentScene = loadingSceneMaker.getScene();
 		update();
-
 	}
 
 	public void displayCreateAudioSearchResultsScene(String term, String searchResults) {
@@ -171,12 +173,12 @@ public class WikiApplication extends Application {
 		_currentScene = sceneMaker.getScene();
 		update();
 	}
+
 	
-	public void displayCreateCreationCreateSlideshowScene(String term, ObservableList<String> audioList) {
-		
-		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateCreationCreateSlideshow, this);
-		CreateCreationCreateSlideshowController controller = (CreateCreationCreateSlideshowController) sceneMaker.getController();
-		controller.setUp(term, audioList);
+	public void displayLoadingScrapingImagesScene(String term, ScrapeImagesTask task) {
+		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingScrapingImages, this);
+		LoadingScrapingImagesController controller = (LoadingScrapingImagesController) sceneMaker.getController();
+		controller.setTask(task, term);
 		
 		_currentScene = sceneMaker.getScene();
 		update();
@@ -192,11 +194,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
-	public void displayCreateCreationNamingScene(String term, ObservableList<String> audioList, int imageNumber) {
+	public void displayCreateCreationNamingScene(String term, ArrayList<String> audioList, ArrayList<String> imageList) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateCreationNaming, this);
 		CreateCreationNamingController controller = (CreateCreationNamingController) sceneMaker.getController();
-		controller.setUp(term, audioList, imageNumber);
+		controller.setUp(term, audioList, imageList);
 		
 		_currentScene = sceneMaker.getScene();
 		update();
@@ -207,6 +209,16 @@ public class WikiApplication extends Application {
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingViewCreations, this);
 		LoadingViewCreationsController controller = (LoadingViewCreationsController) sceneMaker.getController();
 		controller.setTask(task);
+		
+		_currentScene = sceneMaker.getScene();
+		update();
+	}
+	
+	public void displayCreateCreationChooseImagesScene(String term, ArrayList<String> audioList) {
+		
+		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateCreationChooseImages, this);
+		CreateCreationChooseImagesController controller = (CreateCreationChooseImagesController) sceneMaker.getController();
+		controller.setUp(term, audioList);
 		
 		_currentScene = sceneMaker.getScene();
 		update();
@@ -250,6 +262,48 @@ public class WikiApplication extends Application {
 	private void update() {
 		_primaryStage.setScene(_currentScene);
 		_primaryStage.show();
+	}
+	
+	/**
+	 * clean up any temporary files created previously
+	 */
+	private void cleanUpTempFiles() {
+		File tempImagesFolder = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
+									+ "tempImages");
+		File tempAudioFolder = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
+									+ "tempAudio");
+		File tempVideoFolder = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
+									+ "tempVideo");
+		
+		if (tempImagesFolder.exists()) {
+			for (File imageFolder:tempImagesFolder.listFiles()) {
+				for (File image:imageFolder.listFiles()) {
+					image.delete();
+				}
+				imageFolder.delete();
+			}
+			tempImagesFolder.delete();
+		}
+		
+		if (tempAudioFolder.exists()) {
+			for (File audioFolder:tempAudioFolder.listFiles()) {
+				for (File audio:audioFolder.listFiles()) {
+					audio.delete();
+				}
+				audioFolder.delete();
+			}
+			tempAudioFolder.delete();
+		}
+		
+		if (tempVideoFolder.exists()) {
+			for (File videoFolder:tempVideoFolder.listFiles()) {
+				for (File video:videoFolder.listFiles()) {
+					video.delete();
+				}
+				videoFolder.delete();
+			}
+			tempVideoFolder.delete();
+		}
 	}
 
 }

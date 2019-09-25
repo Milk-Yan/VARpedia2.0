@@ -1,6 +1,7 @@
 package main.java.controllers;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,8 +17,8 @@ public class CreateCreationNamingController extends Controller{
 
 	private String _name;
 	private String _term;
-	private ObservableList<String> _audioList;
-	private int _wantedImageNumber;
+	private ArrayList<String> _audioList;
+	private ArrayList<String> _imageList;
 
 	@FXML
 	private TextField _nameInput;
@@ -28,10 +29,10 @@ public class CreateCreationNamingController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 
-	public void setUp(String term, ObservableList<String> audioList, int imageNumber) {
+	public void setUp(String term, ArrayList<String> audioList, ArrayList<String> imageList) {
 		_term = term;
 		_audioList = audioList;
-		_wantedImageNumber = imageNumber;
+		_imageList = imageList;
 	}
 	
 	@FXML
@@ -67,7 +68,7 @@ public class CreateCreationNamingController extends Controller{
 	private void createCreation() {
 
 		// use new thread to create in bg
-		CreateCreationTask task = new CreateCreationTask(_name, _term, _audioList, _wantedImageNumber, _mainApp, _createBtn.getScene());
+		CreateCreationTask task = new CreateCreationTask(_name, _term, _audioList, _imageList, _mainApp);
 		_mainApp.displayLoadingCreateCreationScene(task);
 
 		new Thread(task).start();

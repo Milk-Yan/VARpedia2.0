@@ -71,6 +71,7 @@ public class CreateAudioNamingController extends Controller{
 		}
 	}
 	
+	@FXML
 	private void create() {
 		
 		// use new thread to create in bg
