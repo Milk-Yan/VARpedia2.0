@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
 import main.java.tasks.ScrapeImagesTask;
@@ -20,10 +22,11 @@ import javafx.scene.control.Alert.AlertType;
 public class CreateCreationChooseAudioController extends Controller{
 
 	private String _term;
+	private MediaPlayer _audioPlayer;
 
 	@FXML
 	private Text _title;
-	
+
 	@FXML
 	private ListView<String> _audioCandidates;
 
@@ -41,7 +44,7 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	public void setUp(String term) {
 		_term = term;
-		
+
 		_title.setText("Audio files for " + term + ":");
 
 		// make the ListView multiple-selection
@@ -80,6 +83,8 @@ public class CreateCreationChooseAudioController extends Controller{
 	@FXML
 	private void confirm() {
 
+		stopAudioPlayer();
+
 		ObservableList<String> selectedList = _audioChosen.getItems();
 
 		if (selectedList.isEmpty()) {
@@ -91,16 +96,16 @@ public class CreateCreationChooseAudioController extends Controller{
 			new AlertMaker(AlertType.ERROR, "Error", "Too many items selected", "Please selected less than 10 audio files");
 
 		} else {
-			
+
 			// clear numbering
 			ArrayList<String> selectedListClean = new ArrayList<String>();
 			for (String audio:selectedList) {
 				selectedListClean.add(audio.replaceFirst("\\d+\\. ", "").trim());
 			}
-			
+
 			ScrapeImagesTask task = new ScrapeImagesTask(_term, _mainApp, selectedListClean);
 			new Thread(task).start();
-			
+
 			_mainApp.displayLoadingScrapingImagesScene(_term, task);
 			//_mainApp.displayCreateCreationCreateSlideshowScene(_term, selectedList);
 			//			for (String audioName:selectedList) {
@@ -115,21 +120,21 @@ public class CreateCreationChooseAudioController extends Controller{
 	private void moveChosenUp() {
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
 			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndices().get(0);
-			
+
 			if (currentIndex == 0) {
 				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at top of list");
 				return;
 			}
-			
+
 			int newIndex = currentIndex-1;
 			String audioChosen = _audioChosen.getSelectionModel().getSelectedItems().get(0);
-			
+
 			// remove at current position
 			_audioChosen.getItems().remove(currentIndex);
-			
+
 			// insert at new position
 			_audioChosen.getItems().add(newIndex, audioChosen);
-			
+
 			// sorts list
 			sortLists();
 		} else {
@@ -141,21 +146,21 @@ public class CreateCreationChooseAudioController extends Controller{
 	private void moveChosenDown() {
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
 			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndices().get(0);
-			
+
 			if (currentIndex == _audioChosen.getItems().size()-1) {
 				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
 				return;
 			}
-			
+
 			int newIndex = currentIndex+1;
 			String audioChosen = _audioChosen.getSelectionModel().getSelectedItems().get(0);
-			
+
 			// remove at current position
 			_audioChosen.getItems().remove(currentIndex);
-			
+
 			// insert at new position
 			_audioChosen.getItems().add(newIndex, audioChosen);
-			
+
 			// sorts list
 			sortLists();
 		} else {
@@ -191,23 +196,23 @@ public class CreateCreationChooseAudioController extends Controller{
 		int indexChosen = 1;
 		ArrayList<String> currentItemsCandidates = new ArrayList<String>(_audioCandidates.getItems());
 		ArrayList<String> currentItemsChosen = new ArrayList<String>(_audioChosen.getItems());
-		
+
 		// remove all items
 		_audioCandidates.getItems().removeAll(currentItemsCandidates);
 		_audioChosen.getItems().removeAll(currentItemsChosen);
-		
+
 		for (String audio:currentItemsCandidates) {
 			// insert new items
 			_audioCandidates.getItems().add(audio.replaceFirst("\\d+\\. ", indexCandidates + ". "));
 			indexCandidates++;
 		}
-		
+
 		for (String audio:currentItemsChosen) {
 			// insert new items
 			_audioChosen.getItems().add(audio.replaceFirst("\\d+\\. ", indexChosen + ". "));
 			indexChosen++;
 		}
-		
+
 
 	}
 
@@ -225,15 +230,32 @@ public class CreateCreationChooseAudioController extends Controller{
 	@FXML
 	private void listen() {
 
+		stopAudioPlayer();
+
 		ObservableList<String> audioCandidate = _audioCandidates.getSelectionModel().getSelectedItems();
 		ObservableList<String> audioChosen = _audioChosen.getSelectionModel().getSelectedItems();
 
 		if (audioCandidate.size() + audioChosen.size() == 1) {
+			String audioName;
 			if (audioCandidate.size() == 1) {
 				// play audio candidate
+				audioName = _audioCandidates.getSelectionModel().getSelectedItem();
+
 			} else {
 				// play audio chosen
+				audioName = _audioChosen.getSelectionModel().getSelectedItem();
 			}
+
+			// remove numbering and \n at end
+			audioName = audioName.replaceFirst("\\d+\\. ", "").replaceAll("\n", "");
+
+			File audioFile = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
+					+ "audio" + File.separator + _term + File.separator + audioName + ".wav");
+
+			Media audio = new Media(audioFile.toURI().toString());
+			_audioPlayer = new MediaPlayer(audio);
+			_audioPlayer.play();
+
 		} else {
 			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "You can only listen to one audio at a time");
 		}
@@ -274,6 +296,17 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	@FXML
 	private void mainMenu() {
+
+		stopAudioPlayer();
+
 		_mainApp.displayMainMenuScene();
+	}
+
+	private void stopAudioPlayer() {
+		// stop current player if it is playing
+		if (_audioPlayer != null) {
+			_audioPlayer.stop();
+			_audioPlayer = null;
+		}
 	}
 }
