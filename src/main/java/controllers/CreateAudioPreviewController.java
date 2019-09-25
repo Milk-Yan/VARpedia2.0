@@ -22,7 +22,8 @@ public class CreateAudioPreviewController extends Controller{
 	private final String _defaultChoice="Please select a voice";
 	private String _term;
 	private String _previewText;
-	private String[] _voices= new String[]{"akl_nz_jdt_diphone","akl_nz_cw_cg_cg"};
+	private String[] _voices= new String[]{"kal_diphone","akl_nz_jdt_diphone","akl_nz_cw_cg_cg"};
+	private String[] _voiceName= new String[] {"Vanilla","Chocolate","Strawberry"};
 	
 	private Scene _previousScene;
 	
@@ -58,7 +59,7 @@ public class CreateAudioPreviewController extends Controller{
 		_voiceSelection.getSelectionModel().selectFirst();
 		//gets the selected choice not currently appropriate
 //		_voiceSelection.getSelectionModel().getSelectedItem();
-		// auto play with current voice
+		// auto play with current voice, might want to remove
 		replay();
 	}
 
@@ -81,8 +82,16 @@ public class CreateAudioPreviewController extends Controller{
 			_task = new PreviewAudioTask(_previewText);
 			new Thread(_task).start();
 		} else {
-			_task = new PreviewAudioTask(_previewText,_voiceSelection.getSelectionModel().getSelectedItem());
-			new Thread(_task).start();
+			int i=0;
+			for (String voicename : _voiceName) {
+				
+				if (voicename.equals(_voiceSelection.getSelectionModel().getSelectedItem())) {
+					_task = new PreviewAudioTask(_previewText,_voices[i]);
+					System.out.println(_voices[i]);
+					new Thread(_task).start();
+				}
+				i++;
+			}
 		}
 	}
 	
@@ -117,10 +126,9 @@ public class CreateAudioPreviewController extends Controller{
 		ArrayList<String> voices= new ArrayList<>();
 		voices.add(_defaultChoice);
 		//add voices soon TM these are voices currently used on my pc
-		voices.add("kal_diphone");
 		
 		//for image
-		for (String voice : _voices){
+		for (String voice : _voiceName){
 			voices.add(voice);
 		}
 

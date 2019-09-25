@@ -56,7 +56,7 @@ public class CreateAudioNamingController extends Controller{
 			
 			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain spaces");
 			
-		} else if (new File(System.getProperty("user.dir") + "bin" + s + "audio" + s + _term + s + 
+		} else if (new File(System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term + s + 
 							_name + ".wav").isFile()) {
 			
 			// check if want to overwrite
