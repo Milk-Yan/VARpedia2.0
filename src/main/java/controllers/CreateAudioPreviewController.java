@@ -117,6 +117,7 @@ public class CreateAudioPreviewController extends Controller{
 		ArrayList<String> voices= new ArrayList<>();
 		voices.add(_defaultChoice);
 		//add voices soon TM these are voices currently used on my pc
+		voices.add("kal_diphone");
 		
 		//for image
 		for (String voice : _voices){
