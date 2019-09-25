@@ -33,7 +33,6 @@ public class SceneMaker {
 			_scene = new Scene(layout);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
 			new AlertMaker(AlertType.ERROR, "IOException", "Oops", "Something wrong happened when making the scene. Sorry :(");
 			mainApp.displayMainMenuScene();
 		}

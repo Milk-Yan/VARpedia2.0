@@ -2,6 +2,7 @@ package main.java.tasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -16,9 +17,9 @@ public class ScrapeImagesTask extends Task<Void>{
 	private Process _imageScrapeProcess;
 	private File _imageFolder;
 	private WikiApplication _mainApp;
-	private ObservableList<String> _audioList;
+	private ArrayList<String> _audioList;
 
-	public ScrapeImagesTask(String term, WikiApplication mainApp, ObservableList<String> audioList) {
+	public ScrapeImagesTask(String term, WikiApplication mainApp, ArrayList<String> audioList) {
 		_term = term;
 		_mainApp = mainApp;
 		_audioList = audioList;
@@ -27,24 +28,29 @@ public class ScrapeImagesTask extends Task<Void>{
 	@Override
 	protected Void call() throws Exception {
 		String s = File.separator;
-
+		_imageFolder = new File(System.getProperty("user.dir") + s + "bin" + s + "tempImages" + s + _term);
+		_imageFolder.mkdirs();
+		
 		try {
-			_imageFolder = new File(System.getProperty("user.dir") + s + "bin" + s + "tempImages" + s + _term);
-			_imageFolder.mkdirs();
-			
 			_imageScrapeProcess = new ProcessBuilder("bash", "-c", 
 
 					// save the total number of images in a variable
 					"urls=$(" +
 					// grab the html from the url
-					"curl www.flickr.com/search/?text=" + _term + " | " +
-					// find the image URLs from the html
-					"grep -oh live.staticflickr.com/.*jpg);" + 
+					"curl https://www.flickr.com/search/?text=" + _term + " | " +
+					// find the first 10 image URLs from the html
+					"grep -oh -m 10 live.staticflickr.com/.*jpg);" + 
 					// get the first 10 images (or less) from the urls
-					"wget -i $(urls -head -n 10) -P " + System.getProperty("user.dir") +
+					"wget -c $urls -P " + System.getProperty("user.dir") +
 					s + "bin" + s + "tempImages" + s + _term
 					).start();
-
+			try {
+				_imageScrapeProcess.waitFor();
+				
+			} catch (InterruptedException e) {
+				// don't do anything
+			}
+			
 			if (_imageScrapeProcess.exitValue() != 0) {
 				Platform.runLater(() -> {
 					new AlertMaker(AlertType.ERROR, "Error", "Couldn't get images", "An error occurred while"
@@ -59,14 +65,15 @@ public class ScrapeImagesTask extends Task<Void>{
 			});
 		}
 
-
 		return null;
 	}
 
 	@Override
 	public void cancelled() {
 		// destroy process
-		_imageScrapeProcess.destroy();
+		if (_imageScrapeProcess != null) {
+			_imageScrapeProcess.destroy();
+		}
 		
 		// remove temp images recursively
 		for (File image:_imageFolder.listFiles()) {

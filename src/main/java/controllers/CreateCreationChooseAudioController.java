@@ -59,7 +59,7 @@ public class CreateCreationChooseAudioController extends Controller{
 
 		});
 
-		// sorts the list of creations andidatesin alphabetical order.
+		// sorts the list of creations candidates in alphabetical order.
 		List<File> listOfAudioFiles = Arrays.asList(arrayOfAudioFiles);
 		Collections.sort(listOfAudioFiles);
 
@@ -91,8 +91,16 @@ public class CreateCreationChooseAudioController extends Controller{
 			new AlertMaker(AlertType.ERROR, "Error", "Too many items selected", "Please selected less than 10 audio files");
 
 		} else {
-
-			ScrapeImagesTask task = new ScrapeImagesTask(_term, _mainApp, selectedList);
+			
+			// clear numbering
+			ArrayList<String> selectedListClean = new ArrayList<String>();
+			for (String audio:selectedList) {
+				selectedListClean.add(audio.replaceFirst("\\d+\\. ", "").trim());
+			}
+			
+			ScrapeImagesTask task = new ScrapeImagesTask(_term, _mainApp, selectedListClean);
+			new Thread(task).start();
+			
 			_mainApp.displayLoadingScrapingImagesScene(_term, task);
 			//_mainApp.displayCreateCreationCreateSlideshowScene(_term, selectedList);
 			//			for (String audioName:selectedList) {
@@ -134,7 +142,7 @@ public class CreateCreationChooseAudioController extends Controller{
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
 			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndices().get(0);
 			
-			if (currentIndex == _audioChosen.getItems().size()) {
+			if (currentIndex == _audioChosen.getItems().size()-1) {
 				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
 				return;
 			}
@@ -171,8 +179,6 @@ public class CreateCreationChooseAudioController extends Controller{
 	private void chosenToCandidate() {
 		ObservableList<String> candidates = _audioChosen.getSelectionModel().getSelectedItems();
 		for (String candidate:candidates) {
-			// remove numbering
-			candidate.replaceFirst("\\d+\\. ", "");
 			addToEndOfList(candidate, _audioCandidates);
 		}
 
