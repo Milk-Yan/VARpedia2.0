@@ -80,7 +80,7 @@ public class SearchTermTask extends Task<String>{
 		
 		// run on GUI thread
 		Platform.runLater(() -> {
-			_mainApp.displayCreateAudioSearchResultsScene(_term, _searchResults);
+			_mainApp.displayCreateAudioChooseTextScene(_term, _searchResults);
 		});
 		
 	}

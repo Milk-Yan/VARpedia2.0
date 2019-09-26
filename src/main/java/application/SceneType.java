@@ -13,7 +13,7 @@ public enum SceneType {
 	MainMenu("/main/resources/application/MainMenu.fxml"),
 	CreateAudioSearch("/main/resources/application/CreateAudioSearch.fxml"), 
 	LoadingSearchResults("/main/resources/application/LoadingSearchResults.fxml"), 
-	CreateAudioSearchResults("/main/resources/application/CreateAudioSearchResults.fxml"),
+	CreateAudioChooseText("/main/resources/application/CreateAudioChooseText.fxml"),
 	CreateAudioNaming("/main/resources/application/CreateAudioNaming.fxml"),
 	LoadingCreateAudio("/main/resources/application/LoadingCreateAudio.fxml"),
 	CreateAudioPreview("/main/resources/application/CreateAudioPreview.fxml"),

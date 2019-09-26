@@ -157,7 +157,7 @@ public class CreateCreationTask extends Task<Void>{
 					// get audio
 					"-i " + audioPath + " " +
 					// combine
-					"-strict -2 -y " + creationPath + " &>error.txt"
+					"-strict -2 -y " + creationPath
 					).start();
 			
 			try {

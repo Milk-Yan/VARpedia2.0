@@ -68,13 +68,6 @@ public class CreateAudioPreviewController extends Controller{
 		replay();
 	}
 
-	//not using lol. might use it ill leave it here for now otherwise REMOVE
-	@FXML
-	private void changeVoice() {
-		// this will be using the choice box, but we'll probably need to 
-		// change the way the audio is created as well (I smell enums)
-	}
-
 	@FXML
 	private void replay() {
 		// kill the current task and start a new one

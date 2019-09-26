@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import main.java.controllers.CreateAudioChooseTextController;
 // controllers
 import main.java.controllers.CreateAudioNamingController;
 import main.java.controllers.CreateAudioPreviewController;
-import main.java.controllers.CreateAudioSearchResultsController;
 import main.java.controllers.CreateCreationChooseAudioController;
 import main.java.controllers.CreateCreationChooseImagesController;
 import main.java.controllers.CreateCreationNamingController;
@@ -110,13 +109,13 @@ public class WikiApplication extends Application {
 		update();
 	}
 
-	public void displayCreateAudioSearchResultsScene(String term, String searchResults) {
+	public void displayCreateAudioChooseTextScene(String term, String searchResults) {
 
 		// get the loading search results controller so that the term and 
 		// searchResults can be passed in
-		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioSearchResults, this);
+		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioChooseText, this);
 
-		CreateAudioSearchResultsController controller = (CreateAudioSearchResultsController) sceneMaker.getController();
+		CreateAudioChooseTextController controller = (CreateAudioChooseTextController) sceneMaker.getController();
 		controller.setUp(term, searchResults);
 
 		_currentScene = sceneMaker.getScene();
@@ -142,11 +141,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 
-	public void displayCreateAudioPreviewScene(String term, String previewText, Scene searchResultsScene) {
+	public void displayCreateAudioPreviewScene(String term, String previewText, Scene chooseTextScene) {
 
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioPreview, this);
 		CreateAudioPreviewController controller = (CreateAudioPreviewController) sceneMaker.getController();
-		controller.setUp(term, previewText, searchResultsScene);
+		controller.setUp(term, previewText, chooseTextScene);
 
 		_currentScene = sceneMaker.getScene();
 		update();

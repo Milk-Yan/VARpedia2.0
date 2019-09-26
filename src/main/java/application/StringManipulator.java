@@ -100,4 +100,9 @@ public class StringManipulator {
 		}
 		return result;
 	}
+	
+	public int countWords(String string) {
+		String[] words = string.split("\\s+");
+		return words.length;
+	}
 }
