@@ -17,8 +17,7 @@ public class PreviewAudioTask extends Task<Void>{
 
 		_process = new ProcessBuilder("bash", "-c",
 				"echo -e \"(voice_"+_voice+") ;; \\n(SayText \\\""+
-						_previewText+"\\\")\" | festival -i\n").start();
-		
+						_previewText+"\\\")\" | festival -i ").start();
 
 		if (_process.exitValue() != 0) {
 			Platform.runLater(() -> {

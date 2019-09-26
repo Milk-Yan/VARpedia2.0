@@ -53,7 +53,7 @@ public class CreateAudioTask extends Task<Void>{
 					"echo -e \"(voice_" + _voice + ") ;; \n(utt.save.wave (SayText \\\"" +
 							_text + "\\\" ) \\\""+
 							System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term+s+
-							_name+"\\\" \'riff) \" | festival -i ").start();
+							_name+".wav"+"\\\" \'riff) \" | festival -i ").start();
 
 //							System.getProperty("user.dir") +
 //							File.separator + "bin" + File.separator + "audio" + _term + File.separator +

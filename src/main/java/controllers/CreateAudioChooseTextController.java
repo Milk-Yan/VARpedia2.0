@@ -100,10 +100,10 @@ public class CreateAudioChooseTextController extends Controller {
 			_previewTask.cancel();
 		}
 
-		String chosenText = _chosenText.getText();
+		String chosenText = _chosenText.getText().trim();
 
 		// Error handling
-		if (chosenText.trim().isEmpty()) {
+		if (chosenText.isEmpty()) {
 			new AlertMaker(AlertType.ERROR, "Error", "No text chosen", "Please choose/enter some text.");
 			return;
 		} 
@@ -138,8 +138,6 @@ public class CreateAudioChooseTextController extends Controller {
 	private void listOfVoices(){
 		_voices = new ArrayList<String>();
 		_voiceName = new ArrayList<String>();
-		//_voices.add(_defaultChoice);
-		//_voiceName.add(_defaultChoice);
 
 		Process source;
 		try {
