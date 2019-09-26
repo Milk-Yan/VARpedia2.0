@@ -47,25 +47,22 @@ public class CreateAudioTask extends Task<Void>{
 			
 			// make the directory for the term if it doesn't already exist
 			new File(System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term).mkdirs();
-			System.out.println("echo -e \"(voice_"+_voice+") ;; \n(SayText \\\""+
-					_text+"\\\" )\" | festival -i &>/dev/null");
-		
-			// ORIGINAL
-//			_process = new ProcessBuilder("bash", "-c", 
-//					// create audio (festival) file
-//					  "echo \""+_text+"\" | text2wave -o " +
-//					  System.getProperty("user.dir") + s + "bin" + s + "audio" + s +
-//					  _term + s + _name + ".wav"
-//					  ).start();
-			// DOESN"T WORK HALPPPPPP
+
+
+			System.out.println(_voice);
 			_process = new ProcessBuilder("bash", "-c",
-											"echo -e \"(voice_"+_voice+") ;; \n(SayText \\\""+
-											_text+"\\\" )\" | festival -o " + System.getProperty("user.dir") +
-											File.separator + "bin" + File.separator + "audio" + _term + File.separator +
-											_name + ".wav" + "2>error.txt").start();
-			
-			
-			
+					"echo -e \"(voice_" + _voice + ") ;; \n(utt.save.wave (SayText \\\"" +
+							_text + "\\\" ) \\\""+
+							System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term+s+
+							_name+"\\\" \'riff) \" | festival -i ").start();
+
+//							System.getProperty("user.dir") +
+//							File.separator + "bin" + File.separator + "audio" + _term + File.separator +
+//							_name + ".wav").start();
+
+//			echo -e "(voice_rab_diphone);; \n(utt.save.wave (SayText \"hello hello\") \"test.wav\" 'riff)" | festival -i
+
+
 			try {
 				_process.waitFor();
 				
