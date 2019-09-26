@@ -1,9 +1,7 @@
 package main.java.controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
@@ -23,8 +20,6 @@ public class CreateAudioChooseTextController extends Controller {
 
 	private String _term;
 	private String _sourceString;
-
-	private final String _defaultChoice="Please select a voice";
 
 	//the actual name
 	private ArrayList<String> _voices;
@@ -84,15 +79,12 @@ public class CreateAudioChooseTextController extends Controller {
 			_previewTask.cancel();
 		}
 
-		//check if a voice is chosen
-		if (_voiceSelection.getSelectionModel().getSelectedItem().equals(_defaultChoice)){
-			new AlertMaker(Alert.AlertType.ERROR, "Error", "A voice has yet to be chosen", "Please choose a voice.");
-		} else {
-			//creates the audio
-			//need to change to have voice type input
-			int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-			_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
-		}
+
+		//creates the audio
+		//need to change to have voice type input
+		int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+		_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+
 	}
 
 	@FXML
@@ -124,19 +116,14 @@ public class CreateAudioChooseTextController extends Controller {
 			return;
 		}
 
-		if (_voiceSelection.getSelectionModel().getSelectedItem().equals(_defaultChoice)) {
-			_previewTask = new PreviewAudioTask(chosenText);
-			new Thread(_previewTask).start();
 
-		} else {
-			int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-			_previewTask = new PreviewAudioTask(chosenText,_voices.get(index));
-			new Thread(_previewTask).start();
-			
-		}
+		int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+		_previewTask = new PreviewAudioTask(chosenText,_voices.get(index));
+		new Thread(_previewTask).start();
+
 
 	}
-	
+
 
 
 	@FXML

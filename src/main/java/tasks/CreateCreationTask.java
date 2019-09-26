@@ -2,15 +2,10 @@ package main.java.tasks;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import main.java.application.AlertMaker;
 import main.java.application.WikiApplication;
@@ -92,7 +87,6 @@ public class CreateCreationTask extends Task<Void>{
 		String s = File.separator;
 		
 		String imageFilesFolder = System.getProperty("user.dir") + s + "bin" + s + "tempImages" + s + _term + s;
-		String imageFiles = new String();
 		
 		String tempFolderPath = System.getProperty("user.dir") + s + "bin" + s + "tempVideo" + s + _term;
 		File tempFolder = new File(tempFolderPath);

@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import main.java.controllers.CreateAudioChooseTextController;
 // controllers
 import main.java.controllers.CreateAudioNamingController;
-import main.java.controllers.CreateAudioPreviewController;
 import main.java.controllers.CreateCreationChooseAudioController;
 import main.java.controllers.CreateCreationChooseImagesController;
 import main.java.controllers.CreateCreationNamingController;
@@ -136,16 +135,6 @@ public class WikiApplication extends Application {
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingCreateAudio, this);
 		LoadingCreateAudioController controller = (LoadingCreateAudioController) sceneMaker.getController();
 		controller.setTask(task);
-
-		_currentScene = sceneMaker.getScene();
-		update();
-	}
-
-	public void displayCreateAudioPreviewScene(String term, String previewText, Scene chooseTextScene) {
-
-		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioPreview, this);
-		CreateAudioPreviewController controller = (CreateAudioPreviewController) sceneMaker.getController();
-		controller.setUp(term, previewText, chooseTextScene);
 
 		_currentScene = sceneMaker.getScene();
 		update();
