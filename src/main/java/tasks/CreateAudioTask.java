@@ -48,8 +48,7 @@ public class CreateAudioTask extends Task<Void>{
 			// make the directory for the term if it doesn't already exist
 			new File(System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term).mkdirs();
 
-
-			System.out.println(_voice);
+			
 			_process = new ProcessBuilder("bash", "-c",
 					"echo -e \"(voice_" + _voice + ") ;; \n(utt.save.wave (SayText \\\"" +
 							_text + "\\\" ) \\\""+
