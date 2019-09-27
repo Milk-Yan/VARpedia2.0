@@ -204,6 +204,8 @@ public class CreateCreationTask extends Task<Void>{
 			if (alert.getResult() == ButtonType.OK) {
 				//go to preview scene again
 				//NOT DONE YET
+				_mainApp.displayMainMenuScene();
+				_mainApp.playVideo(_name);
 			} else {
 				_mainApp.displayMainMenuScene();
 			}
