@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import main.java.application.AlertMaker;
 import main.java.application.WikiApplication;
 
@@ -105,8 +107,15 @@ public class CreateAudioTask extends Task<Void>{
 	@Override
 	public void succeeded() {
 		Platform.runLater(() -> {
-			new AlertMaker(AlertType.INFORMATION, "Completed", "Creation completed", "Press OK to exit to the main menu.");
-			_mainApp.displayMainMenuScene();
+			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Next", "Would you like to make another audio?",
+					"Press 'OK'. Otherwise, press 'Cancel'").getAlert();
+
+			if (alert.getResult() == ButtonType.OK) {
+				//go to preview scene again
+				//NOT DONE YET
+			} else {
+				_mainApp.displayMainMenuScene();
+			}
 		});
 		
 	}

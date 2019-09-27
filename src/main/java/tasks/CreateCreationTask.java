@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import main.java.application.AlertMaker;
 import main.java.application.WikiApplication;
 
@@ -195,8 +197,16 @@ public class CreateCreationTask extends Task<Void>{
 	public void succeeded() {
 		
 		Platform.runLater(() -> {
-			new AlertMaker(AlertType.INFORMATION, "Complete", "Creation complete", "Let's go back to the main menu!");
-			_mainApp.displayMainMenuScene();
+//			new AlertMaker(AlertType.INFORMATION, "Complete", "Creation complete", "Let's go back to the main menu!");
+//			_mainApp.displayMainMenuScene();
+			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Next", "Would you like to play your creation?",
+					"Press 'OK'. Otherwise, press 'Cancel'").getAlert();
+			if (alert.getResult() == ButtonType.OK) {
+				//go to preview scene again
+				//NOT DONE YET
+			} else {
+				_mainApp.displayMainMenuScene();
+			}
 		});
 	}
 	
