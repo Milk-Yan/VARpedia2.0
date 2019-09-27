@@ -76,8 +76,15 @@ public class CreateCreationChooseImagesController extends Controller{
 
 	@FXML
 	private void create() {
-		
-		_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+		if (_imageChosenList.isEmpty()){
+			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Create Creation?",
+					"You have not selected any images").getAlert();
+			if (alert.getResult() == ButtonType.OK) {
+				_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+			}
+		} else {
+			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+		}
 	}
 
 	@FXML

@@ -59,6 +59,7 @@ public class CreateAudioChooseTextController extends Controller {
 	public void setUp(String term, String searchResults) {
 		_term = term;
 		_sourceString = searchResults.trim();
+		_wordLimit.setTextFill(Color.GREEN);
 
 		_message.setText("Search results for " + _term + ": " );
 		_searchResults.setText(_sourceString);
@@ -88,11 +89,15 @@ public class CreateAudioChooseTextController extends Controller {
 			_previewTask.cancel();
 		}
 
-		if (!_chosenText.getText().equals("")) {	
+		if (!_chosenText.getText().equals("") && (_manipulator.countWords(_chosenText.getText())<41)) {	
 			//creates the audio
 			//need to change to have voice type input
 			int index = _voiceSelection.getSelectionModel().getSelectedIndex();
 			_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+		} else if (_chosenText.getText().equals("")){
+			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
+		} else {
+			new AlertMaker(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
 		}
 
 	}
@@ -194,8 +199,11 @@ public class CreateAudioChooseTextController extends Controller {
 		String wordCount = String.valueOf(wordNumber);
 
 		if (_chosenText.getText().equals("")) {
-			_wordLimit.setTextFill(Color.BLACK);
+			_wordLimit.setTextFill(Color.GREEN);
 			_wordLimit.setText("Below the limit (0)");
+		} else if (wordNumber ==40){
+			_wordLimit.setTextFill(Color.DARKRED); 
+			_wordLimit.setText("Exactly 40 words");
 		} else if (wordNumber > 40) {
 			_wordLimit.setTextFill(Color.RED); 
 			_wordLimit.setText("Over 40 words ("+wordCount+")");
@@ -203,7 +211,7 @@ public class CreateAudioChooseTextController extends Controller {
 			_wordLimit.setTextFill(Color.ORANGE);
 			_wordLimit.setText("Near the limit ("+wordCount+")");
 		} else {
-			_wordLimit.setTextFill(Color.BLACK);
+			_wordLimit.setTextFill(Color.GREEN);
 			_wordLimit.setText("Below the limit ("+wordCount+")");
 		}
 		
