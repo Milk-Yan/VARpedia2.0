@@ -3,7 +3,6 @@ package main.java.controllers;
 import java.io.File;
 import java.util.ArrayList;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
