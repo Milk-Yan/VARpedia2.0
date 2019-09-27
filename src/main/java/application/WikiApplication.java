@@ -146,7 +146,7 @@ public class WikiApplication extends Application {
 	// -----------------------------------------------------------------------------------
 	
 	public void displayCreateCreationSearchScene() {
-		
+
 		_currentScene = new SceneMaker(SceneType.CreateCreationSearch, this).getScene();
 		update();
 	
