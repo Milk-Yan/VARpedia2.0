@@ -16,7 +16,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
-import main.java.tasks.ScrapeImagesTask;
+import main.java.tasks.GetImagesTask;
 import javafx.scene.control.Alert.AlertType;
 
 public class CreateCreationChooseAudioController extends Controller{
@@ -103,7 +103,7 @@ public class CreateCreationChooseAudioController extends Controller{
 				selectedListClean.add(audio.replaceFirst("\\d+\\. ", "").trim());
 			}
 
-			ScrapeImagesTask task = new ScrapeImagesTask(_term, _mainApp, selectedListClean);
+			GetImagesTask task = new GetImagesTask(_term, _mainApp, selectedListClean);
 			new Thread(task).start();
 
 			_mainApp.displayLoadingScrapingImagesScene(_term, task);

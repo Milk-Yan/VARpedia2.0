@@ -22,7 +22,7 @@ import main.java.controllers.ViewCreationsController;
 // tasks
 import main.java.tasks.CreateAudioTask;
 import main.java.tasks.CreateCreationTask;
-import main.java.tasks.ScrapeImagesTask;
+import main.java.tasks.GetImagesTask;
 import main.java.tasks.SearchTermTask;
 import main.java.tasks.ViewCreationsTask;
 
@@ -163,7 +163,7 @@ public class WikiApplication extends Application {
 	}
 
 	
-	public void displayLoadingScrapingImagesScene(String term, ScrapeImagesTask task) {
+	public void displayLoadingScrapingImagesScene(String term, GetImagesTask task) {
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingScrapingImages, this);
 		LoadingScrapingImagesController controller = (LoadingScrapingImagesController) sceneMaker.getController();
 		controller.setTask(task, term);

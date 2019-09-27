@@ -3,11 +3,11 @@ package main.java.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
-import main.java.tasks.ScrapeImagesTask;
+import main.java.tasks.GetImagesTask;
 
 public class LoadingScrapingImagesController extends Controller{
 	
-	private ScrapeImagesTask _task;
+	private GetImagesTask _task;
 
 	@FXML
 	private Text _message;
@@ -25,7 +25,7 @@ public class LoadingScrapingImagesController extends Controller{
 		_mainApp.displayMainMenuScene();
 	}
 
-	public void setTask(ScrapeImagesTask task, String term) {
+	public void setTask(GetImagesTask task, String term) {
 		_task = task;
 		_message.setText("Getting images for " + term + ". Please wait...");
 	}
