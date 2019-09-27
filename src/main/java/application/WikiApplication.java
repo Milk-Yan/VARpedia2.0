@@ -37,6 +37,7 @@ import main.java.tasks.ViewCreationsTask;
 public class WikiApplication extends Application {
 
 	private Scene _currentScene;
+	private Scene _previousScene;
 	private Stage _primaryStage;
 
 	// -----------------------------------------------------------------------------------
@@ -80,8 +81,10 @@ public class WikiApplication extends Application {
 	}
 
 	public void displayPreviousScene(Scene previousScene) {
-
+		//might be useless so DELETE
+		Scene temp = _currentScene;
 		_currentScene = previousScene;
+		_previousScene=temp;
 		update();
 	}
 
