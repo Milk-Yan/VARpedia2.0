@@ -29,6 +29,8 @@ public class CreateCreationTask extends Task<Void>{
 		_imageList = imageList;
 		_mainApp = mainApp;
 		
+		System.out.println(_imageList);
+		
 	}
 	
 	@Override
@@ -109,8 +111,9 @@ public class CreateCreationTask extends Task<Void>{
 					s + _term + s + _name + ".wav);" +
 					// create slideshow from images with same length as audio, images change every 2 seconds, 30 fps
 					"ffmpeg -framerate 1/2 -loop 1 -i " + imageFilesFolder + "img%01d.jpg -r 30 -t $VIDEO_LENGTH " +
-					"-vf \"drawtext=fontfile=Midnight Bangkok.ttf:fontsize=50:fontcolor=white:"
+					"-vf \"drawtext=fontfile=Midnight Bangkok.ttf:fontsize=200:fontcolor=white:"
 					+ "x=(w-text_w)/2:y=(h-text_h)/2:text=\"" + _term +
+					" -s 720x480" +
 					// put video file in temp folder
 					" -y " + tempFolderPath + s + _name + ".mp4" +
 					" 2>error.txt").start();
