@@ -33,7 +33,7 @@
          <children>
             <Label alignment="CENTER" text="Candidates" />
             <Label text="Chosen" GridPane.columnIndex="2" />
-            <ListView fx:id="_imageCandidates" onMouseExited="#candidateToChosen" prefHeight="230.0" prefWidth="254.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ListView fx:id="_imageCandidates" prefHeight="230.0" prefWidth="254.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <ListView fx:id="_imageChosen" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>

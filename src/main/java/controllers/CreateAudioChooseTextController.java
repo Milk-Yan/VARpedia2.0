@@ -92,8 +92,18 @@ public class CreateAudioChooseTextController extends Controller {
 		if (!_chosenText.getText().equals("") && (_manipulator.countWords(_chosenText.getText())<41)) {	
 			//creates the audio
 			//need to change to have voice type input
-			int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-			_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+			
+			if (_manipulator.countWords(_chosenText.getText())<4){
+				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Short Audio Creation",
+						"A creation of this audio may not work as intended").getAlert();
+				if (alert.getResult() == ButtonType.OK) {
+					int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+					_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+				}
+			} else {
+				int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+				_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+			}
 		} else if (_chosenText.getText().equals("")){
 			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
 		} else {
