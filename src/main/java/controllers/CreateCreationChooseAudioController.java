@@ -299,7 +299,11 @@ public class CreateCreationChooseAudioController extends Controller{
 
 		stopAudioPlayer();
 
-		_mainApp.displayMainMenuScene();
+		if (_mainMenuBtn.getText().equals("Confirm?")) {
+			_mainApp.displayMainMenuScene();
+		} else {
+			_mainMenuBtn.setText("Confirm?");
+		}
 	}
 
 	private void stopAudioPlayer() {

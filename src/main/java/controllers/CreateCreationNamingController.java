@@ -78,7 +78,11 @@ public class CreateCreationNamingController extends Controller{
 
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenuScene();
+		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
+				"Any unfinished progress will be lost").getAlert();
+		if (alert.getResult() == ButtonType.OK) {
+			_mainApp.displayMainMenuScene();
+		}
 	}
 
 }

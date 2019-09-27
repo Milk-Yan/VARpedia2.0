@@ -11,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
 import main.java.application.StringManipulator;
@@ -44,6 +47,9 @@ public class CreateAudioChooseTextController extends Controller {
 
 	@FXML
 	private ChoiceBox<String> _voiceSelection;
+	
+	@FXML
+	private Button _mainMenuBtn;
 
 	/**
 	 * Initialise the searchResults TextArea and also the number of lines displayed to user.
@@ -128,7 +134,11 @@ public class CreateAudioChooseTextController extends Controller {
 
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenuScene();
+		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
+				"Any unfinished progress will be lost").getAlert();
+		if (alert.getResult() == ButtonType.OK) {
+			_mainApp.displayMainMenuScene();
+		}
 	}
 
 	/**

@@ -9,6 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -31,6 +34,9 @@ public class CreateCreationChooseImagesController extends Controller{
 	
 	@FXML
 	private ListView<HBox> _imageChosen;
+	
+	@FXML
+	private Button _mainMenuBtn;
 
 
 	public void setUp(String term, ArrayList<String> audioList) {
@@ -76,7 +82,11 @@ public class CreateCreationChooseImagesController extends Controller{
 
 	@FXML
 	private void mainMenu() {
-		_mainApp.displayMainMenuScene();
+		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
+				"Any unfinished progress will be lost").getAlert();
+		if (alert.getResult() == ButtonType.OK) {
+			_mainApp.displayMainMenuScene();
+		}
 	}
 	
 	@FXML
