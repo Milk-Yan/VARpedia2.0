@@ -77,6 +77,11 @@ public class GetImagesTask extends Task<Void>{
 	@Override
 	public void cancelled() {
 		
+		// delete previously made folder
+		if (_imageFolder != null && _imageFolder.exists() && _imageFolder.listFiles().length == 0) {
+			_imageFolder.delete();
+		}
+		
 		Platform.runLater(() -> {
 			_mainApp.displayMainMenuScene();
 		});

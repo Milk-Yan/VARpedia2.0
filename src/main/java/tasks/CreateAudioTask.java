@@ -15,14 +15,14 @@ import main.java.application.WikiApplication;
  *
  */
 public class CreateAudioTask extends Task<Void>{
-	String _voice=null;
-	String _name;
-	String _term;
-	String _text;
-	WikiApplication _mainApp;
+	private String _voice=null;
+	private String _name;
+	private String _term;
+	private String _text;
+	private WikiApplication _mainApp;
 	
-	int _lineNumber;
-	Process _process;
+	private File _audioFolder;
+	private Process _process;
 
 	public CreateAudioTask(String name,String term, String text, WikiApplication mainApp) {
 		_term = term;
@@ -47,7 +47,8 @@ public class CreateAudioTask extends Task<Void>{
 			
 			// make the directory for the term if it doesn't already exist
 			String audioFolder = System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term;
-			new File(audioFolder).mkdirs();
+			_audioFolder = new File(audioFolder);
+			_audioFolder.mkdirs();
 
 			
 			_process = new ProcessBuilder("bash", "-c",
@@ -82,6 +83,12 @@ public class CreateAudioTask extends Task<Void>{
 	@Override
 	public void cancelled() {
 		_process.destroy();
+		
+		// delete previously made folder
+		if (_audioFolder != null && _audioFolder.exists() && _audioFolder.listFiles().length == 0) {
+			_audioFolder.delete();
+		}
+		
 		Platform.runLater(() -> {
 			new AlertMaker(AlertType.ERROR, "Error", "Something went wrong", "Could not make audio file.");
 		});
