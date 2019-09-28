@@ -68,6 +68,7 @@ public class CreateAudioChooseTextController extends Controller {
 		listOfVoices();
 		_voiceSelection.setItems(FXCollections.observableArrayList(_voiceName));
 		_voiceSelection.getSelectionModel().selectFirst();
+
 	}
 
 	@FXML

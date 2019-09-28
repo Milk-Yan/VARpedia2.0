@@ -113,6 +113,7 @@ public class CreateAudioTask extends Task<Void>{
 			if (alert.getResult() == ButtonType.OK) {
 				//go to preview scene again
 				//NOT DONE YET
+				_mainApp.setAudioScene();
 			} else {
 				_mainApp.displayMainMenuScene();
 			}

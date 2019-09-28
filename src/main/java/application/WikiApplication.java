@@ -37,7 +37,7 @@ import main.java.tasks.ViewCreationsTask;
 public class WikiApplication extends Application {
 
 	private Scene _currentScene;
-	private Scene _previousScene;
+	private Scene _audioWikitScene;
 	private Stage _primaryStage;
 
 	// -----------------------------------------------------------------------------------
@@ -82,9 +82,7 @@ public class WikiApplication extends Application {
 
 	public void displayPreviousScene(Scene previousScene) {
 		//might be useless so DELETE
-		Scene temp = _currentScene;
 		_currentScene = previousScene;
-		_previousScene=temp;
 		update();
 	}
 
@@ -121,6 +119,8 @@ public class WikiApplication extends Application {
 		controller.setUp(term, searchResults);
 
 		_currentScene = sceneMaker.getScene();
+		//test might not work
+		_audioWikitScene=_currentScene;
 		update();
 	}
 
@@ -297,4 +297,12 @@ public class WikiApplication extends Application {
 		}
 	}
 
+	// -----------------------------------------------------------------------------------
+	// ----------------------DISPLAY PAST SCENES -----------------------------------------
+	// -----------------------------------------------------------------------------------
+
+	public void setAudioScene(){
+		_currentScene = _audioWikitScene;
+		update();
+	}
 }
