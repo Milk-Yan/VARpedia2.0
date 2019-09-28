@@ -262,38 +262,6 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	}
 
-	// potential code to add elsewhere
-	//	@FXML
-	//	private void delete() {
-	//		
-	//		ObservableList<String> selectedList = _audioList.getSelectionModel().getSelectedItems();
-	//		
-	//		if (selectedList.isEmpty()) {
-	//			
-	//			new AlertMaker(AlertType.ERROR,"Error", "No items to delete", "Please select the item you wish to delete");
-	//			
-	//		} else {
-	//			
-	//			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Confirmation", "Deleting files", 
-	//									"Are you sure you want to delete " + selectedList.size() + " items?").getAlert();
-	//			
-	//			if (alert.getResult() == ButtonType.OK) {
-	//				
-	//				for (String audioName:selectedList) {
-	//					
-	//					String s = File.separator;
-	//					String fileName = audioName.replaceFirst("\\d+. ", "") + ".wav";
-	//					
-	//					File audioFile = new File(System.getProperty("user.dir") + s + "bin" + s + "audio" +
-	//											_term + s + fileName);
-	//					
-	//					audioFile.delete();
-	//					
-	//				}
-	//			}
-	//		}
-	//	}
-
 	@FXML
 	private void mainMenu() {
 

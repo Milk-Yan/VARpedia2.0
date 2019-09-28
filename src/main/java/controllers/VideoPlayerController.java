@@ -55,6 +55,8 @@ public class VideoPlayerController extends Controller{
 		// create a new window for the VideoPlayer
 		_stage = new Stage();
 		_stage.setScene(_viewer.getScene());
+		_stage.setX(700);
+		_stage.setY(300);
 
 		_stage.setOnCloseRequest(closeEvent -> {
 			player.stop();
@@ -68,7 +70,7 @@ public class VideoPlayerController extends Controller{
 
 	@FXML
 	private void playPause() {
-		if (_player.getStatus() == Status.PAUSED) {
+		if (_player.getStatus() == Status.PAUSED || _player.getStatus() == Status.STOPPED) {
 			_player.play();
 			_playPauseBtn.setText("Pause");
 		} else if (_player.getStatus() == Status.PLAYING) {
@@ -122,8 +124,8 @@ public class VideoPlayerController extends Controller{
 
 		// Media functionality
 		_player.setOnEndOfMedia(() -> {
-			_player.dispose();
-			_stage.close();
+			_playPauseBtn.setText("Play");
+			_player.stop();
 		});
 
 		return _player;
