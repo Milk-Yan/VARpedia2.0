@@ -38,7 +38,7 @@
                </GridPane.margin>
             </Label>
             <TextArea fx:id="_searchResults" prefHeight="200.0" prefWidth="230.0" wrapText="true" GridPane.rowIndex="1" />
-            <TextArea fx:id="_chosenText" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here. You can edit both sections! The reset will reset the search results in case you mess anything up :)" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextArea fx:id="_chosenText" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here. You can edit both sections! The reset will reset the search results in case you mess anything up :) NOTE: Some voices are unable to speak non-English words, so it cannot be previewed or created." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="_voiceSelection" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#reset" prefWidth="170.0" text="Reset to Default Text" GridPane.rowIndex="2">

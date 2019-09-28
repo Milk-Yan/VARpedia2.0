@@ -14,7 +14,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="_nameInput" />
+      <TextField fx:id="_nameInput" promptText="Name" />
       <Button fx:id="_createButton" mnemonicParsing="false" onAction="#enter" prefWidth="300.0" text="Enter">
          <font>
             <Font size="18.0" />

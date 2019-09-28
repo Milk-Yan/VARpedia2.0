@@ -89,7 +89,9 @@ public class CreateAudioChooseTextController extends Controller {
 		//creates the audio
 		//need to change to have voice type input
 		int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-		_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+		// remove all special characters
+		String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z\\.A-Z]", "");
+		_mainApp.displayCreateAudioNamingScene(_term, chosenText, _voices.get(index));
 
 	}
 
@@ -106,7 +108,7 @@ public class CreateAudioChooseTextController extends Controller {
 			_previewTask.cancel();
 		}
 
-		String chosenText = _chosenText.getText().trim();
+		String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
 
 		// Error handling
 		if (chosenText.isEmpty()) {

@@ -42,7 +42,7 @@ public class CreateCreationSearchController extends Controller{
 				_wikitTerm.setVisible(false);
 				_enterBtn.setVisible(false);
 				
-				Text text = new Text("There are currently no creations available.");
+				Text text = new Text("There are currently no audio available. Go back to the main menu to create audio first.");
 				_container.getChildren().add(1, text);
 				
 				
