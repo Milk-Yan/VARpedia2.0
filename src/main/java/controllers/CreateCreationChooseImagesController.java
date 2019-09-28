@@ -164,6 +164,7 @@ public class CreateCreationChooseImagesController extends Controller{
 		}
 		
 		_imageChosen.getItems().removeAll(chosen);
+		sortLists();
 	}
 	
 	@FXML
