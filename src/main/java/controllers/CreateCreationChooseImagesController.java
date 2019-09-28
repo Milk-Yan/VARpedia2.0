@@ -1,7 +1,14 @@
 package main.java.controllers;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +22,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
 
@@ -77,7 +86,32 @@ public class CreateCreationChooseImagesController extends Controller{
 	@FXML
 	private void create() {
 		
-		_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+		// check if length of video will be long enough for images to be diplayed
+		double lengthOfAudio = 0;
+		for (String audio:_audioList) {
+			File audioFile = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator + 
+					"audio" + File.separator + _term + File.separator + audio + ".wav");
+			
+			AudioInputStream audioInputStream;
+			try {
+				audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+				AudioFormat format = audioInputStream.getFormat();
+				long frames = audioInputStream.getFrameLength();
+				lengthOfAudio += (frames+0.0) / format.getFrameRate();  
+			} catch (UnsupportedAudioFileException | IOException e) {
+				// Don't do anything here for now.
+			}
+			
+			
+		}
+
+		
+		if (lengthOfAudio < _imageChosenList.size()*2) {
+			new AlertMaker(AlertType.ERROR, "Error", "The video is too short", "Choose less images");
+		} else {
+			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+		}
+	
 	}
 
 	@FXML
