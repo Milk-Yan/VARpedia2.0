@@ -112,14 +112,16 @@ public class CreateAudioChooseTextController extends Controller {
 			new AlertMaker(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
 		}
 
-		// clear the chosen text so if user comes back...
-		_chosenText.clear();
 
 		//creates the audio
 		//need to change to have voice type input
 		int index = _voiceSelection.getSelectionModel().getSelectedIndex();
 		// remove all special characters
 		String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z\\.A-Z]", "");
+		
+		// clear the chosen text so if user comes back...
+		_chosenText.clear();
+		 
 		_mainApp.displayCreateAudioNamingScene(_term, chosenText, _voices.get(index));
 
 
