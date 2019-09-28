@@ -27,25 +27,27 @@
           <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="255.0" minWidth="10.0" prefWidth="255.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="20.0" prefHeight="100.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="300.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="40.0" prefHeight="100.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="51.0" minHeight="20.0" prefHeight="49.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="215.0" minHeight="10.0" prefHeight="215.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="74.0" minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="_wordLimit" text="Label" GridPane.columnIndex="2">
+            <Label fx:id="_wordLimit" text="Below the limit (0)" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </Label>
             <TextArea fx:id="_searchResults" prefHeight="200.0" prefWidth="230.0" wrapText="true" GridPane.rowIndex="1" />
-            <TextArea fx:id="_chosenText" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here. You can edit both sections! The reset will reset the search results in case you mess anything up :)" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextArea fx:id="_chosenText" onKeyPressed="#editCount" onKeyReleased="#editCount" onMouseMoved="#editCount" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here. You can edit both sections! The reset will reset the search results in case you mess anything up :)" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="_voiceSelection" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#reset" prefWidth="170.0" text="Reset to Default Text" GridPane.rowIndex="2">
+            <ChoiceBox fx:id="_voiceSelection" prefHeight="26.0" prefWidth="154.0" GridPane.halignment="RIGHT" />
+            <Button mnemonicParsing="false" onAction="#reset" prefWidth="170.0" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button mnemonicParsing="false" onAction="#selectReset" prefWidth="170.0" text="Reset Selected Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Label text="Voice Selection" GridPane.halignment="LEFT" />
          </children>
       </GridPane>
       <HBox alignment="CENTER" prefHeight="250.0" prefWidth="200.0" spacing="5.0">

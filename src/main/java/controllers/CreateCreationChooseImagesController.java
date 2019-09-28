@@ -85,6 +85,7 @@ public class CreateCreationChooseImagesController extends Controller{
 
 	@FXML
 	private void create() {
+//<<<<<<< HEAD
 		
 		// check if length of video will be long enough for images to be diplayed
 		double lengthOfAudio = 0;
@@ -106,12 +107,29 @@ public class CreateCreationChooseImagesController extends Controller{
 		}
 
 		
-		if (lengthOfAudio < _imageChosenList.size()*2) {
+		if (_imageChosenList.isEmpty()){
+			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Create Creation?",
+					"You have not selected any images").getAlert();
+			if (alert.getResult() == ButtonType.OK) {
+				_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+			}
+		} else if (lengthOfAudio < _imageChosenList.size()*2) {
 			new AlertMaker(AlertType.ERROR, "Error", "The video is too short", "Choose less images");
 		} else {
 			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
 		}
 	
+//=======
+//		if (_imageChosenList.isEmpty()){
+//			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Create Creation?",
+//					"You have not selected any images").getAlert();
+//			if (alert.getResult() == ButtonType.OK) {
+//				_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+//			}
+//		} else {
+//			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+//		}
+//>>>>>>> previewReset
 	}
 
 	@FXML

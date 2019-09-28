@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
@@ -23,6 +24,7 @@ public class CreateAudioChooseTextController extends Controller {
 
 	private String _term;
 	private String _sourceString;
+	StringManipulator _manipulator = new StringManipulator();
 
 	//the actual name
 	private ArrayList<String> _voices;
@@ -57,6 +59,7 @@ public class CreateAudioChooseTextController extends Controller {
 	public void setUp(String term, String searchResults) {
 		_term = term;
 		_sourceString = searchResults.trim();
+		_wordLimit.setTextFill(Color.GREEN);
 
 		_message.setText("Search results for " + _term + ": " );
 		_searchResults.setText(_sourceString);
@@ -65,6 +68,7 @@ public class CreateAudioChooseTextController extends Controller {
 		listOfVoices();
 		_voiceSelection.setItems(FXCollections.observableArrayList(_voiceName));
 		_voiceSelection.getSelectionModel().selectFirst();
+
 	}
 
 	@FXML
@@ -75,6 +79,7 @@ public class CreateAudioChooseTextController extends Controller {
 			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
 		} else {
 			_chosenText.appendText(highlightedText);
+			updateCount();
 		}
 	}
 
@@ -85,11 +90,26 @@ public class CreateAudioChooseTextController extends Controller {
 			_previewTask.cancel();
 		}
 
-
-		//creates the audio
-		//need to change to have voice type input
-		int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-		_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+		if (!_chosenText.getText().equals("") && (_manipulator.countWords(_chosenText.getText())<41)) {	
+			//creates the audio
+			//need to change to have voice type input
+			
+			if (_manipulator.countWords(_chosenText.getText())<4){
+				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Short Audio Creation",
+						"A creation of this audio may not work as intended").getAlert();
+				if (alert.getResult() == ButtonType.OK) {
+					int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+					_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+				}
+			} else {
+				int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+				_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+			}
+		} else if (_chosenText.getText().equals("")){
+			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
+		} else {
+			new AlertMaker(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
+		}
 
 	}
 
@@ -114,7 +134,6 @@ public class CreateAudioChooseTextController extends Controller {
 			return;
 		} 
 
-		StringManipulator _manipulator = new StringManipulator();
 		int wordNumber = _manipulator.countWords(chosenText.trim());
 
 		if (wordNumber > 40) {
@@ -179,5 +198,43 @@ public class CreateAudioChooseTextController extends Controller {
 
 	}
 
+	@FXML
+	private void selectReset() {
+		_chosenText.setText("");
+		updateCount();
+	}
+	
+	private void updateCount() {
+		String content=_chosenText.getText();
+		int wordNumber = _manipulator.countWords(content.trim());
+		String wordCount = String.valueOf(wordNumber);
 
+		if (_chosenText.getText().equals("")) {
+			_wordLimit.setTextFill(Color.GREEN);
+			_wordLimit.setText("Below the limit (0)");
+		} else if (wordNumber ==40){
+			_wordLimit.setTextFill(Color.DARKRED); 
+			_wordLimit.setText("Exactly 40 words");
+		} else if (wordNumber > 40) {
+			_wordLimit.setTextFill(Color.RED); 
+			_wordLimit.setText("Over 40 words ("+wordCount+")");
+		} else if (wordNumber > 30) {
+			_wordLimit.setTextFill(Color.ORANGE);
+			_wordLimit.setText("Near the limit ("+wordCount+")");
+		} else {
+			_wordLimit.setTextFill(Color.GREEN);
+			_wordLimit.setText("Below the limit ("+wordCount+")");
+		}
+		
+		
+	}
+
+	@FXML
+	private void editCount() {
+		if (_chosenText.getText().equals(" ")) {
+			_chosenText.setText("");
+		}
+		updateCount();
+	}
+	
 }
