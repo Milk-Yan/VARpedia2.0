@@ -31,8 +31,6 @@ public class CreateCreationTask extends Task<Void>{
 		_imageList = imageList;
 		_mainApp = mainApp;
 		
-		System.out.println(_imageList);
-		
 	}
 	
 	@Override

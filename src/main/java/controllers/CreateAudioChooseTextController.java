@@ -49,7 +49,7 @@ public class CreateAudioChooseTextController extends Controller {
 
 	@FXML
 	private ChoiceBox<String> _voiceSelection;
-	
+
 	@FXML
 	private Button _mainMenuBtn;
 
@@ -85,6 +85,7 @@ public class CreateAudioChooseTextController extends Controller {
 
 	@FXML
 	private void create() {
+
 		// kill the current task if there is one
 		if (_previewTask != null) {
 			_previewTask.cancel();
@@ -93,7 +94,7 @@ public class CreateAudioChooseTextController extends Controller {
 		if (!_chosenText.getText().equals("") && (_manipulator.countWords(_chosenText.getText())<41)) {	
 			//creates the audio
 			//need to change to have voice type input
-			
+
 			if (_manipulator.countWords(_chosenText.getText())<4){
 				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Short Audio Creation",
 						"A creation of this audio may not work as intended").getAlert();
@@ -111,6 +112,17 @@ public class CreateAudioChooseTextController extends Controller {
 			new AlertMaker(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
 		}
 
+		// clear the chosen text so if user comes back...
+		_chosenText.clear();
+
+		//creates the audio
+		//need to change to have voice type input
+		int index = _voiceSelection.getSelectionModel().getSelectedIndex();
+		// remove all special characters
+		String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z\\.A-Z]", "");
+		_mainApp.displayCreateAudioNamingScene(_term, chosenText, _voices.get(index));
+
+
 	}
 
 	@FXML
@@ -126,7 +138,7 @@ public class CreateAudioChooseTextController extends Controller {
 			_previewTask.cancel();
 		}
 
-		String chosenText = _chosenText.getText().trim();
+		String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
 
 		// Error handling
 		if (chosenText.isEmpty()) {
@@ -203,7 +215,7 @@ public class CreateAudioChooseTextController extends Controller {
 		_chosenText.setText("");
 		updateCount();
 	}
-	
+
 	private void updateCount() {
 		String content=_chosenText.getText();
 		int wordNumber = _manipulator.countWords(content.trim());
@@ -211,22 +223,22 @@ public class CreateAudioChooseTextController extends Controller {
 
 		if (_chosenText.getText().equals("")) {
 			_wordLimit.setTextFill(Color.GREEN);
-			_wordLimit.setText("Below the limit (0)");
+			_wordLimit.setText("You're Good! (0)");
 		} else if (wordNumber ==40){
 			_wordLimit.setTextFill(Color.DARKRED); 
-			_wordLimit.setText("Exactly 40 words");
+			_wordLimit.setText("At the limit!");
 		} else if (wordNumber > 40) {
 			_wordLimit.setTextFill(Color.RED); 
-			_wordLimit.setText("Over 40 words ("+wordCount+")");
+			_wordLimit.setText("Over the limit :( ("+wordCount+")");
 		} else if (wordNumber > 30) {
 			_wordLimit.setTextFill(Color.ORANGE);
 			_wordLimit.setText("Near the limit ("+wordCount+")");
 		} else {
 			_wordLimit.setTextFill(Color.GREEN);
-			_wordLimit.setText("Below the limit ("+wordCount+")");
+			_wordLimit.setText("You're Good! ("+wordCount+")");
 		}
-		
-		
+
+
 	}
 
 	@FXML
@@ -236,5 +248,6 @@ public class CreateAudioChooseTextController extends Controller {
 		}
 		updateCount();
 	}
-	
+
+
 }

@@ -14,7 +14,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="_termInput" />
+      <TextField fx:id="_termInput" promptText="Wikipedia term" />
       <Button fx:id="_searchBtn" mnemonicParsing="false" onAction="#search" prefWidth="300.0" text="Search">
          <font>
             <Font size="18.0" />

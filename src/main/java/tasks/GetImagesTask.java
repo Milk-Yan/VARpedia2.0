@@ -71,7 +71,6 @@ public class GetImagesTask extends Task<Void>{
 			e.printStackTrace();
 		}
 		return null;
-		//System.out.println("\nDone");
 	}
 
 	@Override

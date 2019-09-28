@@ -121,8 +121,10 @@ public class WikiApplication extends Application {
 
 		_currentScene = sceneMaker.getScene();
 		//test might not work
+		
 		_audioWikitScene=_currentScene;
 		update();
+		
 	}
 
 	public void displayCreateAudioNamingScene(String term, String chosenText, String voice) {
