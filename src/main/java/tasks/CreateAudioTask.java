@@ -46,20 +46,19 @@ public class CreateAudioTask extends Task<Void>{
 			String s = File.separator;
 			
 			// make the directory for the term if it doesn't already exist
-			new File(System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term).mkdirs();
+			String audioFolder = System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term;
+			new File(audioFolder).mkdirs();
 
 			
 			_process = new ProcessBuilder("bash", "-c",
-					"echo -e \"(voice_" + _voice + ") ;; \n(utt.save.wave (SayText \\\"" +
-							_text + "\\\" ) \\\""+
-							System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term+s+
-							_name+".wav"+"\\\" \'riff) \" | festival -i ").start();
-
-//							System.getProperty("user.dir") +
-//							File.separator + "bin" + File.separator + "audio" + _term + File.separator +
-//							_name + ".wav").start();
-
-//			echo -e "(voice_rab_diphone);; \n(utt.save.wave (SayText \"hello hello\") \"test.wav\" 'riff)" | festival -i
+					// set voice
+					"echo \"(voice_" + _voice + ") "
+					// create utterance
+					+ "(set! utt1 (Utterance Text \\\"" + _text + "\\\")) "
+					// synthesise utterance
+					+ "(utt.synth utt1) "
+					// save
+					+ "(utt.save.wave utt1 \\\"" + audioFolder + s + _name + ".wav" +"\\\" \\`riff)\" | festival\n").start();
 
 
 			try {

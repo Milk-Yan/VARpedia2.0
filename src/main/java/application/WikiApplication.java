@@ -24,6 +24,7 @@ import main.java.tasks.CreateAudioTask;
 import main.java.tasks.CreateCreationTask;
 import main.java.tasks.GetImagesTask;
 import main.java.tasks.SearchTermTask;
+import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
 
@@ -192,11 +193,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
-	public void displayLoadingViewCreationsScene(ViewCreationsTask task) {
+	public void displayLoadingViewCreationsScene(ViewCreationsTask creationTask, ViewAudioTask audioTask) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingViewCreations, this);
 		LoadingViewCreationsController controller = (LoadingViewCreationsController) sceneMaker.getController();
-		controller.setTask(task);
+		controller.setTask(creationTask, audioTask);
 		
 		_currentScene = sceneMaker.getScene();
 		update();
