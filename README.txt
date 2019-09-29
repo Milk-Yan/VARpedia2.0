@@ -1,8 +1,8 @@
---------SE206 Assignment 2 [Milk]--------
+-------------SE206 Assignment 3 [Milk,OverCry]-------------
 
-Please test code on the lab machines.
+Please test code on the lab machines (beta teaching linux).
 
 Open the terminal in this directory, and run:
->bash RunMe.sh
+>./script.sh
 
 Have a nice day :)
