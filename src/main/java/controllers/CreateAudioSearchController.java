@@ -30,7 +30,7 @@ public class CreateAudioSearchController extends Controller{
 	@FXML
 	private void search() {
 		
-		if (_termInput.getText().isEmpty()) {
+		if (_termInput.getText().trim().isEmpty()) {
 			
 			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "The term cannot be empty.");
 			

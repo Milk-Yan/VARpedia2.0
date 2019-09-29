@@ -113,7 +113,7 @@ public class CreateAudioTask extends Task<Void>{
 		
 		Platform.runLater(() -> {
 			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Next", "Would you like to make another audio?",
-					"Press 'OK'. Otherwise, press 'Cancel'").getAlert();
+					"Press 'OK'. Otherwise, press 'Cancel' to return to the main menu").getAlert();
 
 			if (alert.getResult() == ButtonType.OK) {
 				//go to preview scene again
