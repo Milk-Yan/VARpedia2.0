@@ -34,12 +34,22 @@ public class CreateAudioNamingController extends Controller{
 	private String _chosenText;
 	private String _voice=null;
 	
+	/**
+	 * sets inputs of audio creation parameters
+	 * @param term
+	 * @param chosenText
+	 * @param voice
+	 */
 	public void setUp(String term, String chosenText, String voice) {
 		_term = term;
 		_chosenText = chosenText;
 		_voice=voice;
 	}
 	
+	/**
+	 * button to submit a name for the audio
+	 * checks if the name is valid or a repeat and sends an alert
+	 */
 	@FXML
 	private void enter() {
 		
@@ -71,6 +81,9 @@ public class CreateAudioNamingController extends Controller{
 		}
 	}
 	
+	/**
+	 * creations the audio file using passed parameters
+	 */
 	@FXML
 	private void create() {
 		
@@ -87,6 +100,10 @@ public class CreateAudioNamingController extends Controller{
 		
 	}
 	
+	/**
+	 * returns to main menu
+	 * asks for confirmation via an alert
+	 */
 	@FXML
 	private void mainMenu() {
 		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",

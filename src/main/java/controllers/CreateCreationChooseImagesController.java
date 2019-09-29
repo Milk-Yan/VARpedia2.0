@@ -27,6 +27,13 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
 
+/**
+ * Controller for CreateCreationChooseImages.fxml
+ * Allows user to select images to be used
+ * 
+ * @author wcho400
+ *
+ */
 public class CreateCreationChooseImagesController extends Controller{
 
 	private String _term;
@@ -47,7 +54,11 @@ public class CreateCreationChooseImagesController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 
-
+	/**
+	 * Passes through list of desired audios, as well as teh search term
+	 * @param term
+	 * @param audioList
+	 */
 	public void setUp(String term, ArrayList<String> audioList) {
 		_term = term;
 		_audioList = audioList;
@@ -83,11 +94,14 @@ public class CreateCreationChooseImagesController extends Controller{
 	
 	}
 
+	/**
+	 * button to passes desired parameters to a naming scene
+	 * checks if the images are valid
+	 */
 	@FXML
 	private void create() {
-//<<<<<<< HEAD
 		
-		// check if length of video will be long enough for images to be diplayed
+		// check if length of video will be long enough for images to be displayed
 		double lengthOfAudio = 0;
 		for (String audio:_audioList) {
 			File audioFile = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator + 
@@ -118,20 +132,12 @@ public class CreateCreationChooseImagesController extends Controller{
 		} else {
 			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
 		}
-	
-//=======
-//		if (_imageChosenList.isEmpty()){
-//			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Create Creation?",
-//					"You have not selected any images").getAlert();
-//			if (alert.getResult() == ButtonType.OK) {
-//				_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
-//			}
-//		} else {
-//			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
-//		}
-//>>>>>>> previewReset
 	}
 
+	/**
+	 * returns to main menu
+	 * asks for confirmation before action
+	 */
 	@FXML
 	private void mainMenu() {
 		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
@@ -141,6 +147,9 @@ public class CreateCreationChooseImagesController extends Controller{
 		}
 	}
 	
+	/**
+	 * method to move a desired image to the list of desired images
+	 */
 	@FXML
 	private void candidateToChosen() {
 		
@@ -164,6 +173,9 @@ public class CreateCreationChooseImagesController extends Controller{
 		
 	}
 	
+	/**
+	 * method to move a undesired image back to a list of unselected images
+	 */
 	@FXML
 	private void chosenToCandidate() {
 		ObservableList<HBox> chosen = _imageChosen.getSelectionModel().getSelectedItems();
@@ -185,6 +197,10 @@ public class CreateCreationChooseImagesController extends Controller{
 		sortLists();
 	}
 	
+	/**
+	 * method to shift an image up the list
+	 * only if it is not at the top
+	 */
 	@FXML
 	private void moveChosenUp() {
 		
@@ -215,6 +231,10 @@ public class CreateCreationChooseImagesController extends Controller{
 
 	}
 	
+	/**
+	 * method to shift an image down the list
+	 * only if it is not at the bottom
+	 */
 	@FXML
 	private void moveChosenDown() {
 		
@@ -244,6 +264,11 @@ public class CreateCreationChooseImagesController extends Controller{
 		new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 	}
 	
+	/**
+	 * method to move a selected image to the other ListView
+	 * @param candidate
+	 * @param imageList
+	 */
 	private void addToEndOfList(HBox candidate, ListView<HBox> imageList) {
 		// remove numbering and put new numbering in
 		candidate.getChildren().remove(0);
@@ -254,6 +279,9 @@ public class CreateCreationChooseImagesController extends Controller{
 		imageList.getItems().add(candidate);
 	}
 	
+	/**
+	 * method to sort the images in each TaskView
+	 */
 	private void sortLists() {
 		int candidateIndex = 1;
 		for (HBox candidate:_imageCandidates.getItems()) {

@@ -12,6 +12,11 @@ import javafx.scene.control.Alert.AlertType;
 import main.java.application.AlertMaker;
 import main.java.tasks.CreateCreationTask;
 
+/**
+ * Controller for CreateCreationNaming.fxml
+ * @author wcho400
+ *
+ */
 public class CreateCreationNamingController extends Controller{
 
 	private String _name;
@@ -28,12 +33,23 @@ public class CreateCreationNamingController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 
+	/**
+	 * initializes parameters to be passed on to the next scene
+	 * @param term
+	 * @param audioList
+	 * @param imageList
+	 */
 	public void setUp(String term, ArrayList<String> audioList, ArrayList<String> imageList) {
 		_term = term;
 		_audioList = audioList;
 		_imageList = imageList;
 	}
 	
+	/**
+	 * button to pass name
+	 * checks if name is valid
+	 * if overlaps with an existing creation, ask for confirmation for overwriting
+	 */
 	@FXML
 	private void create() {
 
@@ -64,6 +80,10 @@ public class CreateCreationNamingController extends Controller{
 		}
 	}
 
+	/**
+	 * being task of creation creation
+	 * pass's task to allow cancellation if desired
+	 */
 	private void createCreation() {
 
 		// use new thread to create in bg
@@ -75,6 +95,10 @@ public class CreateCreationNamingController extends Controller{
 	}
 
 
+	/**
+	 * return to main menu
+	 * asks for confirmation being returning
+	 */
 	@FXML
 	private void mainMenu() {
 		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
