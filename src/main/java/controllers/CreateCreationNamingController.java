@@ -65,7 +65,7 @@ public class CreateCreationNamingController extends Controller{
 		} else if (_name.contains(" ")) {
 
 			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain spaces");
-
+		
 		} else if (new File(System.getProperty("user.dir") + "bin" + s + "creations" + s + _name + ".mp4").isFile()) {
 
 			// check if want to overwrite
@@ -107,5 +107,5 @@ public class CreateCreationNamingController extends Controller{
 			_mainApp.displayMainMenuScene();
 		}
 	}
-
+	
 }

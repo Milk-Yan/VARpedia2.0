@@ -107,9 +107,9 @@ public class CreateAudioChooseTextController extends Controller {
 			//creates the audio
 			//need to change to have voice type input
 
-			if (_manipulator.countWords(_chosenText.getText())<4){
-				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Short Audio Creation",
-						"A creation of this audio may not work as intended. Confirm creation?").getAlert();
+			if (_manipulator.countWords(_chosenText.getText())<6){
+				Alert alert = new AlertMaker(AlertType.ERROR, "Warning", "Short Audio Creation",
+						"A creation of this audio is too short, please make it longer").getAlert();
 				if (alert.getResult() == ButtonType.OK) {
 					int index = _voiceSelection.getSelectionModel().getSelectedIndex();
 					_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
@@ -248,13 +248,13 @@ public class CreateAudioChooseTextController extends Controller {
 	 * Indicates when the limit of words has been reached
 	 */
 	private void updateCount() {
-		String content=_chosenText.getText();
-		int wordNumber = _manipulator.countWords(content.trim());
+		String content=_chosenText.getText().trim();
+		int wordNumber = _manipulator.countWords(content);
 		String wordCount = String.valueOf(wordNumber);
 
-		if (_chosenText.getText().equals("")) {
-			_wordLimit.setTextFill(Color.GREEN);
-			_wordLimit.setText("Please enter text (0)");
+		if (content.equals("")) {
+			_wordLimit.setTextFill(Color.DEEPPINK);
+			_wordLimit.setText("Nothing here yet!");
 		} else if (wordNumber ==40){
 			_wordLimit.setTextFill(Color.DARKRED); 
 			_wordLimit.setText("At the limit!");
@@ -264,6 +264,9 @@ public class CreateAudioChooseTextController extends Controller {
 		} else if (wordNumber > 30) {
 			_wordLimit.setTextFill(Color.ORANGE);
 			_wordLimit.setText("Near the limit ("+wordCount+")");
+		} else if (wordNumber<4) {
+			_wordLimit.setTextFill(Color.RED);
+			_wordLimit.setText("A bit short! ("+wordCount+")");
 		} else {
 			_wordLimit.setTextFill(Color.GREEN);
 			_wordLimit.setText("You're Good! ("+wordCount+")");
