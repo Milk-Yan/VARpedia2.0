@@ -97,10 +97,12 @@ public class CreateAudioChooseTextController extends Controller {
 
 			if (_manipulator.countWords(_chosenText.getText())<4){
 				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Short Audio Creation",
-						"A creation of this audio may not work as intended").getAlert();
+						"A creation of this audio may not work as intended. Confirm creation?").getAlert();
 				if (alert.getResult() == ButtonType.OK) {
 					int index = _voiceSelection.getSelectionModel().getSelectedIndex();
 					_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
+				} else {
+					return;
 				}
 			} else {
 				int index = _voiceSelection.getSelectionModel().getSelectedIndex();
@@ -108,8 +110,10 @@ public class CreateAudioChooseTextController extends Controller {
 			}
 		} else if (_chosenText.getText().equals("")){
 			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
+			return;
 		} else {
 			new AlertMaker(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
+			return;
 		}
 
 

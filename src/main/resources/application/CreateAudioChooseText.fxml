@@ -41,11 +41,7 @@
             <TextArea fx:id="_chosenText" onKeyPressed="#editCount" onKeyReleased="#editCount" onMouseMoved="#editCount" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here. You can edit both sections! The reset will reset the search results in case you mess anything up :) NOTE: Some voices are unable to speak non-English words, so it cannot be previewed or created." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="_voiceSelection" prefHeight="26.0" prefWidth="154.0" GridPane.halignment="RIGHT" />
-            <Button mnemonicParsing="false" onAction="#reset" prefWidth="170.0" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
+            <Button mnemonicParsing="false" onAction="#reset" prefWidth="170.0" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Button mnemonicParsing="false" onAction="#selectReset" prefWidth="170.0" text="Reset Selected Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Label text="Voice Selection" GridPane.halignment="LEFT" />
          </children>

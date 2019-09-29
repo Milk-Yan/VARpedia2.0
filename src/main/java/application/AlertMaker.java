@@ -2,6 +2,7 @@ package main.java.application;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Region;
 
 /**
  * Creates alerts and shows them.
@@ -25,7 +26,7 @@ public class AlertMaker {
 			_alert.setContentText(contentText);
 		}
 
-		
+		_alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		_alert.showAndWait();
 	}
 	
