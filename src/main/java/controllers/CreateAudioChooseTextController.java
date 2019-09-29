@@ -84,7 +84,7 @@ public class CreateAudioChooseTextController extends Controller {
 		String highlightedText = _searchResults.getSelectedText();
 
 		if (highlightedText.trim().isEmpty()) {
-			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
+			new AlertMaker(AlertType.ERROR, "Error", "No valid text selected", "Please select some text.");
 		} else {
 			_chosenText.appendText(highlightedText);
 			updateCount();
@@ -250,7 +250,7 @@ public class CreateAudioChooseTextController extends Controller {
 
 		if (_chosenText.getText().equals("")) {
 			_wordLimit.setTextFill(Color.GREEN);
-			_wordLimit.setText("You're Good! (0)");
+			_wordLimit.setText("Please enter text (0)");
 		} else if (wordNumber ==40){
 			_wordLimit.setTextFill(Color.DARKRED); 
 			_wordLimit.setText("At the limit!");
