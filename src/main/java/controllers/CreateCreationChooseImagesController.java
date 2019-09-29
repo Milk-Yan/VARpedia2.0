@@ -151,15 +151,18 @@ public class CreateCreationChooseImagesController extends Controller{
 		HBox candidate = _imageCandidates.getSelectionModel().getSelectedItem();
 		int candidateIndex = _imageCandidates.getSelectionModel().getSelectedIndex();
 		
-		// add to chosen list
-		_imageChosenList.add(_imageCandidatesList.get(candidateIndex));
-		addToEndOfList(candidate, _imageChosen);
+		if (candidateIndex != -1) {
+			// add to chosen list
+			_imageChosenList.add(_imageCandidatesList.get(candidateIndex));
+			addToEndOfList(candidate, _imageChosen);
+			
+			// remove from candidate list
+			_imageCandidatesList.remove(candidateIndex);
+			_imageCandidates.getItems().remove(candidateIndex);
+			
+			sortLists();
+		}
 		
-		// remove from candidate list
-		_imageCandidatesList.remove(candidateIndex);
-		_imageCandidates.getItems().remove(candidateIndex);
-		
-		sortLists();
 	}
 	
 	/**
@@ -170,15 +173,19 @@ public class CreateCreationChooseImagesController extends Controller{
 		HBox chosen = _imageChosen.getSelectionModel().getSelectedItem();
 		int chosenIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 		
-		// add to candidates list
-		_imageCandidatesList.add(_imageChosenList.get(chosenIndex));
-		addToEndOfList(chosen, _imageCandidates);
+		if (chosenIndex != -1) {
+			// add to candidates list
+			_imageCandidatesList.add(_imageChosenList.get(chosenIndex));
+			addToEndOfList(chosen, _imageCandidates);
+			
+			// remove from chosen list
+			_imageChosenList.remove(chosenIndex);
+			_imageChosen.getItems().remove(chosenIndex);
+			
+			sortLists();
+		}
 		
-		// remove from chosen list
-		_imageChosenList.remove(chosenIndex);
-		_imageChosen.getItems().remove(chosenIndex);
 		
-		sortLists();
 	}
 	
 	/**
