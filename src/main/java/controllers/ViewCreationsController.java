@@ -14,7 +14,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -123,6 +122,8 @@ public class ViewCreationsController extends Controller{
 	 */
 	@FXML
 	private void play() {
+		
+		stopAudioPlayer();
 
 		Tab tab = _tabPane.getSelectionModel().getSelectedItem();
 
@@ -141,7 +142,6 @@ public class ViewCreationsController extends Controller{
 
 			}
 		} else {
-			stopAudioPlayer();
 
 			// all audio files are leaves
 			if (_listOfAudio.getSelectionModel().getSelectedItem().isLeaf()) {
@@ -165,6 +165,8 @@ public class ViewCreationsController extends Controller{
 	 */
 	@FXML
 	private void delete() {
+		stopAudioPlayer();
+		
 		Tab tab = _tabPane.getSelectionModel().getSelectedItem();
 
 		//checks if the selected item is an audio or a video
@@ -196,7 +198,7 @@ public class ViewCreationsController extends Controller{
 					
 					File audioFolder = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
 							+ "audio" + File.separator + term);
-					if (audioFolder.listFiles().length == 0) {
+					if (audioFolder.exists() && audioFolder.listFiles().length == 0) {
 						audioFolder.delete();
 					}
 					_mainApp.displayViewCreationsScene();
@@ -229,6 +231,8 @@ public class ViewCreationsController extends Controller{
 	@FXML
 	private void mainMenu() {
 
+		stopAudioPlayer();
+		
 		_mainApp.displayMainMenuScene();
 
 	}

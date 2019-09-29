@@ -2,7 +2,6 @@ package main.java.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFormat;
@@ -10,11 +9,11 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -22,8 +21,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertMaker;
 
@@ -90,7 +87,8 @@ public class CreateCreationChooseImagesController extends Controller{
 			index++;
 		}
 		
-		
+		_imageChosen.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		_imageCandidates.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	
 	}
 
@@ -122,11 +120,8 @@ public class CreateCreationChooseImagesController extends Controller{
 
 		
 		if (_imageChosenList.isEmpty()){
-			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Create Creation?",
-					"You have not selected any images").getAlert();
-			if (alert.getResult() == ButtonType.OK) {
-				_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
-			}
+			new AlertMaker(AlertType.ERROR, "Error", "No images selected",
+					"You have not selected any images");
 		} else if (lengthOfAudio < _imageChosenList.size()*2) {
 			new AlertMaker(AlertType.ERROR, "Error", "The video is too short", "Choose less images");
 		} else {
@@ -153,24 +148,18 @@ public class CreateCreationChooseImagesController extends Controller{
 	@FXML
 	private void candidateToChosen() {
 		
-		ObservableList<HBox> candidates = _imageCandidates.getSelectionModel().getSelectedItems();
+		HBox candidate = _imageCandidates.getSelectionModel().getSelectedItem();
+		int candidateIndex = _imageCandidates.getSelectionModel().getSelectedIndex();
 		
-		ArrayList<String> toDelete = new ArrayList<String>();
-		for (int index:_imageCandidates.getSelectionModel().getSelectedIndices()) {
-			String imageURL = _imageCandidatesList.get(index);
-			_imageChosenList.add(imageURL);
-			toDelete.add(imageURL);
-		}
+		// add to chosen list
+		_imageChosenList.add(_imageCandidatesList.get(candidateIndex));
+		addToEndOfList(candidate, _imageChosen);
 		
-		_imageCandidatesList.removeAll(toDelete);
+		// remove from candidate list
+		_imageCandidatesList.remove(candidateIndex);
+		_imageCandidates.getItems().remove(candidateIndex);
 		
-		for (HBox candidate:candidates) {
-			addToEndOfList(candidate, _imageChosen);
-		}
-		
-		_imageCandidates.getItems().removeAll(candidates);
 		sortLists();
-		
 	}
 	
 	/**
@@ -178,22 +167,17 @@ public class CreateCreationChooseImagesController extends Controller{
 	 */
 	@FXML
 	private void chosenToCandidate() {
-		ObservableList<HBox> chosen = _imageChosen.getSelectionModel().getSelectedItems();
+		HBox chosen = _imageChosen.getSelectionModel().getSelectedItem();
+		int chosenIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 		
-		ArrayList<String> toDelete = new ArrayList<String>();
-		for (int index:_imageChosen.getSelectionModel().getSelectedIndices()) {
-			String imageURL = _imageChosenList.get(index);
-			_imageCandidatesList.add(imageURL);
-			toDelete.add(imageURL);
-		}
+		// add to candidates list
+		_imageCandidatesList.add(_imageChosenList.get(chosenIndex));
+		addToEndOfList(chosen, _imageCandidates);
 		
-		_imageChosenList.removeAll(toDelete);
+		// remove from chosen list
+		_imageChosenList.remove(chosenIndex);
+		_imageChosen.getItems().remove(chosenIndex);
 		
-		for (HBox chosenBoxes:chosen) {
-			addToEndOfList(chosenBoxes, _imageCandidates);
-		}
-		
-		_imageChosen.getItems().removeAll(chosen);
 		sortLists();
 	}
 	
@@ -208,7 +192,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			int currentIndex = _imageChosen.getSelectionModel().getSelectedIndices().get(0);
 			
 			if (currentIndex == 0) {
-				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at top of list");
+				//new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at top of list");
 				return;
 			}
 			
@@ -225,7 +209,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			_imageChosenList.add(newIndex, chosenImageURL);
 			
 			sortLists();
-		} else {
+		} else if (_imageChosen.getSelectionModel().getSelectedItems().size() > 1){
 			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 		}
 
@@ -242,7 +226,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			int currentIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 			
 			if (currentIndex == _imageChosen.getItems().size()-1) {
-				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
+				//new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
 				return;
 			}
 			
@@ -259,9 +243,11 @@ public class CreateCreationChooseImagesController extends Controller{
 			_imageChosenList.add(newIndex, chosenImageURL);
 			
 			sortLists();
+		} else if (_imageChosen.getSelectionModel().getSelectedItems().size() > 1){
+			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 		}
 		
-		new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
+		
 	}
 	
 	/**
