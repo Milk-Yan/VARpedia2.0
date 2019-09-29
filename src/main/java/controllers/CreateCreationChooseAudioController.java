@@ -19,6 +19,12 @@ import main.java.application.AlertMaker;
 import main.java.tasks.GetImagesTask;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Controller for CreateCreationChooseAudio.fxml
+ * For displaying pre-existing creations
+ * @author wcho400
+ *
+ */
 public class CreateCreationChooseAudioController extends Controller{
 
 	private String _term;
@@ -42,6 +48,10 @@ public class CreateCreationChooseAudioController extends Controller{
 	@FXML 
 	private Button _mainMenuBtn;
 
+	/**
+	 * lists audio files of the wikit search term
+	 * @param term
+	 */
 	public void setUp(String term) {
 		_term = term;
 
@@ -80,6 +90,10 @@ public class CreateCreationChooseAudioController extends Controller{
 		_audioCandidates.setItems(audioList);
 	}
 
+	/**
+	 * button to confirm audio order for creation
+	 * checks if an accepted number of audio files are selected
+	 */
 	@FXML
 	private void confirm() {
 
@@ -116,6 +130,10 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	}
 
+	/**
+	 * method to arrange audio ordering
+	 * moves audio up the list if it is not at the top
+	 */
 	@FXML
 	private void moveChosenUp() {
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
@@ -141,7 +159,11 @@ public class CreateCreationChooseAudioController extends Controller{
 			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 		}
 	}
-
+	
+	/**
+	 * method to arrange audio ordering
+	 * moves audio down the list if it is not at the bottom
+	 */
 	@FXML
 	private void moveChosenDown() {
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
@@ -168,6 +190,9 @@ public class CreateCreationChooseAudioController extends Controller{
 		}
 	}
 
+	/**
+	 * passes the selected audio file of yet-to-be chosen audio files to chosen audio files
+	 */
 	@FXML
 	private void candidateToChosen() {
 		ObservableList<String> candidates = _audioCandidates.getSelectionModel().getSelectedItems();
@@ -180,6 +205,9 @@ public class CreateCreationChooseAudioController extends Controller{
 		sortLists();
 	}
 
+	/**
+	 * passes the selected audio file of chosen audio files to yet-to-be chosen audio files
+	 */
 	@FXML
 	private void chosenToCandidate() {
 		ObservableList<String> candidates = _audioChosen.getSelectionModel().getSelectedItems();
@@ -191,6 +219,9 @@ public class CreateCreationChooseAudioController extends Controller{
 		sortLists();
 	}
 
+	/**
+	 * method to update to display of audio in both ListView's
+	 */
 	private void sortLists() {
 		int indexCandidates = 1;
 		int indexChosen = 1;
@@ -216,6 +247,11 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	}
 
+	/**
+	 * method to bring a selected audio to the other ListView
+	 * @param candidate
+	 * @param audioList
+	 */
 	private void addToEndOfList(String candidate, ListView<String> audioList) {
 		// remove numbering
 		candidate = candidate.replaceFirst("\\d+\\. ", "");
@@ -227,6 +263,11 @@ public class CreateCreationChooseAudioController extends Controller{
 	}
 
 
+	/**
+	 * plays the selected audio 
+	 * ensures only one is played at a time
+	 * ends old audio
+	 */
 	@FXML
 	private void listen() {
 
@@ -262,6 +303,10 @@ public class CreateCreationChooseAudioController extends Controller{
 
 	}
 
+	/**
+	 * returns to main menu
+	 * asks for confirmation with an alert
+	 */
 	@FXML
 	private void mainMenu() {
 
@@ -274,6 +319,9 @@ public class CreateCreationChooseAudioController extends Controller{
 		}
 	}
 
+	/**
+	 * method to stop audio playback if it is still playing
+	 */
 	private void stopAudioPlayer() {
 		// stop current player if it is playing
 		if (_audioPlayer != null) {

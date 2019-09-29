@@ -20,6 +20,11 @@ import main.java.application.AlertMaker;
 import main.java.application.StringManipulator;
 import main.java.tasks.PreviewAudioTask;
 
+/**
+ * Controller for displaying wikit search results
+ * @author wcho400
+ *
+ */
 public class CreateAudioChooseTextController extends Controller {
 
 	private String _term;
@@ -71,6 +76,9 @@ public class CreateAudioChooseTextController extends Controller {
 
 	}
 
+	/**
+	 * converts highlighted text from the search to be used in the audio
+	 */
 	@FXML
 	private void searchToChosen() {
 		String highlightedText = _searchResults.getSelectedText();
@@ -83,6 +91,10 @@ public class CreateAudioChooseTextController extends Controller {
 		}
 	}
 
+	/**
+	 * passes choosen text to be made into an audio
+	 * Checks if the text is valid for creation
+	 */
 	@FXML
 	private void create() {
 
@@ -128,14 +140,19 @@ public class CreateAudioChooseTextController extends Controller {
 		 
 		_mainApp.displayCreateAudioNamingScene(_term, chosenText, _voices.get(index));
 
-
 	}
 
+	/**
+	 * reset any edits of the wikit search results
+	 */
 	@FXML
 	private void reset() {
 		_searchResults.setText(_sourceString);
 	}
 
+	/**
+	 * plays the current chosen text using the chosen voice
+	 */
 	@FXML
 	private void preview() {
 
@@ -167,8 +184,9 @@ public class CreateAudioChooseTextController extends Controller {
 
 	}
 
-
-
+	/**
+	 * return to main menu after asking for confirmation
+	 */
 	@FXML
 	private void mainMenu() {
 		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
@@ -216,12 +234,19 @@ public class CreateAudioChooseTextController extends Controller {
 
 	}
 
+	/**
+	 * reset chosen text to empty
+	 */
 	@FXML
 	private void selectReset() {
 		_chosenText.setText("");
 		updateCount();
 	}
 
+	/**
+	 * displays the amount of words in the chosen text section
+	 * Indicates when the limit of words has been reached
+	 */
 	private void updateCount() {
 		String content=_chosenText.getText();
 		int wordNumber = _manipulator.countWords(content.trim());
@@ -247,6 +272,9 @@ public class CreateAudioChooseTextController extends Controller {
 
 	}
 
+	/**
+	 * method to check the number of words in the choosen text
+	 */
 	@FXML
 	private void editCount() {
 		if (_chosenText.getText().equals(" ")) {

@@ -15,6 +15,11 @@ import main.java.application.AlertMaker;
 import main.java.application.StringManipulator;
 import main.java.tasks.ViewSearchsTask;
 
+/**
+ * Controller for CreateCreationSearchController
+ * @author wcho400
+ *
+ */
 public class CreateCreationSearchController extends Controller{
 
 	@FXML
@@ -29,7 +34,10 @@ public class CreateCreationSearchController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 
-	//new
+	/**
+	 * checks if any audio has been made and display possible wikit terms
+	 * else return to main menu
+	 */
 	public void initialize() {
 		
 		ViewSearchsTask searchTask = new ViewSearchsTask();
@@ -62,6 +70,9 @@ public class CreateCreationSearchController extends Controller{
 		// list out files generated and add into ListView
 	}
 	
+	/**
+	 * checks if audio files exists and pass the list of audio into the new scene
+	 */
 	@FXML
 	private void enter() {
 
@@ -88,6 +99,9 @@ public class CreateCreationSearchController extends Controller{
 		}
 	}
 
+	/**
+	 * return to main menu
+	 */
 	@FXML
 	private void mainMenu() {
 		_mainApp.displayMainMenuScene();

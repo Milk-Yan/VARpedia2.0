@@ -13,6 +13,13 @@ public class AlertMaker {
 	
 	Alert _alert;
 
+	/**
+	 * Creates an alert for the user when called
+	 * @param alertType
+	 * @param title
+	 * @param headerText
+	 * @param contentText
+	 */
 	public AlertMaker(AlertType alertType, String title, String headerText, String contentText) {
 
 		_alert = new Alert(alertType);

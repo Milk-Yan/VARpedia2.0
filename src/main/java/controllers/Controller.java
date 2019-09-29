@@ -2,6 +2,13 @@ package main.java.controllers;
 
 import main.java.application.WikiApplication;
 
+/**
+ * Controller abstract for all controller classes
+ * Each controller has reference to the same wikiApplication
+ * and is declared within this class
+ * @author wcho400
+ *
+ */
 public abstract class Controller {
 
 	protected WikiApplication _mainApp;

@@ -23,6 +23,10 @@ public class CreateAudioSearchController extends Controller{
 	@FXML
 	private Button _mainMenuBtn;
 
+	/**
+	 * search for a term in wikipedia
+	 * checks if input is empty
+	 */
 	@FXML
 	private void search() {
 		
@@ -45,6 +49,9 @@ public class CreateAudioSearchController extends Controller{
 		}
 	}
 
+	/**
+	 * returns to the main menu
+	 */
 	@FXML
 	private void mainMenu() {
 		_mainApp.displayMainMenuScene();

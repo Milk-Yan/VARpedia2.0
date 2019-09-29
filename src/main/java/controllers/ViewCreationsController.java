@@ -116,6 +116,10 @@ public class ViewCreationsController extends Controller{
 
 	}
 
+	/**
+	 * method to play a selected creation
+	 * Allowed both audio and video to be play back
+	 */
 	@FXML
 	private void play() {
 		
@@ -123,6 +127,7 @@ public class ViewCreationsController extends Controller{
 
 		Tab tab = _tabPane.getSelectionModel().getSelectedItem();
 
+		//checks where the selected creation is listed as
 		if (tab == _creationTab) {
 			String selectionName = _listOfCreations.getSelectionModel().getSelectedItem();
 			String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
@@ -155,12 +160,16 @@ public class ViewCreationsController extends Controller{
 
 	}
 
+	/**
+	 * deletes a selected creation. Can be an audio, video and the entire folder
+	 */
 	@FXML
 	private void delete() {
 		stopAudioPlayer();
 		
 		Tab tab = _tabPane.getSelectionModel().getSelectedItem();
 
+		//checks if the selected item is an audio or a video
 		if (tab == _creationTab) { 
 			String creationName = _listOfCreations.getSelectionModel().getSelectedItem();
 			if (creationName != null) {
@@ -216,6 +225,9 @@ public class ViewCreationsController extends Controller{
 
 	}
 
+	/**
+	 * Returns to the main menu
+	 */
 	@FXML
 	private void mainMenu() {
 
@@ -225,6 +237,9 @@ public class ViewCreationsController extends Controller{
 
 	}
 
+	/**
+	 * stops the current audio playback
+	 */
 	private void stopAudioPlayer() {
 		// stop current player if it is playing
 		if (_audioPlayer != null) {
