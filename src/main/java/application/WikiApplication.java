@@ -73,6 +73,9 @@ public class WikiApplication extends Application {
 	// ----------------------DISPLAY METHODS (MAIN)---------------------------------------
 	// -----------------------------------------------------------------------------------
 
+	/**
+	 * Set the current scene back to the main menu
+	 */
 	public void displayMainMenuScene() {
 		cleanUpTempFiles();
 		Scene mainMenuScene = new SceneMaker(SceneType.MainMenu, this).getScene();
@@ -81,22 +84,23 @@ public class WikiApplication extends Application {
 		update();
 	}
 
-	public void displayPreviousScene(Scene previousScene) {
-		//might be useless so DELETE
-		_currentScene = previousScene;
-		update();
-	}
-
 	// -----------------------------------------------------------------------------------
 	// ----------------------DISPLAY METHODS (AUDIO)--------------------------------------
 	// -----------------------------------------------------------------------------------
 	
+	/**
+	 * Change the scene to search for a wikit term
+	 */
 	public void displayCreateAudioSearchScene() {
 
 		_currentScene = new SceneMaker(SceneType.CreateAudioSearch, this).getScene();
 		update();
 	}
 
+	/**
+	 * Change the search scene to show a loading animation
+	 * @param task
+	 */
 	public void displayLoadingSearchResultsScene(SearchTermTask task) {
 
 		SceneMaker loadingSceneMaker = new SceneMaker(SceneType.LoadingSearchResults, this);
@@ -110,6 +114,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 
+	/**
+	 * Set scene to show the displays of search results as well as editing editing scene
+	 * @param term
+	 * @param searchResults
+	 */
 	public void displayCreateAudioChooseTextScene(String term, String searchResults) {
 
 		// get the loading search results controller so that the term and 
@@ -127,6 +136,12 @@ public class WikiApplication extends Application {
 		
 	}
 
+	/**
+	 * Set scene to allow the audio creation to be named
+	 * @param term
+	 * @param chosenText
+	 * @param voice
+	 */
 	public void displayCreateAudioNamingScene(String term, String chosenText, String voice) {
 
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateAudioNaming, this);
@@ -137,6 +152,10 @@ public class WikiApplication extends Application {
 		update();
 	}
 
+	/**
+	 * Display loading scene to show the user the audio is being made
+	 * @param task
+	 */
 	public void displayLoadingCreateAudioScene(CreateAudioTask task) {
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingCreateAudio, this);
 		LoadingCreateAudioController controller = (LoadingCreateAudioController) sceneMaker.getController();
@@ -151,6 +170,9 @@ public class WikiApplication extends Application {
 	// ----------------------DISPLAY METHODS (CREATION)-----------------------------------
 	// -----------------------------------------------------------------------------------
 	
+	/**
+	 * Set scene to show a list of existing wikit searches
+	 */
 	public void displayCreateCreationSearchScene() {
 
 		_currentScene = new SceneMaker(SceneType.CreateCreationSearch, this).getScene();
@@ -158,6 +180,10 @@ public class WikiApplication extends Application {
 	
 	}
 	
+	/**
+	 * Set scene to show all existing audio files of the wikit search
+	 * @param term
+	 */
 	public void displayCreateCreationChooseAudioScene(String term) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateCreationChooseAudio, this);
@@ -168,7 +194,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 
-	
+	/**
+	 * Display loading animation to show photos are being loaded
+	 * @param term
+	 * @param task
+	 */
 	public void displayLoadingScrapingImagesScene(String term, GetImagesTask task) {
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingScrapingImages, this);
 		LoadingScrapingImagesController controller = (LoadingScrapingImagesController) sceneMaker.getController();
@@ -178,6 +208,10 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	/**
+	 * display loading animation, informing user the creation is being made
+	 * @param task
+	 */
 	public void displayLoadingCreateCreationScene(CreateCreationTask task) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingCreateCreation, this);
@@ -188,6 +222,12 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	/**
+	 * Set scene to allow creation to be named
+	 * @param term
+	 * @param audioList
+	 * @param imageList
+	 */
 	public void displayCreateCreationNamingScene(String term, ArrayList<String> audioList, ArrayList<String> imageList) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateCreationNaming, this);
@@ -198,6 +238,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	/**
+	 * Create loading scene to inform user all creations are being displayed
+	 * @param creationTask
+	 * @param audioTask
+	 */
 	public void displayLoadingViewCreationsScene(ViewCreationsTask creationTask, ViewAudioTask audioTask) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.LoadingViewCreations, this);
@@ -208,6 +253,11 @@ public class WikiApplication extends Application {
 		update();
 	}
 	
+	/**
+	 * Set seen to display images relevant to the search term
+	 * @param term
+	 * @param audioList
+	 */
 	public void displayCreateCreationChooseImagesScene(String term, ArrayList<String> audioList) {
 		
 		SceneMaker sceneMaker = new SceneMaker(SceneType.CreateCreationChooseImages, this);
@@ -222,6 +272,9 @@ public class WikiApplication extends Application {
 	// ----------------------DISPLAY METHODS (VIEW)---------------------------------------
 	// -----------------------------------------------------------------------------------
 	
+	/**
+	 * set seen to show the creations the user has created up to this point
+	 */
 	public void displayViewCreationsScene() {
 
 		SceneMaker sceneMaker = new SceneMaker(SceneType.ViewCreations, this);
@@ -304,6 +357,9 @@ public class WikiApplication extends Application {
 	// ----------------------DISPLAY PAST SCENES -----------------------------------------
 	// -----------------------------------------------------------------------------------
 
+	/**
+	 * Set scene back to original wikit search display
+	 */
 	public void setAudioScene(){
 		_currentScene = _audioWikitScene;
 		update();

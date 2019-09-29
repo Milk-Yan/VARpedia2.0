@@ -18,16 +18,25 @@ public class MainMenuController extends Controller{
 	@FXML
 	private Button _viewCreationsBtn;
 	
+	/**
+	 * button to start audio creation 
+	 */
 	@FXML
 	private void createAudio() {
 		_mainApp.displayCreateAudioSearchScene();
 	}
 	
+	/**
+	 * button to start visual creation 
+	 */
 	@FXML
 	private void createCreation() {
 		_mainApp.displayCreateCreationSearchScene();
 	}
 	
+	/**
+	 * button to display creations 
+	 */
 	@FXML
 	private void viewCreations() {
 		_mainApp.displayViewCreationsScene();

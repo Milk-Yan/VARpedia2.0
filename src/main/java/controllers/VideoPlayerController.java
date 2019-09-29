@@ -45,7 +45,10 @@ public class VideoPlayerController extends Controller{
 	private MediaPlayer _player;
 	private Stage _stage;
 
-
+	/**
+	 * initial setup for video playback. Video starts automatically
+	 * @param videoName
+	 */
 	public void setUp(String videoName) {
 		_videoName = videoName;
 
@@ -67,7 +70,9 @@ public class VideoPlayerController extends Controller{
 	}
 
 
-
+	/**
+	 * button to allow the user to pause/play the video 
+	 */
 	@FXML
 	private void playPause() {
 		if (_player.getStatus() == Status.PAUSED || _player.getStatus() == Status.STOPPED) {
@@ -79,12 +84,18 @@ public class VideoPlayerController extends Controller{
 		}
 	}
 
+	/**
+	 * button to allow video playback speed to increase
+	 */
 	@FXML
 	private void fastForward() {
 		Double fasterRate = _player.getRate() + 0.5;
 		_player.setRate(fasterRate);
 	}
 
+	/**
+	 * button to allow video playback speed to decrease
+	 */
 	@FXML
 	private void slowDown() {
 		Double slowerRate = _player.getRate() - 0.5;
@@ -95,12 +106,18 @@ public class VideoPlayerController extends Controller{
 		}
 	}
 
+	/**
+	 * button to allow video to skip 5 seconds
+	 */
 	@FXML
 	private void forward() {
 		Duration newTime = _player.getCurrentTime().add(Duration.seconds(5));
 		_player.seek(newTime);
 	}
 
+	/**
+	 * button to allow video to return 5 seconds
+	 */
 	@FXML
 	private void backward() {
 		Duration newTime = _player.getCurrentTime().subtract(Duration.seconds(5));
@@ -108,6 +125,9 @@ public class VideoPlayerController extends Controller{
 
 	}
 
+	/**
+	 * button to mute audio 
+	 */
 	@FXML
 	private void mute() {
 		if (_player.isMute()) {
@@ -117,6 +137,10 @@ public class VideoPlayerController extends Controller{
 		}
 	}
 
+	/**
+	 * initialize the video playing
+	 * @return
+	 */
 	private MediaPlayer createPlayer() {
 		Media video = new Media(Paths.get("bin"+File.separator+"creations"+File.separator + _videoName + ".mp4").toUri().toString());
 		_player = new MediaPlayer(video);
