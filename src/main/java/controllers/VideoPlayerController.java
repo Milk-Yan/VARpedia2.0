@@ -150,6 +150,7 @@ public class VideoPlayerController extends Controller{
 		_player.setOnEndOfMedia(() -> {
 			_playPauseBtn.setText("Play");
 			_player.stop();
+			_player.seek(Duration.ZERO);
 		});
 
 		return _player;

@@ -88,6 +88,10 @@ public class CreateCreationChooseAudioController extends Controller{
 		}
 
 		_audioCandidates.setItems(audioList);
+
+		// only allow re-ordering one at a time
+		_audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		_audioChosen.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
 
 	/**
@@ -136,57 +140,51 @@ public class CreateCreationChooseAudioController extends Controller{
 	 */
 	@FXML
 	private void moveChosenUp() {
+		
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
-			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndices().get(0);
-
-			if (currentIndex == 0) {
-				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at top of list");
-				return;
-			}
-
-			int newIndex = currentIndex-1;
+			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndex();
 			String audioChosen = _audioChosen.getSelectionModel().getSelectedItems().get(0);
 
-			// remove at current position
-			_audioChosen.getItems().remove(currentIndex);
+			if (currentIndex > 0) {
+				int newIndex = currentIndex-1;
 
-			// insert at new position
-			_audioChosen.getItems().add(newIndex, audioChosen);
+				// remove at current position
+				_audioChosen.getItems().remove(currentIndex);
 
-			// sorts list
-			sortLists();
-		} else {
-			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
+				// insert at new position
+				_audioChosen.getItems().add(newIndex, audioChosen);
+
+				// sorts list
+				sortLists();
+			}
 		}
 	}
-	
+
 	/**
 	 * method to arrange audio ordering
 	 * moves audio down the list if it is not at the bottom
 	 */
 	@FXML
 	private void moveChosenDown() {
+		
 		if (_audioChosen.getSelectionModel().getSelectedItems().size() == 1) {
-			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndices().get(0);
+			
+			int currentIndex = _audioChosen.getSelectionModel().getSelectedIndex();
 
-			if (currentIndex == _audioChosen.getItems().size()-1) {
-				new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
-				return;
+			if (currentIndex < _audioChosen.getItems().size()-1) {
+				int newIndex = currentIndex+1;
+				String audioChosen = _audioChosen.getSelectionModel().getSelectedItems().get(0);
+
+				// remove at current position
+				_audioChosen.getItems().remove(currentIndex);
+
+				// insert at new position
+				_audioChosen.getItems().add(newIndex, audioChosen);
+
+				// sorts list
+				sortLists();
 			}
 
-			int newIndex = currentIndex+1;
-			String audioChosen = _audioChosen.getSelectionModel().getSelectedItems().get(0);
-
-			// remove at current position
-			_audioChosen.getItems().remove(currentIndex);
-
-			// insert at new position
-			_audioChosen.getItems().add(newIndex, audioChosen);
-
-			// sorts list
-			sortLists();
-		} else {
-			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 		}
 	}
 
@@ -195,14 +193,19 @@ public class CreateCreationChooseAudioController extends Controller{
 	 */
 	@FXML
 	private void candidateToChosen() {
-		ObservableList<String> candidates = _audioCandidates.getSelectionModel().getSelectedItems();
-
-		for (String candidate:candidates) {
+		
+		String candidate = _audioCandidates.getSelectionModel().getSelectedItem();
+		int candidateIndex = _audioCandidates.getSelectionModel().getSelectedIndex();
+		
+		if (candidateIndex != -1) {
+			// add to chosen list
 			addToEndOfList(candidate, _audioChosen);
+			//remove from candidate list
+			_audioCandidates.getItems().remove(candidate);
+			
+			sortLists();
 		}
-
-		_audioCandidates.getItems().removeAll(candidates);
-		sortLists();
+		
 	}
 
 	/**
@@ -210,13 +213,17 @@ public class CreateCreationChooseAudioController extends Controller{
 	 */
 	@FXML
 	private void chosenToCandidate() {
-		ObservableList<String> candidates = _audioChosen.getSelectionModel().getSelectedItems();
-		for (String candidate:candidates) {
-			addToEndOfList(candidate, _audioCandidates);
+		String chosen = _audioChosen.getSelectionModel().getSelectedItem();
+		int chosenIndex = _audioChosen.getSelectionModel().getSelectedIndex();
+		
+		if (chosenIndex != -1) {
+			// add to candidate list
+			addToEndOfList(chosen, _audioCandidates);
+			// remove from chosen list
+			_audioChosen.getItems().add(chosen);
+			
+			sortLists();
 		}
-
-		_audioChosen.getItems().removeAll(candidates);
-		sortLists();
 	}
 
 	/**

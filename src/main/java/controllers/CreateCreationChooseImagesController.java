@@ -123,7 +123,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			new AlertMaker(AlertType.ERROR, "Error", "No images selected",
 					"You have not selected any images");
 		} else if (lengthOfAudio < _imageChosenList.size()*2) {
-			new AlertMaker(AlertType.ERROR, "Error", "The video is too short", "Choose less images");
+			new AlertMaker(AlertType.ERROR, "Error", "The audio is too short", "Choose less images or make a longer audio for your creation.");
 		} else {
 			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
 		}

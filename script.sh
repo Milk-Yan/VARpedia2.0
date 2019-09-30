@@ -1,1 +1,0 @@
-java -jar VAR.jar
