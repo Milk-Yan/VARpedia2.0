@@ -13,7 +13,7 @@ import main.java.controllers.Controller;
 import main.java.tasks.CreateCreationTask;
 
 /**
- * Controller for CreateCreationNaming.fxml
+ * Controller for CreationNaming.fxml
  * @author wcho400
  *
  */

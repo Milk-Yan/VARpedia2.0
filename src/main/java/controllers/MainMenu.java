@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
  *
  */
 public class MainMenu extends Controller{
-	
+
 	/**
 	 * button to start audio creation 
 	 */

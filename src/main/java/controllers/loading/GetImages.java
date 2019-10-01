@@ -6,7 +6,7 @@ import main.java.controllers.Controller;
 import main.java.tasks.GetImagesTask;
 
 /**
- * Controller for LoadingScrapingImages.fxml
+ * Controller for GetImages.fxml
  * @author wcho400
  *
  */

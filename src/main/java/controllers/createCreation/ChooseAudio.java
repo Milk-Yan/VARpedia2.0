@@ -21,7 +21,7 @@ import main.java.tasks.GetImagesTask;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * Controller for CreateCreationChooseAudio.fxml
+ * Controller for ChooseAudio.fxml
  * For displaying pre-existing creations
  * @author wcho400
  *

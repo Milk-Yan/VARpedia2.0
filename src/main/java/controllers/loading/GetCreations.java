@@ -6,7 +6,7 @@ import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
 /**
- * Controller for LoadingViewCreations.fxml
+ * Controller for GetCreations.fxml
  * @author wcho400
  *
  */

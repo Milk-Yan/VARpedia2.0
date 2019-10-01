@@ -25,7 +25,7 @@ import main.java.application.AlertFactory;
 import main.java.controllers.Controller;
 
 /**
- * Controller for CreateCreationChooseImages.fxml
+ * Controller for ChooseImages.fxml
  * Allows user to select images to be used
  * 
  * @author wcho400

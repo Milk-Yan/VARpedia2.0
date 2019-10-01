@@ -5,7 +5,7 @@ import main.java.controllers.Controller;
 import main.java.tasks.CreateAudioTask;
 
 /**
- * Controller for LoadingCreateAudio.fxml
+ * Controller for CreateAudio.fxml
  * @author wcho400
  *
  */
