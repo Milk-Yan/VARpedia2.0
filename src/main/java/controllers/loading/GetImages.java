@@ -1,8 +1,9 @@
-package main.java.controllers;
+package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import main.java.controllers.Controller;
 import main.java.tasks.GetImagesTask;
 
 /**
@@ -10,7 +11,7 @@ import main.java.tasks.GetImagesTask;
  * @author wcho400
  *
  */
-public class LoadingScrapingImagesController extends Controller{
+public class GetImages extends Controller {
 	
 	private GetImagesTask _task;
 

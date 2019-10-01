@@ -1,7 +1,8 @@
-package main.java.controllers;
+package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import main.java.controllers.Controller;
 import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
@@ -10,7 +11,7 @@ import main.java.tasks.ViewCreationsTask;
  * @author wcho400
  *
  */
-public class LoadingViewCreationsController extends Controller{
+public class GetCreations extends Controller {
 
 	private ViewCreationsTask _creationTask;
 	private ViewAudioTask _audioTask;

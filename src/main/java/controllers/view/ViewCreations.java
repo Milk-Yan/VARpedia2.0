@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.view;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
@@ -19,6 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
 import main.java.application.AlertFactory;
+import main.java.controllers.Controller;
 import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
@@ -27,7 +28,7 @@ import main.java.tasks.ViewCreationsTask;
  * @author Milk
  *
  */
-public class ViewCreationsController extends Controller{
+public class ViewCreations extends Controller {
 
 	private MediaPlayer _audioPlayer;
 

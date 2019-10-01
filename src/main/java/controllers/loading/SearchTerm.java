@@ -1,15 +1,16 @@
-package main.java.controllers;
+package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import main.java.controllers.Controller;
 import main.java.tasks.SearchTermTask;
 
 /**
- * Controller for LoadingSearchResultsController.fxml
+ * Controller for SearchTerm.fxml
  * @author wcho400
  *
  */
-public class LoadingSearchResultsController extends Controller{
+public class SearchTerm extends Controller {
 
 	private SearchTermTask _task;
 	

@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.java.controllers.CreateAudioChooseTextController;
+import main.java.controllers.createAudio.ChooseText;
 // controllers
-import main.java.controllers.CreateAudioNamingController;
-import main.java.controllers.CreateCreationChooseAudioController;
-import main.java.controllers.CreateCreationChooseImagesController;
-import main.java.controllers.CreateCreationNamingController;
-import main.java.controllers.LoadingCreateAudioController;
-import main.java.controllers.LoadingCreateCreationController;
-import main.java.controllers.LoadingScrapingImagesController;
-import main.java.controllers.LoadingSearchResultsController;
-import main.java.controllers.LoadingViewCreationsController;
-import main.java.controllers.VideoPlayerController;
-import main.java.controllers.ViewCreationsController;
+import main.java.controllers.createAudio.AudioNaming;
+import main.java.controllers.createCreation.ChooseAudio;
+import main.java.controllers.createCreation.ChooseImages;
+import main.java.controllers.createCreation.CreationNaming;
+import main.java.controllers.loading.*;
+import main.java.controllers.loading.SearchTerm;
+import main.java.controllers.view.VideoPlayer;
+import main.java.controllers.view.ViewCreations;
 // tasks
 import main.java.tasks.CreateAudioTask;
 import main.java.tasks.CreateCreationTask;
@@ -107,7 +104,7 @@ public class WikiApplication extends Application {
 
 		// get the loading search results controller so that the search task can be
 		// passed in
-		LoadingSearchResultsController controller = (LoadingSearchResultsController) loadingSceneFactory.getController();
+		SearchTerm controller = (SearchTerm) loadingSceneFactory.getController();
 		controller.setTask(task);
 
 		_currentScene = loadingSceneFactory.getScene();
@@ -125,7 +122,7 @@ public class WikiApplication extends Application {
 		// searchResults can be passed in
 		SceneFactory sceneFactory = new SceneFactory(SceneType.CreateAudioChooseText, this);
 
-		CreateAudioChooseTextController controller = (CreateAudioChooseTextController) sceneFactory.getController();
+		ChooseText controller = (ChooseText) sceneFactory.getController();
 		controller.setUp(term, searchResults);
 
 		_currentScene = sceneFactory.getScene();
@@ -145,7 +142,7 @@ public class WikiApplication extends Application {
 	public void displayCreateAudioNamingScene(String term, String chosenText, String voice) {
 
 		SceneFactory sceneFactory = new SceneFactory(SceneType.CreateAudioNaming, this);
-		CreateAudioNamingController controller = (CreateAudioNamingController) sceneFactory.getController();
+		AudioNaming controller = (AudioNaming) sceneFactory.getController();
 		controller.setUp(term, chosenText, voice);
 
 		_currentScene = sceneFactory.getScene();
@@ -158,7 +155,7 @@ public class WikiApplication extends Application {
 	 */
 	public void displayLoadingCreateAudioScene(CreateAudioTask task) {
 		SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingCreateAudio, this);
-		LoadingCreateAudioController controller = (LoadingCreateAudioController) sceneFactory.getController();
+		CreateAudio controller = (CreateAudio) sceneFactory.getController();
 		controller.setTask(task);
 
 		_currentScene = sceneFactory.getScene();
@@ -187,7 +184,7 @@ public class WikiApplication extends Application {
 	public void displayCreateCreationChooseAudioScene(String term) {
 		
 		SceneFactory sceneFactory = new SceneFactory(SceneType.CreateCreationChooseAudio, this);
-		CreateCreationChooseAudioController controller = (CreateCreationChooseAudioController) sceneFactory.getController();
+		ChooseAudio controller = (ChooseAudio) sceneFactory.getController();
 		controller.setUp(term);
 		
 		_currentScene = sceneFactory.getScene();
@@ -201,7 +198,7 @@ public class WikiApplication extends Application {
 	 */
 	public void displayLoadingScrapingImagesScene(String term, GetImagesTask task) {
 		SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingScrapingImages, this);
-		LoadingScrapingImagesController controller = (LoadingScrapingImagesController) sceneFactory.getController();
+		GetImages controller = (GetImages) sceneFactory.getController();
 		controller.setTask(task, term);
 		
 		_currentScene = sceneFactory.getScene();
@@ -215,7 +212,7 @@ public class WikiApplication extends Application {
 	public void displayLoadingCreateCreationScene(CreateCreationTask task) {
 		
 		SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingCreateCreation, this);
-		LoadingCreateCreationController controller = (LoadingCreateCreationController) sceneFactory.getController();
+		CreateCreation controller = (CreateCreation) sceneFactory.getController();
 		controller.setTask(task);
 		
 		_currentScene = sceneFactory.getScene();
@@ -231,7 +228,7 @@ public class WikiApplication extends Application {
 	public void displayCreateCreationNamingScene(String term, ArrayList<String> audioList, ArrayList<String> imageList) {
 		
 		SceneFactory sceneFactory = new SceneFactory(SceneType.CreateCreationNaming, this);
-		CreateCreationNamingController controller = (CreateCreationNamingController) sceneFactory.getController();
+		CreationNaming controller = (CreationNaming) sceneFactory.getController();
 		controller.setUp(term, audioList, imageList);
 		
 		_currentScene = sceneFactory.getScene();
@@ -246,7 +243,7 @@ public class WikiApplication extends Application {
 	public void displayLoadingViewCreationsScene(ViewCreationsTask creationTask, ViewAudioTask audioTask) {
 		
 		SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingViewCreations, this);
-		LoadingViewCreationsController controller = (LoadingViewCreationsController) sceneFactory.getController();
+		GetCreations controller = (GetCreations) sceneFactory.getController();
 		controller.setTask(creationTask, audioTask);
 		
 		_currentScene = sceneFactory.getScene();
@@ -261,7 +258,7 @@ public class WikiApplication extends Application {
 	public void displayCreateCreationChooseImagesScene(String term, ArrayList<String> audioList) {
 		
 		SceneFactory sceneFactory = new SceneFactory(SceneType.CreateCreationChooseImages, this);
-		CreateCreationChooseImagesController controller = (CreateCreationChooseImagesController) sceneFactory.getController();
+		ChooseImages controller = (ChooseImages) sceneFactory.getController();
 		controller.setUp(term, audioList);
 		
 		_currentScene = sceneFactory.getScene();
@@ -278,7 +275,7 @@ public class WikiApplication extends Application {
 	public void displayViewCreationsScene() {
 
 		SceneFactory sceneFactory = new SceneFactory(SceneType.ViewCreations, this);
-		ViewCreationsController controller = (ViewCreationsController) sceneFactory.getController();
+		ViewCreations controller = (ViewCreations) sceneFactory.getController();
 		controller.setUp();
 		
 		_currentScene = sceneFactory.getScene();
@@ -293,7 +290,7 @@ public class WikiApplication extends Application {
 	public void playVideo(String name) {
 		
 		SceneFactory sceneFactory = new SceneFactory(SceneType.VideoPlayer, this);
-		VideoPlayerController controller = (VideoPlayerController) sceneFactory.getController();
+		VideoPlayer controller = (VideoPlayer) sceneFactory.getController();
 		controller.setUp(name);
 		
 		

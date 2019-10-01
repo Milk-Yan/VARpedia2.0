@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.createCreation;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.controllers.Controller;
 
 /**
  * Controller for CreateCreationChooseImages.fxml
@@ -31,7 +32,7 @@ import main.java.application.AlertFactory;
  * @author wcho400
  *
  */
-public class CreateCreationChooseImagesController extends Controller{
+public class ChooseImages extends Controller {
 
 	private String _term;
 	private ArrayList<String> _audioList;

@@ -1,7 +1,8 @@
-package main.java.controllers;
+package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import main.java.controllers.Controller;
 import main.java.tasks.CreateAudioTask;
 
 /**
@@ -9,7 +10,7 @@ import main.java.tasks.CreateAudioTask;
  * @author wcho400
  *
  */
-public class LoadingCreateAudioController extends Controller{
+public class CreateAudio extends Controller {
 
 	private CreateAudioTask _task;
 	

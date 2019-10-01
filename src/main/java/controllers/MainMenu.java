@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
  * @author Milk
  *
  */
-public class MainMenuController extends Controller{
+public class MainMenu extends Controller{
 	
 	@FXML
 	private Button _createAudioBtn;

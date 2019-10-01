@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.createAudio;
 
 import java.io.File;
 
@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 import main.java.application.AlertFactory;
+import main.java.controllers.Controller;
 import main.java.tasks.CreateAudioTask;
 
 /**
@@ -18,7 +19,7 @@ import main.java.tasks.CreateAudioTask;
  * @author Milk
  *
  */
-public class CreateAudioNamingController extends Controller{
+public class AudioNaming extends Controller {
 	
 	@FXML
 	private TextField _nameInput;

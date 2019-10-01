@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.createCreation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.controllers.Controller;
 import main.java.tasks.GetImagesTask;
 import javafx.scene.control.Alert.AlertType;
 
@@ -25,7 +26,7 @@ import javafx.scene.control.Alert.AlertType;
  * @author wcho400
  *
  */
-public class CreateCreationChooseAudioController extends Controller{
+public class ChooseAudio extends Controller {
 
 	private String _term;
 	private MediaPlayer _audioPlayer;

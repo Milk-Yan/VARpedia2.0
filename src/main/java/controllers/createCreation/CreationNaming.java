@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.createCreation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import main.java.application.AlertFactory;
+import main.java.controllers.Controller;
 import main.java.tasks.CreateCreationTask;
 
 /**
@@ -17,7 +18,7 @@ import main.java.tasks.CreateCreationTask;
  * @author wcho400
  *
  */
-public class CreateCreationNamingController extends Controller{
+public class CreationNaming extends Controller {
 
 	private String _name;
 	private String _term;

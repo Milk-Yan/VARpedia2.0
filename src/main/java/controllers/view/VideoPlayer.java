@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.view;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -11,6 +11,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.java.controllers.Controller;
 
 
 /**
@@ -18,7 +19,7 @@ import javafx.util.Duration;
  * @author Milk
  *
  */
-public class VideoPlayerController extends Controller{
+public class VideoPlayer extends Controller {
 
 	@FXML
 	private MediaView _viewer;

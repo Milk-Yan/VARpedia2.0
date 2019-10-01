@@ -1,15 +1,16 @@
-package main.java.controllers;
+package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import main.java.controllers.Controller;
 import main.java.tasks.CreateCreationTask;
 
 /**
- * Controller for LoadingCreateCreationController.fxml
+ * Controller for CreateCreation.fxml
  * @author wcho400
  *
  */
-public class LoadingCreateCreationController extends Controller{
+public class CreateCreation extends Controller {
 	private CreateCreationTask _task;
 
 	@FXML

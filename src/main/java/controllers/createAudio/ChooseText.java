@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controllers.createAudio;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
+import main.java.controllers.Controller;
 import main.java.tasks.PreviewAudioTask;
 
 /**
@@ -25,7 +26,7 @@ import main.java.tasks.PreviewAudioTask;
  * @author wcho400
  *
  */
-public class CreateAudioChooseTextController extends Controller {
+public class ChooseText extends Controller {
 
 	private String _term;
 	private String _sourceString;
@@ -66,7 +67,7 @@ public class CreateAudioChooseTextController extends Controller {
 		_sourceString = searchResults.trim();
 		_wordLimit.setTextFill(Color.GREEN);
 
-		_message.setText("Search results for " + _term + ": " );
+		_message.setText("TermSearch results for " + _term + ": " );
 		_searchResults.setText(_sourceString);
 
 		//generate list of different voices

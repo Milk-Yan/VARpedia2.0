@@ -1,10 +1,11 @@
-package main.java.controllers;
+package main.java.controllers.createAudio;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import main.java.application.AlertFactory;
+import main.java.controllers.Controller;
 import main.java.tasks.SearchTermTask;
 
 /**
@@ -12,7 +13,7 @@ import main.java.tasks.SearchTermTask;
  * @author Milk
  *
  */
-public class CreateAudioSearchController extends Controller{
+public class TermSearch extends Controller {
 
 	@FXML
 	private TextField _termInput;
