@@ -56,9 +56,6 @@ public class ChooseText extends Controller {
 	@FXML
 	private ChoiceBox<String> _voiceSelection;
 
-	@FXML
-	private Button _mainMenuBtn;
-
 	/**
 	 * Initialise the searchResults TextArea and also the number of lines displayed to user.
 	 */
@@ -181,18 +178,6 @@ public class ChooseText extends Controller {
 
 
 	}
-
-//	/**
-//	 * return to main menu after asking for confirmation
-//	 */
-//	@FXML
-//	private void mainMenu() {
-//		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
-//				"Any unfinished progress will be lost").getAlert();
-//		if (alert.getResult() == ButtonType.OK) {
-//			_mainApp.displayMainMenuScene();
-//		}
-//	}
 
 	/**
 	 * choice box of possible voices

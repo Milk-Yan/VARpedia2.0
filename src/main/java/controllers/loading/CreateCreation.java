@@ -20,13 +20,13 @@ public class CreateCreation extends Controller {
 	 * returns to main menu when button is pressed
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 		// cancel current task before going back to main menu
 		if (_task != null) {
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenuScene();
+		mainMenu();
 	}
 
 	/**

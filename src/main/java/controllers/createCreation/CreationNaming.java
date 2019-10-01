@@ -28,12 +28,6 @@ public class CreationNaming extends Controller {
 	@FXML
 	private TextField _nameInput;
 
-	@FXML
-	private Button _createBtn;
-
-	@FXML
-	private Button _mainMenuBtn;
-
 	/**
 	 * initializes parameters to be passed on to the next scene
 	 * @param term
@@ -101,11 +95,11 @@ public class CreationNaming extends Controller {
 	 * asks for confirmation being returning
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
 				"Any unfinished progress will be lost").getAlert();
 		if (alert.getResult() == ButtonType.OK) {
-			_mainApp.displayMainMenuScene();
+			mainMenu();
 		}
 	}
 	

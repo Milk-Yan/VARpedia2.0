@@ -25,13 +25,13 @@ public class GetImages extends Controller {
 	 * returns to main menu if selected
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 		// cancel current task before going back to main menu
 		if (_task != null) {
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenuScene();
+		mainMenu();
 	}
 
 	/**

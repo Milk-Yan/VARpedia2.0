@@ -40,12 +40,6 @@ public class ChooseAudio extends Controller {
 	@FXML
 	private ListView<String> _audioChosen;
 
-	@FXML
-	private Button _confirmBtn;
-
-	@FXML
-	private Button _listenBtn;
-
 	@FXML 
 	private Button _mainMenuBtn;
 
@@ -316,12 +310,12 @@ public class ChooseAudio extends Controller {
 	 * asks for confirmation with an alert
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 
 		stopAudioPlayer();
 
 		if (_mainMenuBtn.getText().equals("Confirm?")) {
-			_mainApp.displayMainMenuScene();
+			mainMenu();
 		} else {
 			_mainMenuBtn.setText("Confirm?");
 		}

@@ -21,14 +21,14 @@ public class CreateAudio extends Controller {
 	 * button to return to main menu if pressed
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 		// cancel current task before going back to main menu
 		if (_task != null && !_task.isCancelled()) {
 			_task.destroyProcess(); // need to destroy process before interrupting task 
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenuScene();
+		mainMenu();
 	}
 	
 	/**

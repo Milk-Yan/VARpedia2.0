@@ -22,14 +22,14 @@ public class SearchTerm extends Controller {
 	 * ask for confirmation before going
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 
 		// cancel current task before going back to main menu
 		if (_task != null && !_task.isCancelled()) {
 			_task.cancel();
 		}
 
-		_mainApp.displayMainMenuScene();
+		mainMenu();
 	}
 
 	/**

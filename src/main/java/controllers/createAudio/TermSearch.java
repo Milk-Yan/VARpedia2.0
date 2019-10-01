@@ -18,12 +18,6 @@ public class TermSearch extends Controller {
 	@FXML
 	private TextField _termInput;
 
-	@FXML
-	private Button _searchBtn;
-
-	@FXML
-	private Button _mainMenuBtn;
-
 	/**
 	 * search for a term in wikipedia
 	 * checks if input is empty
@@ -50,11 +44,4 @@ public class TermSearch extends Controller {
 		}
 	}
 
-	/**
-	 * returns to the main menu
-	 */
-	@FXML
-	private void mainMenu() {
-		_mainApp.displayMainMenuScene();
-	}
 }

@@ -100,20 +100,7 @@ public class AudioNaming extends Controller {
 
 		
 	}
-	
-	/**
-	 * returns to main menu
-	 * asks for confirmation via an alert
-	 */
-	@FXML
-	private void mainMenu() {
-		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
-				"Any unfinished progress will be lost").getAlert();
-		if (alert.getResult() == ButtonType.OK) {
-			_mainApp.displayMainMenuScene();
-		}
-		
-	}
+
 	
 
 }

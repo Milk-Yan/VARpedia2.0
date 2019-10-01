@@ -26,10 +26,10 @@ public class GetCreations extends Controller {
 	 * button to stop displaying creations. Returns to main menu
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 		_creationTask.cancel();
 		_audioTask.cancel();
-		_mainApp.displayMainMenuScene();
+		mainMenu();
 	}
 	
 	/**

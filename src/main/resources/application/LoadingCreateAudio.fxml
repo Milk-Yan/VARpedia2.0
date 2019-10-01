@@ -14,7 +14,7 @@
          </font>
       </Text>
       <ProgressIndicator />
-      <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenu" text="Quit to Main Menu">
+      <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" text="Quit to Main Menu">
          <font>
             <Font size="18.0" />
          </font>

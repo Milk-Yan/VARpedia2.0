@@ -32,9 +32,6 @@ public class AudioSearch extends Controller {
 	@FXML
 	private Button _enterBtn;
 
-	@FXML
-	private Button _mainMenuBtn;
-
 	/**
 	 * checks if any audio has been made and display possible wikit terms
 	 * else return to main menu
@@ -100,11 +97,4 @@ public class AudioSearch extends Controller {
 		}
 	}
 
-	/**
-	 * return to main menu
-	 */
-	@FXML
-	private void mainMenu() {
-		_mainApp.displayMainMenuScene();
-	}
 }

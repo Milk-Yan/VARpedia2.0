@@ -16,7 +16,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,9 +47,6 @@ public class ChooseImages extends Controller {
 	
 	@FXML
 	private ListView<HBox> _imageChosen;
-	
-	@FXML
-	private Button _mainMenuBtn;
 
 	/**
 	 * Passes through list of desired audios, as well as teh search term
@@ -135,11 +131,11 @@ public class ChooseImages extends Controller {
 	 * asks for confirmation before action
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
 				"Any unfinished progress will be lost").getAlert();
 		if (alert.getResult() == ButtonType.OK) {
-			_mainApp.displayMainMenuScene();
+			mainMenu();
 		}
 	}
 	

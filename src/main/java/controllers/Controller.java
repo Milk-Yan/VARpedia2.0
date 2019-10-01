@@ -22,8 +22,11 @@ public abstract class Controller {
 		}
 	}
 
+	/**
+	 * Changes the scene back to the main menu and discards all edits.
+	 */
 	@FXML
-	private void mainMenu() {
+	protected void mainMenu() {
 		_mainApp.displayMainMenuScene();
 	}
 }

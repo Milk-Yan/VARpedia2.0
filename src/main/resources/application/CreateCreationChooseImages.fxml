@@ -60,7 +60,7 @@
                </padding>
             </VBox>
             <Button mnemonicParsing="false" onAction="#create" prefWidth="208.0" text="Create!" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Button mnemonicParsing="false" onAction="#mainMenu" prefWidth="200.0" text="Back to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#mainMenuPress" prefWidth="200.0" text="Back to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

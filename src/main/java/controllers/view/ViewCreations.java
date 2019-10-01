@@ -230,11 +230,11 @@ public class ViewCreations extends Controller {
 	 * Returns to the main menu
 	 */
 	@FXML
-	private void mainMenu() {
+	private void mainMenuPress() {
 
 		stopAudioPlayer();
 		
-		_mainApp.displayMainMenuScene();
+		mainMenu();
 
 	}
 
