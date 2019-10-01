@@ -1,7 +1,6 @@
 package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import main.java.controllers.Controller;
 import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
@@ -15,12 +14,6 @@ public class GetCreations extends Controller {
 
 	private ViewCreationsTask _creationTask;
 	private ViewAudioTask _audioTask;
-	
-	/**
-	 * button to return to the main menu
-	 */
-	@FXML
-	private Button _mainMenuBtn;
 	
 	/**
 	 * button to stop displaying creations. Returns to main menu

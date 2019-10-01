@@ -1,7 +1,6 @@
 package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import main.java.controllers.Controller;
 import main.java.tasks.SearchTermTask;
 
@@ -13,9 +12,6 @@ import main.java.tasks.SearchTermTask;
 public class SearchTerm extends Controller {
 
 	private SearchTermTask _task;
-	
-	@FXML 
-	private Button _mainMenuBtn;
 
 	/**
 	 * method to return to the main menu

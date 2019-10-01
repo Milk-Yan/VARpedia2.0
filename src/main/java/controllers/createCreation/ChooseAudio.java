@@ -120,10 +120,6 @@ public class ChooseAudio extends Controller {
 			new Thread(task).start();
 
 			_mainApp.displayLoadingScrapingImagesScene(_term, task);
-			//_mainApp.displayCreateCreationCreateSlideshowScene(_term, selectedList);
-			//			for (String audioName:selectedList) {
-			//				// TO-DO: implement audio merging here (maybe a new task. likely a new task.)
-			//			}
 		}
 
 

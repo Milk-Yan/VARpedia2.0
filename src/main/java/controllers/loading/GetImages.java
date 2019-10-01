@@ -1,7 +1,6 @@
 package main.java.controllers.loading;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import main.java.controllers.Controller;
 import main.java.tasks.GetImagesTask;
@@ -17,9 +16,6 @@ public class GetImages extends Controller {
 
 	@FXML
 	private Text _message;
-	
-	@FXML
-	private Button _mainMenuBtn;
 
 	/**
 	 * returns to main menu if selected

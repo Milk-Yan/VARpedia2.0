@@ -53,9 +53,6 @@ public class ViewCreations extends Controller {
 	@FXML
 	private Button _deleteBtn;
 
-	@FXML
-	private Button _mainMenuBtn;
-
 	/**
 	 * Creates a ListView of current creations. The search for
 	 * current creations is implemented on a different thread to

@@ -13,9 +13,6 @@ import main.java.tasks.CreateCreationTask;
 public class CreateCreation extends Controller {
 	private CreateCreationTask _task;
 
-	@FXML
-	private Button _mainMenuBtn;
-
 	/**
 	 * returns to main menu when button is pressed
 	 */

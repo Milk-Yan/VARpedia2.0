@@ -10,14 +10,6 @@ import javafx.scene.control.Button;
  */
 public class MainMenu extends Controller{
 	
-	@FXML
-	private Button _createAudioBtn;
-	
-	@FXML
-	private Button _createCreatioBtn;
-	@FXML
-	private Button _viewCreationsBtn;
-	
 	/**
 	 * button to start audio creation 
 	 */

@@ -5,7 +5,6 @@ import java.io.File;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -23,12 +22,6 @@ public class AudioNaming extends Controller {
 	
 	@FXML
 	private TextField _nameInput;
-	
-	@FXML
-	private Button _createBtn;
-	
-	@FXML
-	private Button _mainMenuBtn;
 	
 	private String _name;
 	private String _term;

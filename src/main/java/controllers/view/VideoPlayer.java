@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.java.controllers.Controller;
 
-
 /**
  * Controller for functionality of VideoPlayer.fxml
  * @author Milk
@@ -26,21 +25,6 @@ public class VideoPlayer extends Controller {
 
 	@FXML
 	private Button _playPauseBtn;
-
-	@FXML
-	private Button _fastForwardBtn;
-
-	@FXML
-	private Button _slowDownBtn;
-
-	@FXML
-	private Button _forwardBtn;
-
-	@FXML
-	private Button _backwardBtn;
-
-	@FXML
-	private Button _muteBtn;
 
 	private String _videoName;
 	private MediaPlayer _player;
