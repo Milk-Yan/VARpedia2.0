@@ -9,7 +9,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.application.WikiApplication;
 
 public class CreateCreationTask extends Task<Void>{
@@ -72,14 +72,14 @@ public class CreateCreationTask extends Task<Void>{
 			
 		} catch (IOException e) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Audio merge process exception.");
+				new AlertFactory(AlertType.ERROR, "Error", "I/O Exception", "Audio merge process exception.");
 				_mainApp.displayMainMenuScene();
 			});
 		}
 		
 		if (_audioMergeProcess.exitValue() != 0) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "Process failed", "The audio did not merge properly");
+				new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The audio did not merge properly");
 				_mainApp.displayMainMenuScene();
 			});
 		}
@@ -126,14 +126,14 @@ public class CreateCreationTask extends Task<Void>{
 			
 			if (_imageMergeProcess.exitValue() != 0) {
 				Platform.runLater(() -> {
-					new AlertMaker(AlertType.ERROR, "Error", "Process failed", "The image did not merge properly");
+					new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The image did not merge properly");
 					_mainApp.displayMainMenuScene();
 				});
 			}
 			
 		} catch (IOException e) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Image merge process exception.");
+				new AlertFactory(AlertType.ERROR, "Error", "I/O Exception", "Image merge process exception.");
 				_mainApp.displayMainMenuScene();
 			});
 		}
@@ -167,14 +167,14 @@ public class CreateCreationTask extends Task<Void>{
 			
 			if (_mergeOverallProcess.exitValue() != 0) {
 				Platform.runLater(() -> {
-					new AlertMaker(AlertType.ERROR, "Error", "Process failed", "The video and image did not merge properly");
+					new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The video and image did not merge properly");
 					_mainApp.displayMainMenuScene();
 				});
 			}
 			
 		} catch (IOException e) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "I/O Exception", "Overall merge process exception.");
+				new AlertFactory(AlertType.ERROR, "Error", "I/O Exception", "Overall merge process exception.");
 				_mainApp.displayMainMenuScene();
 			});
 		}
@@ -198,9 +198,9 @@ public class CreateCreationTask extends Task<Void>{
 	public void succeeded() {
 		
 		Platform.runLater(() -> {
-//			new AlertMaker(AlertType.INFORMATION, "Complete", "Creation complete", "Let's go back to the main menu!");
+//			new AlertFactory(AlertType.INFORMATION, "Complete", "Creation complete", "Let's go back to the main menu!");
 //			_mainApp.displayMainMenuScene();
-			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Next", "Would you like to play your creation?",
+			Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Next", "Would you like to play your creation?",
 					"Press 'OK'. Otherwise, press 'Cancel'").getAlert();
 			if (alert.getResult() == ButtonType.OK) {
 				//go to preview scene again

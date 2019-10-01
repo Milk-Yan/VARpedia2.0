@@ -8,7 +8,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.application.WikiApplication;
 
 /**
@@ -89,7 +89,7 @@ public class CreateAudioTask extends Task<Void>{
 		deleteEmptyFolder();
 
 		Platform.runLater(() -> {
-			new AlertMaker(AlertType.ERROR, "Error", "Something went wrong", "Could not make audio file.");
+			new AlertFactory(AlertType.ERROR, "Error", "Something went wrong", "Could not make audio file.");
 		});
 	}
 
@@ -112,7 +112,7 @@ public class CreateAudioTask extends Task<Void>{
 		deleteEmptyFolder();
 		
 		Platform.runLater(() -> {
-			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Next", "Would you like to make another audio?",
+			Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Next", "Would you like to make another audio?",
 					"Press 'OK'. Otherwise, press 'Cancel' to return to the main menu").getAlert();
 
 			if (alert.getResult() == ButtonType.OK) {

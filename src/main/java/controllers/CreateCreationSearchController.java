@@ -11,7 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
 import main.java.tasks.ViewSearchsTask;
 
@@ -63,7 +63,7 @@ public class CreateCreationSearchController extends Controller{
 			// probably intended, don't do anything
 		} catch (ExecutionException e) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "Execution Exception", "Could not display creations properly");
+				new AlertFactory(AlertType.ERROR, "Error", "Execution Exception", "Could not display creations properly");
 			});
 		}
 		
@@ -91,11 +91,11 @@ public class CreateCreationSearchController extends Controller{
 				
 			} else {
 				
-				new AlertMaker(AlertType.ERROR, "Error", "Audio files do not exist.", "You need to create audio files for this wikit term first.");
+				new AlertFactory(AlertType.ERROR, "Error", "Audio files do not exist.", "You need to create audio files for this wikit term first.");
 			
 			}
 		} else {
-			new AlertMaker(AlertType.ERROR, "Error", "Audio wikit not selected.", "Please select a wikit search");
+			new AlertFactory(AlertType.ERROR, "Error", "Audio wikit not selected.", "Please select a wikit search");
 		}
 	}
 

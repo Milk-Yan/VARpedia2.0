@@ -3,7 +3,7 @@ package main.java.tasks;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert.AlertType;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 
 public class PreviewAudioTask extends Task<Void>{
 
@@ -21,7 +21,7 @@ public class PreviewAudioTask extends Task<Void>{
 
 		if (_process.exitValue() != 0) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "Process failed", "Could not preview.");
+				new AlertFactory(AlertType.ERROR, "Error", "Process failed", "Could not preview.");
 			});
 		}
 

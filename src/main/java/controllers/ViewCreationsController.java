@@ -18,7 +18,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.control.Alert.AlertType;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
@@ -108,7 +108,7 @@ public class ViewCreationsController extends Controller{
 			// probably intended, don't do anything
 		} catch (ExecutionException e) {
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error", "Execution Exception", "Could not execute the view function");
+				new AlertFactory(AlertType.ERROR, "Error", "Execution Exception", "Could not execute the view function");
 			});
 		}
 
@@ -133,7 +133,7 @@ public class ViewCreationsController extends Controller{
 			String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
 
 			if (videoName == null) {
-				new AlertMaker(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot be null");
+				new AlertFactory(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot be null");
 			} else {
 
 				if (!(selectionName == null)) {
@@ -174,7 +174,7 @@ public class ViewCreationsController extends Controller{
 			String creationName = _listOfCreations.getSelectionModel().getSelectedItem();
 			if (creationName != null) {
 				String videoName = creationName.replaceFirst("\\d+\\. ", "").replace("\n", "");
-				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Confirmation",
+				Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Confirmation",
 						"Would you like to delete " + videoName + "?").getAlert();
 				if (alert.getResult() == ButtonType.OK) {
 					String s = File.separator;
@@ -189,7 +189,7 @@ public class ViewCreationsController extends Controller{
 		} else {
 			if (_listOfAudio.getSelectionModel().getSelectedItem().isLeaf()) {
 				String audioName = _listOfAudio.getSelectionModel().getSelectedItem().getValue();
-				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Confirmation", "Deleting audio", "Do you want to delete " + audioName + "?").getAlert();
+				Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting audio", "Do you want to delete " + audioName + "?").getAlert();
 				if (alert.getResult() == ButtonType.OK) {
 					String term = _listOfAudio.getSelectionModel().getSelectedItem().getParent().getValue();
 					File audioFile = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
@@ -206,7 +206,7 @@ public class ViewCreationsController extends Controller{
 			} else if (_listOfAudio.getSelectionModel().getSelectedItem() != null){
 				// selected is a folder
 				String term = _listOfAudio.getSelectionModel().getSelectedItem().getValue();
-				Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Confirmation", "Deleting audio folder", 
+				Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting audio folder",
 						"Do you want to delete all audio for " + term + "?").getAlert();
 				if (alert.getResult() == ButtonType.OK) {
 					File audioFolder = new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator

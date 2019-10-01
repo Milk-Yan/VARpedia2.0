@@ -16,7 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.text.Text;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
 import main.java.tasks.PreviewAudioTask;
 
@@ -84,7 +84,7 @@ public class CreateAudioChooseTextController extends Controller {
 		String highlightedText = _searchResults.getSelectedText();
 
 		if (highlightedText.trim().isEmpty()) {
-			new AlertMaker(AlertType.ERROR, "Error", "No valid text selected", "Please select some text.");
+			new AlertFactory(AlertType.ERROR, "Error", "No valid text selected", "Please select some text.");
 		} else {
 			_chosenText.appendText(highlightedText);
 			updateCount();
@@ -108,7 +108,7 @@ public class CreateAudioChooseTextController extends Controller {
 			//need to change to have voice type input
 
 			if (_manipulator.countWords(_chosenText.getText())<6){
-				new AlertMaker(AlertType.ERROR, "Warning", "Short Audio Creation",
+				new AlertFactory(AlertType.ERROR, "Warning", "Short Audio Creation",
 						"A creation of this audio is too short, please make it longer");
 				
 				return;
@@ -118,10 +118,10 @@ public class CreateAudioChooseTextController extends Controller {
 				_mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(), _voices.get(index));
 			}
 		} else if (_chosenText.getText().equals("")){
-			new AlertMaker(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
+			new AlertFactory(AlertType.ERROR, "Error", "No text selected", "Please select some text.");
 			return;
 		} else {
-			new AlertMaker(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
+			new AlertFactory(AlertType.ERROR, "Error", "Too much text selected", "Please remove some text.");
 			return;
 		}
 
@@ -162,14 +162,14 @@ public class CreateAudioChooseTextController extends Controller {
 
 		// Error handling
 		if (chosenText.isEmpty()) {
-			new AlertMaker(AlertType.ERROR, "Error", "No text chosen", "Please choose/enter some text.");
+			new AlertFactory(AlertType.ERROR, "Error", "No text chosen", "Please choose/enter some text.");
 			return;
 		} 
 
 		int wordNumber = _manipulator.countWords(chosenText.trim());
 
 		if (wordNumber > 40) {
-			new AlertMaker(AlertType.ERROR, "Error", "Too much text", "Exceeded maximum of 40 words.");
+			new AlertFactory(AlertType.ERROR, "Error", "Too much text", "Exceeded maximum of 40 words.");
 			return;
 		}
 
@@ -181,17 +181,17 @@ public class CreateAudioChooseTextController extends Controller {
 
 	}
 
-	/**
-	 * return to main menu after asking for confirmation
-	 */
-	@FXML
-	private void mainMenu() {
-		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
-				"Any unfinished progress will be lost").getAlert();
-		if (alert.getResult() == ButtonType.OK) {
-			_mainApp.displayMainMenuScene();
-		}
-	}
+//	/**
+//	 * return to main menu after asking for confirmation
+//	 */
+//	@FXML
+//	private void mainMenu() {
+//		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
+//				"Any unfinished progress will be lost").getAlert();
+//		if (alert.getResult() == ButtonType.OK) {
+//			_mainApp.displayMainMenuScene();
+//		}
+//	}
 
 	/**
 	 * choice box of possible voices
@@ -221,12 +221,12 @@ public class CreateAudioChooseTextController extends Controller {
 			} else {
 				//_voices.add(_voiceSample.get(0));
 				//_voices.add(lineOfVoices);
-				new AlertMaker(AlertType.ERROR, "Error", "No available voices", "Please install some festival voices");
+				new AlertFactory(AlertType.ERROR, "Error", "No available voices", "Please install some festival voices");
 			}
 
 
 		} catch (IOException e) {
-			new AlertMaker(AlertType.ERROR, "Error", "Cannot preview", "Could not preview with this voice.");
+			new AlertFactory(AlertType.ERROR, "Error", "Cannot preview", "Could not preview with this voice.");
 		}
 
 	}

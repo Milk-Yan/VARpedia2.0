@@ -15,7 +15,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.tasks.GetImagesTask;
 import javafx.scene.control.Alert.AlertType;
 
@@ -107,11 +107,11 @@ public class CreateCreationChooseAudioController extends Controller{
 
 		if (selectedList.isEmpty()) {
 
-			new AlertMaker(AlertType.ERROR, "Error", "No items selected", "Please select at least one audio file.");
+			new AlertFactory(AlertType.ERROR, "Error", "No items selected", "Please select at least one audio file.");
 
 		} else if (selectedList.size() > 10) {
 
-			new AlertMaker(AlertType.ERROR, "Error", "Too many items selected", "Please selected less than 10 audio files");
+			new AlertFactory(AlertType.ERROR, "Error", "Too many items selected", "Please selected less than 10 audio files");
 
 		} else {
 
@@ -305,7 +305,7 @@ public class CreateCreationChooseAudioController extends Controller{
 			_audioPlayer.play();
 
 		} else {
-			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "You can only listen to one audio at a time");
+			new AlertFactory(AlertType.ERROR, "Error", "Invalid selection", "You can only listen to one audio at a time");
 		}
 
 	}

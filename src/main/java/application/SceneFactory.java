@@ -13,12 +13,12 @@ import main.java.controllers.Controller;
  * @author Milk
  *
  */
-public class SceneMaker {
+public class SceneFactory {
 	
 	private Scene _scene;
 	private Controller _controller;
 
-	public SceneMaker(SceneType sceneType, WikiApplication mainApp) {
+	public SceneFactory(SceneType sceneType, WikiApplication mainApp) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource(sceneType.getAddress()));
 		
@@ -33,7 +33,7 @@ public class SceneMaker {
 			_scene = new Scene(layout);
 			
 		} catch (IOException e) {
-			new AlertMaker(AlertType.ERROR, "IOException", "Oops", "Something wrong happened when making the scene. Sorry :(");
+			new AlertFactory(AlertType.ERROR, "IOException", "Oops", "Something wrong happened when making the scene. Sorry :(");
 			mainApp.displayMainMenuScene();
 		}
 		

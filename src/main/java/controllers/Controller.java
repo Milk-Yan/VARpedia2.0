@@ -1,5 +1,6 @@
 package main.java.controllers;
 
+import javafx.fxml.FXML;
 import main.java.application.WikiApplication;
 
 /**
@@ -19,5 +20,10 @@ public abstract class Controller {
 		} else {
 			throw new IllegalArgumentException("The main application of a controller cannot be set more than once.");
 		}
+	}
+
+	@FXML
+	private void mainMenu() {
+		_mainApp.displayMainMenuScene();
 	}
 }

@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
  * @author Milk
  *
  */
-public class AlertMaker {
+public class AlertFactory {
 	
 	Alert _alert;
 
@@ -20,7 +20,7 @@ public class AlertMaker {
 	 * @param headerText
 	 * @param contentText
 	 */
-	public AlertMaker(AlertType alertType, String title, String headerText, String contentText) {
+	public AlertFactory(AlertType alertType, String title, String headerText, String contentText) {
 
 		_alert = new Alert(alertType);
 		if (title != null) {

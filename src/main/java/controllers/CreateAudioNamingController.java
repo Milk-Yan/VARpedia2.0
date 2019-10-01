@@ -10,7 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.tasks.CreateAudioTask;
 
 /**
@@ -60,17 +60,17 @@ public class CreateAudioNamingController extends Controller{
 		
 		if (_name.isEmpty()) {
 			
-			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "Name cannot be empty");
+			new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot be empty");
 			
 		} else if (_name.contains(" ")) {
 			
-			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain spaces");
+			new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain spaces");
 			
 		} else if (new File(System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term + s + 
 							_name + ".wav").isFile()) {
 			
 			// check if want to overwrite
-			Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Audio file already exists",
+			Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Audio file already exists",
 										"Would you like to overwrite the existing file?").getAlert();
 			if (alert.getResult() == ButtonType.OK) {
 				create();
@@ -106,7 +106,7 @@ public class CreateAudioNamingController extends Controller{
 	 */
 	@FXML
 	private void mainMenu() {
-		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
+		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
 				"Any unfinished progress will be lost").getAlert();
 		if (alert.getResult() == ButtonType.OK) {
 			_mainApp.displayMainMenuScene();

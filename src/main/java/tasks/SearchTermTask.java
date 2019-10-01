@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert.AlertType;
 
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
 import main.java.application.WikiApplication;
 
@@ -46,7 +46,7 @@ public class SearchTermTask extends Task<String>{
 
 				// run on GUI thread
 				Platform.runLater(() -> {
-					new AlertMaker(AlertType.ERROR, "Error encountered", "Problem finding term.", 
+					new AlertFactory(AlertType.ERROR, "Error encountered", "Problem finding term.",
 							manipulator.inputStreamToString(process.getErrorStream()));
 				}); 
 
@@ -61,7 +61,7 @@ public class SearchTermTask extends Task<String>{
 		} catch (IOException e) {
 			// run on GUI thread
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error encountered", "I/O Exception", e.getStackTrace().toString());
+				new AlertFactory(AlertType.ERROR, "Error encountered", "I/O Exception", e.getStackTrace().toString());
 				_mainApp.displayMainMenuScene();
 			});
 		}
@@ -90,7 +90,7 @@ public class SearchTermTask extends Task<String>{
 		if (_isInvalid) {
 			// run on GUI thread
 			Platform.runLater(() -> {
-				new AlertMaker(AlertType.ERROR, "Error encountered", "Invalid term", "This term cannot be found. Please try again.");
+				new AlertFactory(AlertType.ERROR, "Error encountered", "Invalid term", "This term cannot be found. Please try again.");
 				_mainApp.displayCreateAudioSearchScene();
 			});
 		}

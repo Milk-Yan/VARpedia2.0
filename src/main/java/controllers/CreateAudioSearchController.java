@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 import main.java.tasks.SearchTermTask;
 
 /**
@@ -32,7 +32,7 @@ public class CreateAudioSearchController extends Controller{
 		
 		if (_termInput.getText().trim().isEmpty()) {
 			
-			new AlertMaker(AlertType.ERROR, "Error", "Input invalid", "The term cannot be empty.");
+			new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "The term cannot be empty.");
 			
 		} else {
 

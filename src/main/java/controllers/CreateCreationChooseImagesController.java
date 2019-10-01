@@ -22,7 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import main.java.application.AlertMaker;
+import main.java.application.AlertFactory;
 
 /**
  * Controller for CreateCreationChooseImages.fxml
@@ -120,10 +120,10 @@ public class CreateCreationChooseImagesController extends Controller{
 
 		
 		if (_imageChosenList.isEmpty()){
-			new AlertMaker(AlertType.ERROR, "Error", "No images selected",
+			new AlertFactory(AlertType.ERROR, "Error", "No images selected",
 					"You have not selected any images");
 		} else if (lengthOfAudio < _imageChosenList.size()*2) {
-			new AlertMaker(AlertType.ERROR, "Error", "The audio is too short", "Choose less images or make a longer audio for your creation.");
+			new AlertFactory(AlertType.ERROR, "Error", "The audio is too short", "Choose less images or make a longer audio for your creation.");
 		} else {
 			_mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
 		}
@@ -135,7 +135,7 @@ public class CreateCreationChooseImagesController extends Controller{
 	 */
 	@FXML
 	private void mainMenu() {
-		Alert alert = new AlertMaker(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
+		Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
 				"Any unfinished progress will be lost").getAlert();
 		if (alert.getResult() == ButtonType.OK) {
 			_mainApp.displayMainMenuScene();
@@ -199,7 +199,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			int currentIndex = _imageChosen.getSelectionModel().getSelectedIndices().get(0);
 			
 			if (currentIndex == 0) {
-				//new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at top of list");
+				//new AlertFactory(AlertType.ERROR, "Error", "Cannot move", "Already at top of list");
 				return;
 			}
 			
@@ -217,7 +217,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			
 			sortLists();
 		} else if (_imageChosen.getSelectionModel().getSelectedItems().size() > 1){
-			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
+			new AlertFactory(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 		}
 
 	}
@@ -233,7 +233,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			int currentIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 			
 			if (currentIndex == _imageChosen.getItems().size()-1) {
-				//new AlertMaker(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
+				//new AlertFactory(AlertType.ERROR, "Error", "Cannot move", "Already at end of list");
 				return;
 			}
 			
@@ -251,7 +251,7 @@ public class CreateCreationChooseImagesController extends Controller{
 			
 			sortLists();
 		} else if (_imageChosen.getSelectionModel().getSelectedItems().size() > 1){
-			new AlertMaker(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
+			new AlertFactory(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one item at a time.");
 		}
 		
 		
