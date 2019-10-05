@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -150,14 +151,7 @@ public class ChooseAudio extends Controller {
             if (currentIndex > 0) {
                 int newIndex = currentIndex - 1;
 
-                // remove at current position
-                _audioChosen.getItems().remove(currentIndex);
-
-                // insert at new position
-                _audioChosen.getItems().add(newIndex, audioChosen);
-
-                // sorts list
-                sortLists();
+                reorderList(currentIndex, newIndex, _audioChosen);
             }
         }
     }
@@ -173,21 +167,24 @@ public class ChooseAudio extends Controller {
 
             int currentIndex = _audioChosen.getSelectionModel().getSelectedIndex();
 
-            if (currentIndex < _audioChosen.getItems().size() - 1) {
+            if (currentIndex != -1 && currentIndex < _audioChosen.getItems().size() - 1) {
                 int newIndex = currentIndex + 1;
-                String audioChosen = _audioChosen.getSelectionModel().getSelectedItems().get(0);
-
-                // remove at current position
-                _audioChosen.getItems().remove(currentIndex);
-
-                // insert at new position
-                _audioChosen.getItems().add(newIndex, audioChosen);
-
-                // sorts list
-                sortLists();
+                reorderList(currentIndex, newIndex, _audioChosen);
             }
 
         }
+    }
+
+    private void reorderList(int currentIndex, int newIndex, ListView<String> listView) {
+        String item = listView.getSelectionModel().getSelectedItem();
+
+        // remove at current position
+        listView.getItems().remove(currentIndex);
+
+        // insert at new position
+        listView.getItems().add(newIndex, item);
+
+        sortLists();
     }
 
     /**
