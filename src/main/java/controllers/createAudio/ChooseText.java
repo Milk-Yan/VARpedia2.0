@@ -209,8 +209,6 @@ public class ChooseText extends Controller {
                 }
 
             } else {
-                //_voices.add(_voiceSample.get(0));
-                //_voices.add(lineOfVoices);
                 new AlertFactory(AlertType.ERROR, "Error", "No available voices", "Please install" +
                         " some festival voices");
             }

@@ -145,20 +145,7 @@ public class ChooseImages extends Controller {
     @FXML
     private void candidateToChosen() {
 
-        HBox candidate = _imageCandidates.getSelectionModel().getSelectedItem();
-        int candidateIndex = _imageCandidates.getSelectionModel().getSelectedIndex();
-
-        if (candidateIndex != -1) {
-            // add to chosen list
-            _imageChosenList.add(_imageCandidatesList.get(candidateIndex));
-            addToEndOfList(candidate, _imageChosen);
-
-            // remove from candidate list
-            _imageCandidatesList.remove(candidateIndex);
-            _imageCandidates.getItems().remove(candidateIndex);
-
-            sortLists();
-        }
+        listToList(_imageCandidatesList, _imageCandidates, _imageChosenList, _imageChosen);
 
     }
 
@@ -167,23 +154,27 @@ public class ChooseImages extends Controller {
      */
     @FXML
     private void chosenToCandidate() {
-        HBox chosen = _imageChosen.getSelectionModel().getSelectedItem();
-        int chosenIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 
-        if (chosenIndex != -1) {
-            // add to candidates list
-            _imageCandidatesList.add(_imageChosenList.get(chosenIndex));
-            addToEndOfList(chosen, _imageCandidates);
+        listToList(_imageChosenList, _imageChosen, _imageCandidatesList, _imageCandidates);
+    }
 
-            // remove from chosen list
-            _imageChosenList.remove(chosenIndex);
-            _imageChosen.getItems().remove(chosenIndex);
+    private void listToList(ArrayList<String> fromList, ListView<HBox> fromListView,
+                            ArrayList<String> toList, ListView<HBox> toListView) {
+        int index = fromListView.getSelectionModel().getSelectedIndex();
+
+        if (index != -1) {
+            // add to toList
+            toList.add(fromList.get(index));
+            addToEndOfList(fromListView.getItems().get(index), toListView);
+
+            // remove from fromList
+            fromList.remove(index);
+            fromListView.getItems().remove(index);
 
             sortLists();
         }
-
-
     }
+
 
     /**
      * method to shift an image up the list
@@ -192,31 +183,11 @@ public class ChooseImages extends Controller {
     @FXML
     private void moveChosenUp() {
 
-        if (_imageChosen.getSelectionModel().getSelectedItems().size() == 1) {
-            int currentIndex = _imageChosen.getSelectionModel().getSelectedIndices().get(0);
+        int currentIndex = _imageChosen.getSelectionModel().getSelectedIndices().get(0);
 
-            if (currentIndex == 0) {
-                //new AlertFactory(AlertType.ERROR, "Error", "Cannot move", "Already at top of
-                // list");
-                return;
-            }
-
+        if (currentIndex > 0) {
             int newIndex = currentIndex - 1;
-            HBox chosenImage = _imageChosen.getSelectionModel().getSelectedItem();
-            String chosenImageURL = _imageChosenList.get(currentIndex);
-
-            // remove at current position
-            _imageChosen.getItems().remove(currentIndex);
-            _imageChosenList.remove(currentIndex);
-
-            // insert at new position
-            _imageChosen.getItems().add(newIndex, chosenImage);
-            _imageChosenList.add(newIndex, chosenImageURL);
-
-            sortLists();
-        } else if (_imageChosen.getSelectionModel().getSelectedItems().size() > 1) {
-            new AlertFactory(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one" +
-                    " item at a time.");
+            reorderList(currentIndex, newIndex, _imageChosenList, _imageChosen);
         }
 
     }
@@ -228,34 +199,31 @@ public class ChooseImages extends Controller {
     @FXML
     private void moveChosenDown() {
 
-        if (_imageChosen.getSelectionModel().getSelectedItems().size() == 1) {
-            int currentIndex = _imageChosen.getSelectionModel().getSelectedIndex();
+        int currentIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 
-            if (currentIndex == _imageChosen.getItems().size() - 1) {
-                //new AlertFactory(AlertType.ERROR, "Error", "Cannot move", "Already at end of
-                // list");
-                return;
-            }
+        if (currentIndex != -1 && currentIndex < _imageChosen.getItems().size() - 1) {
 
             int newIndex = currentIndex + 1;
-            HBox chosenImage = _imageChosen.getSelectionModel().getSelectedItem();
-            String chosenImageURL = _imageChosenList.get(currentIndex);
-
-            // remove at current position
-            _imageChosen.getItems().remove(currentIndex);
-            _imageChosenList.remove(currentIndex);
-
-            // insert at new position
-            _imageChosen.getItems().add(newIndex, chosenImage);
-            _imageChosenList.add(newIndex, chosenImageURL);
-
-            sortLists();
-        } else if (_imageChosen.getSelectionModel().getSelectedItems().size() > 1) {
-            new AlertFactory(AlertType.ERROR, "Error", "Invalid selection", "Can only reorder one" +
-                    " item at a time.");
+            reorderList(currentIndex, newIndex, _imageChosenList, _imageChosen);
         }
 
 
+    }
+
+    private void reorderList(int currentIndex, int newIndex,
+                             ArrayList<String> list, ListView<HBox> listView) {
+        HBox item = listView.getSelectionModel().getSelectedItem();
+        String chosenURL = list.get(currentIndex);
+
+        // remove at current position
+        listView.getItems().remove(currentIndex);
+        list.remove(currentIndex);
+
+        // insert at new position
+        listView.getItems().add(newIndex, item);
+        list.add(newIndex, chosenURL);
+
+        sortLists();
     }
 
     /**
@@ -278,26 +246,21 @@ public class ChooseImages extends Controller {
      * method to sort the images in each TaskView
      */
     private void sortLists() {
-        int candidateIndex = 1;
-        for (HBox candidate : _imageCandidates.getItems()) {
+
+        sort(_imageCandidates);
+        sort(_imageChosen);
+    }
+
+    private void sort(ListView<HBox> list) {
+        int index = 1;
+        for (HBox item : list.getItems()) {
             // remove numbering
-            candidate.getChildren().remove(0);
+            item.getChildren().remove(0);
             // add new numbering
-            Label newLabel = new Label(Integer.toString(candidateIndex));
-            candidate.getChildren().add(0, newLabel);
+            Label newLabel = new Label(Integer.toString(index));
+            item.getChildren().add(0, newLabel);
 
-            candidateIndex++;
-        }
-
-        int chosenIndex = 1;
-        for (HBox chosen : _imageChosen.getItems()) {
-            // remove numbering
-            chosen.getChildren().remove(0);
-            // add new numbering
-            Label newLabel = new Label(Integer.toString(chosenIndex));
-            chosen.getChildren().add(0, newLabel);
-
-            chosenIndex++;
+            index++;
         }
     }
 

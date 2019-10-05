@@ -48,7 +48,7 @@ public class GetImagesTask extends Task<Void> {
             PhotosInterface photos = flickr.getPhotosInterface();
             SearchParameters params = new SearchParameters();
             params.setSort(SearchParameters.RELEVANCE);
-            params.setMedia("photos");
+            params.setMedia("photos");    LoadingViewCreations("/main/resources/application/loading/GetCreations.fxml"),
             params.setText(query);
 
             PhotoList<Photo> results = photos.search(params, resultsPerPage, page);

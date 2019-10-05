@@ -8,10 +8,8 @@ import main.java.controllers.createAudio.ChooseText;
 import main.java.controllers.createCreation.ChooseAudio;
 import main.java.controllers.createCreation.ChooseImages;
 import main.java.controllers.createCreation.CreationNaming;
-import main.java.controllers.loading.*;
 import main.java.controllers.view.VideoPlayer;
 import main.java.controllers.view.ViewCreations;
-import main.java.tasks.*;
 
 import java.io.File;
 import java.util.ArrayList;
