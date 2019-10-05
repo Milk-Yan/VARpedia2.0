@@ -5,26 +5,26 @@ package main.java.application;
  */
 public enum ButtonState {
 
-	EDIT("Edit Text"), 
-	SAVE("Save Text"), 
-	RESET("Reset to Default Text"), 
-	CANCEL("Cancel Editing"),
-	PAUSE("Pause"),
-	PLAY("Play");
-	
+    EDIT("Edit Text"),
+    SAVE("Save Text"),
+    RESET("Reset to Default Text"),
+    CANCEL("Cancel Editing"),
+    PAUSE("Pause"),
+    PLAY("Play");
 
-	private String _text;
 
-	ButtonState(String text) {
-		this._text = text;
-	}
+    private String _text;
 
-	/**
-	 * @return Message of the button for the specified type.
-	 */
-	public String getText() {
-		// string is immutable so ok to send like this
-		return _text;
-	}
+    ButtonState(String text) {
+        this._text = text;
+    }
+
+    /**
+     * @return Message of the button for the specified type.
+     */
+    public String getText() {
+        // string is immutable so ok to send like this
+        return _text;
+    }
 
 }

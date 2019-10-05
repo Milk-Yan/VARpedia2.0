@@ -7,36 +7,37 @@ import main.java.tasks.GetImagesTask;
 
 /**
  * Controller for GetImages.fxml
- * @author wcho400
  *
+ * @author wcho400
  */
 public class GetImages extends Controller {
-	
-	private GetImagesTask _task;
 
-	@FXML
-	private Text _message;
+    private GetImagesTask _task;
 
-	/**
-	 * returns to main menu if selected
-	 */
-	@FXML
-	private void mainMenuPress() {
-		// cancel current task before going back to main menu
-		if (_task != null) {
-			_task.cancel();
-		}
+    @FXML
+    private Text _message;
 
-		mainMenu();
-	}
+    /**
+     * returns to main menu if selected
+     */
+    @FXML
+    private void mainMenuPress() {
+        // cancel current task before going back to main menu
+        if (_task != null) {
+            _task.cancel();
+        }
 
-	/**
-	 * sets task to ensure correct tasks are stopped
-	 * @param task
-	 * @param term
-	 */
-	public void setTask(GetImagesTask task, String term) {
-		_task = task;
-		_message.setText("Getting images for " + term + ". Please wait...");
-	}
+        mainMenu();
+    }
+
+    /**
+     * sets task to ensure correct tasks are stopped
+     *
+     * @param task
+     * @param term
+     */
+    public void setTask(GetImagesTask task, String term) {
+        _task = task;
+        _message.setText("Getting images for " + term + ". Please wait...");
+    }
 }
