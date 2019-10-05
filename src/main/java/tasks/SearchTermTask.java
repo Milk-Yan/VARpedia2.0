@@ -51,9 +51,7 @@ public class SearchTermTask extends Task<String> {
 
             } else {
 
-                String text = manipulator.inputStreamToString(process.getInputStream());
-
-                _searchResults = text;
+                _searchResults = manipulator.inputStreamToString(process.getInputStream());
             }
 
 

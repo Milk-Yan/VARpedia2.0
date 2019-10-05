@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GetImagesTask extends Task<Void> {
 
@@ -53,13 +54,16 @@ public class GetImagesTask extends Task<Void> {
             PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
 
             for (Photo photo : results) {
+                if (isCancelled()) {
+                    break;
+                }
                 try {
                     BufferedImage image = photos.getImage(photo, Size.LARGE);
                     String filename =
                             query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() +
                                     "-" + photo.getId() + ".jpg";
-                    File outputfile = new File(_imageFolder, filename);
-                    ImageIO.write(image, "jpg", outputfile);
+                    File outputFile = new File(_imageFolder, filename);
+                    ImageIO.write(image, "jpg", outputFile);
                 } catch (FlickrException fe) {
                     System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
                 }
@@ -74,7 +78,8 @@ public class GetImagesTask extends Task<Void> {
     public void cancelled() {
 
         // delete previously made folder
-        if (_imageFolder != null && _imageFolder.exists() && _imageFolder.listFiles().length == 0) {
+        if (_imageFolder != null && _imageFolder.exists() && Objects.requireNonNull(
+                _imageFolder.listFiles()).length == 0) {
             _imageFolder.delete();
         }
 

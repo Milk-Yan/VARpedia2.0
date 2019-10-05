@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import main.java.application.AlertFactory;
 import main.java.controllers.Controller;
@@ -23,9 +24,13 @@ public class CreationNaming extends Controller {
     private String _term;
     private ArrayList<String> _audioList;
     private ArrayList<String> _imageList;
+    private CreateCreationTask _task;
 
     @FXML
     private TextField _nameInput;
+
+    @FXML
+    private ProgressIndicator _indicator;
 
     /**
      * initializes parameters to be passed on to the next scene
@@ -85,11 +90,13 @@ public class CreationNaming extends Controller {
     private void createCreation() {
 
         // use new thread to create in bg
-        CreateCreationTask task = new CreateCreationTask(_name, _term, _audioList, _imageList,
+        _task = new CreateCreationTask(_name, _term, _audioList, _imageList,
                 _mainApp);
-        _mainApp.displayLoadingCreateCreationScene(task);
 
-        new Thread(task).start();
+        new Thread(_task).start();
+
+        // display indicator so user knows is loading
+        _indicator.setVisible(true);
 
     }
 
@@ -100,10 +107,18 @@ public class CreationNaming extends Controller {
      */
     @FXML
     private void mainMenuPress() {
+
         Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
                 "Any unfinished progress will be lost").getAlert();
+
         if (alert.getResult() == ButtonType.OK) {
+            // cancel current task before going back to main menu
+            if (_task != null) {
+                _task.cancel();
+            }
             mainMenu();
+        } else {
+            _task.notify();
         }
     }
 

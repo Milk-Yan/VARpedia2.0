@@ -28,7 +28,6 @@ public class VideoPlayer extends Controller {
 
     private String _videoName;
     private MediaPlayer _player;
-    private Stage _stage;
 
     /**
      * initial setup for video playback. Video starts automatically
@@ -42,16 +41,16 @@ public class VideoPlayer extends Controller {
         _viewer.setMediaPlayer(player);
 
         // create a new window for the VideoPlayer
-        _stage = new Stage();
-        _stage.setScene(_viewer.getScene());
-        _stage.setX(700);
-        _stage.setY(300);
+        Stage stage = new Stage();
+        stage.setScene(_viewer.getScene());
+        stage.setX(700);
+        stage.setY(300);
 
-        _stage.setOnCloseRequest(closeEvent -> {
+        stage.setOnCloseRequest(closeEvent -> {
             player.stop();
         });
 
-        _stage.show();
+        stage.show();
 
     }
 
@@ -75,7 +74,7 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void fastForward() {
-        Double fasterRate = _player.getRate() + 0.5;
+        double fasterRate = _player.getRate() + 0.5;
         _player.setRate(fasterRate);
     }
 
@@ -84,7 +83,7 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void slowDown() {
-        Double slowerRate = _player.getRate() - 0.5;
+        double slowerRate = _player.getRate() - 0.5;
 
         // if rate is already the slowest, don't make the video stop.
         if (slowerRate != 0) {

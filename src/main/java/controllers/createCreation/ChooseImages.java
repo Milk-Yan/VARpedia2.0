@@ -18,6 +18,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Controller for ChooseImages.fxml
@@ -60,7 +61,7 @@ public class ChooseImages extends Controller {
 
         int index = 1;
 
-        for (File imageFile : imageFolder.listFiles()) {
+        for (File imageFile : Objects.requireNonNull(imageFolder.listFiles())) {
             _imageCandidatesList.add(imageFile.getName());
 
             Image image = new Image(imageFile.toURI().toString());

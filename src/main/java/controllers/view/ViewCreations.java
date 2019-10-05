@@ -14,6 +14,7 @@ import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -58,8 +59,6 @@ public class ViewCreations extends Controller {
 
         new Thread(viewCreationTask).start();
         new Thread(viewAudioTask).start();
-
-        _mainApp.displayLoadingViewCreationsScene(viewCreationTask, viewAudioTask);
 
         try {
             ObservableList<String> creationsList = viewCreationTask.get();
@@ -123,12 +122,12 @@ public class ViewCreations extends Controller {
             String selectionName = _listOfCreations.getSelectionModel().getSelectedItem();
             String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
 
-            if (videoName == null) {
+            if (videoName.isEmpty()) {
                 new AlertFactory(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot " +
                         "be null");
             } else {
 
-                if (!(selectionName == null)) {
+                if (!(selectionName.isEmpty())) {
                     _mainApp.playVideo(videoName);
                 }
 
@@ -201,7 +200,7 @@ public class ViewCreations extends Controller {
                             new File(System.getProperty("user.dir") + File.separator + "bin" +
                                     File.separator
                                     + "audio" + File.separator + term);
-                    if (audioFolder.exists() && audioFolder.listFiles().length == 0) {
+                    if (audioFolder.exists() && Objects.requireNonNull(audioFolder.listFiles().length == 0)){
                         audioFolder.delete();
                     }
                     _mainApp.displayViewCreationsScene();
@@ -217,7 +216,7 @@ public class ViewCreations extends Controller {
                             System.getProperty("user.dir") + File.separator + "bin" + File.separator
                                     + "audio" + File.separator + term);
 
-                    for (File audio : audioFolder.listFiles()) {
+                    for (File audio : Objects.requireNonNull(audioFolder.listFiles())) {
                         audio.delete();
                     }
                     audioFolder.delete();

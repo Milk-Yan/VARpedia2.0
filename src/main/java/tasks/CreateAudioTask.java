@@ -10,6 +10,7 @@ import main.java.application.Main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Creates the video creation.
@@ -53,7 +54,6 @@ public class CreateAudioTask extends Task<Void> {
             _audioFolder = new File(audioFolder);
             _audioFolder.mkdirs();
 
-
             _process = new ProcessBuilder("bash", "-c",
                     // set voice
                     "echo \"(voice_" + _voice + ") "
@@ -86,29 +86,19 @@ public class CreateAudioTask extends Task<Void> {
 
     @Override
     public void cancelled() {
-        _process.destroy();
-
+        destroyProcess();
         deleteEmptyFolder();
-
-        Platform.runLater(() -> {
-            new AlertFactory(AlertType.ERROR, "Error", "Something went wrong", "Could not make " +
-                    "audio file.");
-        });
     }
 
     /**
      * destroys the current process.
      */
     public void destroyProcess() {
-        _process.destroy();
+        if (_process != null && _process.isAlive()) {
+            _process.destroy();
+        }
     }
 
-    @Override
-    public void running() {
-        Platform.runLater(() -> {
-            _mainApp.displayLoadingCreateAudioScene(this);
-        });
-    }
 
     @Override
     public void succeeded() {
@@ -131,7 +121,8 @@ public class CreateAudioTask extends Task<Void> {
     }
 
     private void deleteEmptyFolder() {
-        if (_audioFolder != null && _audioFolder.exists() && _audioFolder.listFiles().length == 0) {
+        if (_audioFolder != null && _audioFolder.exists() && Objects.requireNonNull(
+                _audioFolder.listFiles()).length == 0) {
             _audioFolder.delete();
         }
     }

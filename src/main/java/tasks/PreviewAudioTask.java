@@ -7,7 +7,7 @@ import main.java.application.AlertFactory;
 
 public class PreviewAudioTask extends Task<Void> {
 
-    Process _process;
+    private Process _process;
     private String _voice;
     private String _previewText;
 

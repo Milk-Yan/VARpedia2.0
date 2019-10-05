@@ -11,9 +11,10 @@ import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
 import main.java.controllers.Controller;
-import main.java.tasks.ViewSearchsTask;
+import main.java.tasks.ViewSearchTask;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -38,7 +39,7 @@ public class AudioSearch extends Controller {
      */
     public void initialize() {
 
-        ViewSearchsTask searchTask = new ViewSearchsTask();
+        ViewSearchTask searchTask = new ViewSearchTask();
         new Thread(searchTask).start();
 
         try {
@@ -87,7 +88,7 @@ public class AudioSearch extends Controller {
                     new File(System.getProperty("user.dir") + File.separator + "bin" +
                             File.separator + "audio" + File.separator + term);
 
-            if (file.isDirectory() && file.list().length > 0) {
+            if (file.isDirectory() && Objects.requireNonNull(file.list()).length > 0) {
 
                 _mainApp.displayCreateCreationChooseAudioScene(term);
 

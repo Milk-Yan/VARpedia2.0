@@ -27,7 +27,7 @@ public class ChooseText extends Controller {
 
     private final ArrayList<String> _voiceSample = new ArrayList<String>(Arrays.asList("Vanilla",
             "Chocolate", "Strawberry", "Banana", "Orange", "Apple"));
-    StringManipulator _manipulator = new StringManipulator();
+    private StringManipulator _manipulator = new StringManipulator();
     private String _term;
     private String _sourceString;
     //the actual name

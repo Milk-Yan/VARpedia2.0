@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author wcho400
  */
-public class ViewSearchsTask extends Task<ObservableList<String>> {
+public class ViewSearchTask extends Task<ObservableList<String>> {
 
     String s = File.separator;
 

@@ -2,6 +2,7 @@ package main.java.controllers.createAudio;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import main.java.application.AlertFactory;
 import main.java.controllers.Controller;
@@ -16,6 +17,11 @@ public class TermSearch extends Controller {
 
     @FXML
     private TextField _termInput;
+
+    @FXML
+    private ProgressIndicator _indicator;
+
+    private SearchTermTask _task;
 
     /**
      * search for a term in wikipedia
@@ -34,14 +40,24 @@ public class TermSearch extends Controller {
             String term = _termInput.getText();
 
             // use a new thread to complete the search task
-            SearchTermTask searchTask = new SearchTermTask(term, _mainApp);
+            _task = new SearchTermTask(term, _mainApp);
 
-            // show the loading scene while waiting so that the user may exit at any time.
-            _mainApp.displayLoadingSearchResultsScene(searchTask);
+            new Thread(_task).start();
 
-            new Thread(searchTask).start();
-
+            // gives indication that the scene is loading
+            _indicator.setVisible(true);
         }
+    }
+
+    @FXML
+    private void mainMenuPress() {
+
+        // cancel current task before going back to main menu
+        if (_task != null && !_task.isCancelled()) {
+            _task.cancel();
+        }
+
+        mainMenu();
     }
 
 }

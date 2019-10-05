@@ -15,10 +15,7 @@ import main.java.tasks.*;
 
 import java.io.File;
 import java.util.ArrayList;
-
-// controllers
-// tasks
-
+import java.util.Objects;
 
 /**
  * Main class of the Main. Extends JavaFX Application.
@@ -37,7 +34,7 @@ public class Main extends Application {
     // -----------------------------INITIALISATION--------------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -69,10 +66,11 @@ public class Main extends Application {
      * Set the current scene back to the main menu
      */
     public void displayMainMenuScene() {
+        // only clean the temporary files when the user goes back to the main screen, i.e. cancels
+        // whatever they are doing.
         cleanUpTempFiles();
-        Scene mainMenuScene = new SceneFactory(SceneType.MainMenu, this).getScene();
 
-        _currentScene = mainMenuScene;
+        _currentScene = new SceneFactory(SceneType.MainMenu, this).getScene();
         update();
     }
 
@@ -86,25 +84,6 @@ public class Main extends Application {
     public void displayCreateAudioSearchScene() {
 
         _currentScene = new SceneFactory(SceneType.CreateAudioSearch, this).getScene();
-        update();
-    }
-
-    /**
-     * Change the search scene to show a loading animation
-     *
-     * @param task
-     */
-    public void displayLoadingSearchResultsScene(SearchTermTask task) {
-
-        SceneFactory loadingSceneFactory = new SceneFactory(SceneType.LoadingSearchResults,
-                this);
-
-        // get the loading search results controller so that the search task can be
-        // passed in
-        SearchTerm controller = (SearchTerm) loadingSceneFactory.getController();
-        controller.setTask(task);
-
-        _currentScene = loadingSceneFactory.getScene();
         update();
     }
 
@@ -148,21 +127,6 @@ public class Main extends Application {
         update();
     }
 
-    /**
-     * Display loading scene to show the user the audio is being made
-     *
-     * @param task
-     */
-    public void displayLoadingCreateAudioScene(CreateAudioTask task) {
-        SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingCreateAudio, this);
-        CreateAudio controller = (CreateAudio) sceneFactory.getController();
-        controller.setTask(task);
-
-        _currentScene = sceneFactory.getScene();
-        update();
-    }
-
-
     // ---------------------------------------------------------------------------------------------
     // ----------------------DISPLAY METHODS (CREATION)---------------------------------------------
     // ---------------------------------------------------------------------------------------------
@@ -193,36 +157,6 @@ public class Main extends Application {
     }
 
     /**
-     * Display loading animation to show photos are being loaded
-     *
-     * @param term
-     * @param task
-     */
-    public void displayLoadingScrapingImagesScene(String term, GetImagesTask task) {
-        SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingScrapingImages, this);
-        GetImages controller = (GetImages) sceneFactory.getController();
-        controller.setTask(task, term);
-
-        _currentScene = sceneFactory.getScene();
-        update();
-    }
-
-    /**
-     * display loading animation, informing user the creation is being made
-     *
-     * @param task
-     */
-    public void displayLoadingCreateCreationScene(CreateCreationTask task) {
-
-        SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingCreateCreation, this);
-        CreateCreation controller = (CreateCreation) sceneFactory.getController();
-        controller.setTask(task);
-
-        _currentScene = sceneFactory.getScene();
-        update();
-    }
-
-    /**
      * Set scene to allow creation to be named
      *
      * @param term
@@ -235,23 +169,6 @@ public class Main extends Application {
         SceneFactory sceneFactory = new SceneFactory(SceneType.CreateCreationNaming, this);
         CreationNaming controller = (CreationNaming) sceneFactory.getController();
         controller.setUp(term, audioList, imageList);
-
-        _currentScene = sceneFactory.getScene();
-        update();
-    }
-
-    /**
-     * Create loading scene to inform user all creations are being displayed
-     *
-     * @param creationTask
-     * @param audioTask
-     */
-    public void displayLoadingViewCreationsScene(ViewCreationsTask creationTask,
-                                                 ViewAudioTask audioTask) {
-
-        SceneFactory sceneFactory = new SceneFactory(SceneType.LoadingViewCreations, this);
-        GetCreations controller = (GetCreations) sceneFactory.getController();
-        controller.setTask(creationTask, audioTask);
 
         _currentScene = sceneFactory.getScene();
         update();
@@ -332,8 +249,8 @@ public class Main extends Application {
                         + "tempVideo");
 
         if (tempImagesFolder.exists()) {
-            for (File imageFolder : tempImagesFolder.listFiles()) {
-                for (File image : imageFolder.listFiles()) {
+            for (File imageFolder : Objects.requireNonNull(tempImagesFolder.listFiles())) {
+                for (File image : Objects.requireNonNull(imageFolder.listFiles())) {
                     image.delete();
                 }
                 imageFolder.delete();
@@ -342,8 +259,8 @@ public class Main extends Application {
         }
 
         if (tempAudioFolder.exists()) {
-            for (File audioFolder : tempAudioFolder.listFiles()) {
-                for (File audio : audioFolder.listFiles()) {
+            for (File audioFolder : Objects.requireNonNull(tempAudioFolder.listFiles())) {
+                for (File audio : Objects.requireNonNull(audioFolder.listFiles())) {
                     audio.delete();
                 }
                 audioFolder.delete();
@@ -352,8 +269,8 @@ public class Main extends Application {
         }
 
         if (tempVideoFolder.exists()) {
-            for (File videoFolder : tempVideoFolder.listFiles()) {
-                for (File video : videoFolder.listFiles()) {
+            for (File videoFolder : Objects.requireNonNull(tempVideoFolder.listFiles())) {
+                for (File video : Objects.requireNonNull(videoFolder.listFiles())) {
                     video.delete();
                 }
                 videoFolder.delete();

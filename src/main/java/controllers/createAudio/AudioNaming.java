@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import main.java.application.AlertFactory;
 import main.java.controllers.Controller;
@@ -21,10 +22,14 @@ public class AudioNaming extends Controller {
     @FXML
     private TextField _nameInput;
 
+    @FXML
+    private ProgressIndicator _indicator;
+
     private String _name;
     private String _term;
     private String _chosenText;
-    private String _voice = null;
+    private String _voice;
+    private CreateAudioTask _task;
 
     /**
      * sets inputs of audio creation parameters
@@ -84,17 +89,23 @@ public class AudioNaming extends Controller {
     private void create() {
 
         // use new thread to create in bg
-        if (_voice == null) {
-            CreateAudioTask createTask = new CreateAudioTask(_name, _term, _chosenText, _mainApp);
-            new Thread(createTask).start();
-        } else {
-            CreateAudioTask createTask =
-                    new CreateAudioTask(_name, _term, _chosenText, _mainApp, _voice);
-            _voice = null;
-            new Thread(createTask).start();
+        _task = new CreateAudioTask(_name, _term, _chosenText, _mainApp, _voice);
+        new Thread(_task).start();
+
+        // gives indication that the scene is loading
+        _indicator.setVisible(true);
+    }
+
+    @FXML
+    private void mainMenuPress() {
+
+        // cancel current task before going back to main menu
+        if (_task != null && !_task.isCancelled()) {
+            _task.destroyProcess(); // need to destroy process before interrupting task
+            _task.cancel();
         }
 
-
+        mainMenu();
     }
 
 

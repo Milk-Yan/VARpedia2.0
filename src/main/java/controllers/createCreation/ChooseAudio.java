@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -30,6 +31,7 @@ public class ChooseAudio extends Controller {
 
     private String _term;
     private MediaPlayer _audioPlayer;
+    private GetImagesTask _task;
 
     @FXML
     private Text _title;
@@ -42,6 +44,9 @@ public class ChooseAudio extends Controller {
 
     @FXML
     private Button _mainMenuBtn;
+
+    @FXML
+    private ProgressIndicator _indicator;
 
     /**
      * lists audio files of the wikit search term
@@ -121,10 +126,11 @@ public class ChooseAudio extends Controller {
                 selectedListClean.add(audio.replaceFirst("\\d+\\. ", "").trim());
             }
 
-            GetImagesTask task = new GetImagesTask(_term, _mainApp, selectedListClean);
-            new Thread(task).start();
+            _task = new GetImagesTask(_term, _mainApp, selectedListClean);
+            new Thread(_task).start();
 
-            _mainApp.displayLoadingScrapingImagesScene(_term, task);
+            // show indicator of loading
+            _indicator.setVisible(true);
         }
 
 
@@ -321,8 +327,15 @@ public class ChooseAudio extends Controller {
 
         stopAudioPlayer();
 
+
         if (_mainMenuBtn.getText().equals("Confirm?")) {
-            mainMenu();
+
+            // cancel current task before going back to main menu
+            if (_task != null) {
+                _task.cancel();
+            }
+
+
         } else {
             _mainMenuBtn.setText("Confirm?");
         }
