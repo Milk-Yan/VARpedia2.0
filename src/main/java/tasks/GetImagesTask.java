@@ -17,17 +17,17 @@ import com.flickr4java.flickr.photos.Size;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import main.java.application.Main;
 import main.java.application.StringManipulator;
-import main.java.application.WikiApplication;
 
 public class GetImagesTask extends Task<Void>{
 
 	private String _term;
 	private File _imageFolder;
-	private WikiApplication _mainApp;
+	private Main _mainApp;
 	private ArrayList<String> _audioList;
 
-	public GetImagesTask(String term, WikiApplication mainApp, ArrayList<String> audioList) {
+	public GetImagesTask(String term, Main mainApp, ArrayList<String> audioList) {
 		_term = term;
 		_mainApp = mainApp;
 		_audioList = audioList;

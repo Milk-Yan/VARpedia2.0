@@ -1,7 +1,7 @@
 package main.java.controllers;
 
 import javafx.fxml.FXML;
-import main.java.application.WikiApplication;
+import main.java.application.Main;
 
 /**
  * Controller abstract for all controller classes
@@ -12,9 +12,9 @@ import main.java.application.WikiApplication;
  */
 public abstract class Controller {
 
-	protected WikiApplication _mainApp;
+	protected Main _mainApp;
 
-	public void setMainApplication(WikiApplication mainApp) {
+	public void setMainApplication(Main mainApp) {
 		if (_mainApp == null) {
 			_mainApp = mainApp;
 		} else {

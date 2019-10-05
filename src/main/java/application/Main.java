@@ -26,13 +26,13 @@ import main.java.tasks.ViewCreationsTask;
 
 
 /**
- * Main class of the WikiApplication. Extends JavaFX Application.
+ * Main class of the Main. Extends JavaFX Application.
  * Allows user to create and manage movie creations from Wikipedia
  * entries of the user's choice. Enjoy! 
  * @author Milk, OverCry
  *
  */
-public class WikiApplication extends Application {
+public class Main extends Application {
 
 	private Scene _currentScene;
 	private Scene _audioWikitScene;

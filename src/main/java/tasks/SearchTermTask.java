@@ -7,8 +7,8 @@ import javafx.concurrent.Task;
 import javafx.scene.control.Alert.AlertType;
 
 import main.java.application.AlertFactory;
+import main.java.application.Main;
 import main.java.application.StringManipulator;
-import main.java.application.WikiApplication;
 
 /**
  * Searches for terms uses bash wikit on a new thread.
@@ -20,9 +20,9 @@ public class SearchTermTask extends Task<String>{
 	private String _term;
 	private String _searchResults;
 	private boolean _isInvalid = false;
-	private WikiApplication _mainApp;
+	private Main _mainApp;
 
-	public SearchTermTask(String searchTerm, WikiApplication mainApp) {
+	public SearchTermTask(String searchTerm, Main mainApp) {
 		_term = searchTerm;
 		_mainApp = mainApp;
 	}

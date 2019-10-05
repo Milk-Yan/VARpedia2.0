@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
-import main.java.application.WikiApplication;
+import main.java.application.Main;
 
 public class CreateCreationTask extends Task<Void>{
 
@@ -18,13 +18,13 @@ public class CreateCreationTask extends Task<Void>{
 	private String _term;
 	private ArrayList<String> _audioList;
 	private ArrayList<String> _imageList;
-	private WikiApplication _mainApp;
+	private Main _mainApp;
 	
 	private Process _audioMergeProcess;
 	private Process _imageMergeProcess;
 	private Process _mergeOverallProcess;
 	
-	public CreateCreationTask(String name, String term, ArrayList<String> audioList, ArrayList<String> imageList, WikiApplication mainApp) {
+	public CreateCreationTask(String name, String term, ArrayList<String> audioList, ArrayList<String> imageList, Main mainApp) {
 		_name = name;
 		_term = term;
 		_audioList = audioList;

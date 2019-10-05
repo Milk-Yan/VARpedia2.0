@@ -18,7 +18,7 @@ public class SceneFactory {
 	private Scene _scene;
 	private Controller _controller;
 
-	public SceneFactory(SceneType sceneType, WikiApplication mainApp) {
+	public SceneFactory(SceneType sceneType, Main mainApp) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource(sceneType.getAddress()));
 		

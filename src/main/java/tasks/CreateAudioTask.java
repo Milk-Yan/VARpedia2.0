@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
-import main.java.application.WikiApplication;
+import main.java.application.Main;
 
 /**
  * Creates the video creation.
@@ -21,19 +21,19 @@ public class CreateAudioTask extends Task<Void>{
 	private String _name;
 	private String _term;
 	private String _text;
-	private WikiApplication _mainApp;
+	private Main _mainApp;
 
 	private File _audioFolder;
 	private Process _process;
 
-	public CreateAudioTask(String name,String term, String text, WikiApplication mainApp) {
+	public CreateAudioTask(String name,String term, String text, Main mainApp) {
 		_term = term;
 		_name = name;
 		_text = text;
 		_mainApp = mainApp;
 	}
 
-	public CreateAudioTask(String name,String term, String text, WikiApplication mainApp, String voice) {
+	public CreateAudioTask(String name, String term, String text, Main mainApp, String voice) {
 		_term = term;
 		_name = name;
 		_text = text;
