@@ -246,34 +246,25 @@ public class Main extends Application {
                 new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
                         + "tempVideo");
 
-        if (tempImagesFolder.exists()) {
-            for (File imageFolder : Objects.requireNonNull(tempImagesFolder.listFiles())) {
-                for (File image : Objects.requireNonNull(imageFolder.listFiles())) {
-                    image.delete();
-                }
-                imageFolder.delete();
-            }
-            tempImagesFolder.delete();
-        }
+        cleanUpTempFolder(tempImagesFolder);
+        cleanUpTempFolder(tempAudioFolder);
+        cleanUpTempFolder(tempVideoFolder);
 
-        if (tempAudioFolder.exists()) {
-            for (File audioFolder : Objects.requireNonNull(tempAudioFolder.listFiles())) {
-                for (File audio : Objects.requireNonNull(audioFolder.listFiles())) {
-                    audio.delete();
-                }
-                audioFolder.delete();
-            }
-            tempAudioFolder.delete();
-        }
+    }
 
-        if (tempVideoFolder.exists()) {
-            for (File videoFolder : Objects.requireNonNull(tempVideoFolder.listFiles())) {
-                for (File video : Objects.requireNonNull(videoFolder.listFiles())) {
-                    video.delete();
+    /**
+     * Helper method that deletes the content of a folder recursively up to three layers
+     * @param tempFolder Folder to delete.
+     */
+    private void cleanUpTempFolder(File tempFolder) {
+        if (tempFolder.exists()) {
+            for (File innerFolder: Objects.requireNonNull(tempFolder.listFiles())) {
+                for (File file: Objects.requireNonNull(innerFolder.listFiles())) {
+                    file.delete();
                 }
-                videoFolder.delete();
+                innerFolder.delete();
             }
-            tempVideoFolder.delete();
+            tempFolder.delete();
         }
     }
 
