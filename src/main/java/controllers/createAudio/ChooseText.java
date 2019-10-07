@@ -3,18 +3,24 @@ package main.java.controllers.createAudio;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
 import main.java.controllers.Controller;
+import main.java.tasks.CreateAudioTask;
 import main.java.tasks.PreviewAudioTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -35,7 +41,7 @@ public class ChooseText extends Controller {
     //the displayed name
     private ArrayList<String> _voiceName;
 
-    private PreviewAudioTask _previewTask;
+    private MediaPlayer _audioPlayer;
 
     @FXML
     private Text _message;
@@ -52,6 +58,12 @@ public class ChooseText extends Controller {
     @FXML
     private ChoiceBox<String> _voiceSelection;
 
+    @FXML
+    private Button _previewBtn;
+
+    @FXML
+    private Button _createBtn;
+
     /**
      * Initialise the searchResults TextArea and also the number of lines displayed to user.
      */
@@ -62,6 +74,7 @@ public class ChooseText extends Controller {
 
         _message.setText("TermSearch results for " + _term + ": ");
         _searchResults.setText(_sourceString);
+        setDisable(true);
 
         //generate list of different voices
         listOfVoices();
@@ -93,40 +106,9 @@ public class ChooseText extends Controller {
     @FXML
     private void create() {
 
-        // kill the current task if there is one
-        if (_previewTask != null) {
-            _previewTask.cancel();
-        }
-
-        if (!_chosenText.getText().equals("") &&
-                (_manipulator.countWords(_chosenText.getText()) < 41)) {
-            //creates the audio
-            //need to change to have voice type input
-
-            if (_manipulator.countWords(_chosenText.getText()) < 6) {
-                new AlertFactory(AlertType.ERROR, "Warning", "Short Audio Creation",
-                        "A creation of this audio is too short, please make it longer");
-
-                return;
-
-            } else {
-                int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-                _mainApp.displayCreateAudioNamingScene(_term, _chosenText.getText(),
-                        _voices.get(index));
-            }
-        } else if (_chosenText.getText().equals("")) {
-            new AlertFactory(AlertType.ERROR, "Error", "No text selected", "Please select some " +
-                    "text.");
-            return;
-        } else {
-            new AlertFactory(AlertType.ERROR, "Error", "Too much text selected", "Please remove " +
-                    "some text.");
-            return;
-        }
-
+        stopCurrentPreview();
 
         //creates the audio
-        //need to change to have voice type input
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();
         // remove all special characters
         String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z\\.A-Z]", "");
@@ -152,34 +134,34 @@ public class ChooseText extends Controller {
     @FXML
     private void preview() {
 
-        // kill the current task if there is one
-        if (_previewTask != null) {
-            _previewTask.cancel();
-        }
+        stopCurrentPreview();
+
+        File tempAudioFolder =
+                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
+                        + "tempAudio");
 
         String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
-
-        // Error handling
-        if (chosenText.isEmpty()) {
-            new AlertFactory(AlertType.ERROR, "Error", "No text chosen", "Please choose/enter " +
-                    "some text.");
-            return;
-        }
-
-        int wordNumber = _manipulator.countWords(chosenText.trim());
-
-        if (wordNumber > 40) {
-            new AlertFactory(AlertType.ERROR, "Error", "Too much text", "Exceeded maximum of 40 " +
-                    "words.");
-            return;
-        }
-
-
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();
-        _previewTask = new PreviewAudioTask(chosenText, _voices.get(index));
-        new Thread(_previewTask).start();
 
+        CreateAudioTask task = new CreateAudioTask(tempAudioFolder, "previewAudio", chosenText,
+                _mainApp,_voices.get(index), true);
 
+        new Thread(task).start();
+
+        task.setOnSucceeded(succeededEvent -> {
+            Media audio = new Media(Paths.get(tempAudioFolder + File.separator + "previewAudio" +
+                    ".wav").toUri().toString());
+            _audioPlayer = new MediaPlayer(audio);
+            _audioPlayer.play();
+        });
+
+    }
+
+    private void stopCurrentPreview() {
+        if (_audioPlayer != null && _audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            _audioPlayer.stop();
+            _audioPlayer = null;
+        }
     }
 
     /**
@@ -242,28 +224,43 @@ public class ChooseText extends Controller {
         if (content.equals("")) {
             _wordLimit.setTextFill(Color.DEEPPINK);
             _wordLimit.setText("Nothing here yet!");
+            setDisable(true);
         } else if (wordNumber == 40) {
             _wordLimit.setTextFill(Color.DARKRED);
             _wordLimit.setText("At the limit!");
+            setDisable(false);
         } else if (wordNumber > 40) {
             _wordLimit.setTextFill(Color.RED);
             _wordLimit.setText("Over the limit :( (" + wordCount + ")");
+            setDisable(true);
         } else if (wordNumber > 30) {
             _wordLimit.setTextFill(Color.ORANGE);
             _wordLimit.setText("Near the limit (" + wordCount + ")");
-        } else if (wordNumber < 4) {
+            setDisable(false);
+        } else if (wordNumber < 6) {
             _wordLimit.setTextFill(Color.RED);
             _wordLimit.setText("A bit short! (" + wordCount + ")");
+            setDisable(true);
         } else {
             _wordLimit.setTextFill(Color.GREEN);
             _wordLimit.setText("You're Good! (" + wordCount + ")");
+            setDisable(false);
         }
 
 
     }
 
+    private void setDisable(boolean disable) {
+        if (disable) {
+            _previewBtn.setDisable(true);
+            _createBtn.setDisable(true);
+        } else {
+            _previewBtn.setDisable(false);
+            _createBtn.setDisable(false);
+        }
+    }
     /**
-     * method to check the number of words in the choosen text
+     * method to check the number of words in the chosen text
      */
     @FXML
     private void editCount() {

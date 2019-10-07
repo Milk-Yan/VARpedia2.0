@@ -18,40 +18,28 @@ import java.util.Objects;
  * @author Milk
  */
 public class CreateAudioTask extends Task<Void> {
-    private String _voice = null;
+    private String _voice;
     private String _name;
-    private String _term;
     private String _text;
     private Main _mainApp;
-
+    private boolean _isPreview;
     private File _audioFolder;
     private Process _process;
 
-    public CreateAudioTask(String name, String term, String text, Main mainApp) {
-        _term = term;
-        _name = name;
-        _text = text;
-        _mainApp = mainApp;
-    }
-
-    public CreateAudioTask(String name, String term, String text, Main mainApp, String voice) {
-        _term = term;
+    public CreateAudioTask(File audioFolder, String name, String text, Main mainApp,
+                           String voice, boolean isPreview) {
         _name = name;
         _text = text;
         _mainApp = mainApp;
         _voice = voice;
+        _audioFolder = audioFolder;
+        _isPreview = isPreview;
     }
 
     @Override
     protected Void call() {
 
         try {
-            String s = File.separator;
-
-            // make the directory for the term if it doesn't already exist
-            String audioFolder =
-                    System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term;
-            _audioFolder = new File(audioFolder);
             _audioFolder.mkdirs();
 
             _process = new ProcessBuilder("bash", "-c",
@@ -62,8 +50,8 @@ public class CreateAudioTask extends Task<Void> {
                             // synthesise utterance
                             + "(utt.synth utt1) "
                             // save
-                            + "(utt.save.wave utt1 \\\"" + audioFolder + s + _name + ".wav" +
-                            "\\\" \\`riff)\" | festival\n").start();
+                            + "(utt.save.wave utt1 \\\"" + _audioFolder + File.separator + _name +
+                            ".wav" + "\\\" \\`riff)\" | festival\n").start();
 
 
             try {
@@ -104,19 +92,22 @@ public class CreateAudioTask extends Task<Void> {
     public void succeeded() {
         deleteEmptyFolder();
 
-        Platform.runLater(() -> {
-            Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Next",
-                    "Would you like to make another audio?",
-                    "Press 'OK'. Otherwise, press 'Cancel' to return to the main menu").getAlert();
+        if (!_isPreview) {
+            Platform.runLater(() -> {
+                Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Next",
+                        "Would you like to make another audio?",
+                        "Press 'OK'. Otherwise, press 'Cancel' to return to the main menu").getAlert();
 
-            if (alert.getResult() == ButtonType.OK) {
-                //go to preview scene again
-                //NOT DONE YET
-                _mainApp.setAudioScene();
-            } else {
-                _mainApp.displayMainMenuScene();
-            }
-        });
+                if (alert.getResult() == ButtonType.OK) {
+                    //go to preview scene again
+                    //NOT DONE YET
+                    _mainApp.setAudioScene();
+                } else {
+                    _mainApp.displayMainMenuScene();
+                }
+            });
+        }
+
 
     }
 

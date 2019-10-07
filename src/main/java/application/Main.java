@@ -40,7 +40,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         _primaryStage = primaryStage;
-        primaryStage.setTitle("Wiki Application");
+        primaryStage.setTitle("VARpedia");
 
         createFolders();
         displayMainMenuScene();
@@ -66,7 +66,7 @@ public class Main extends Application {
     public void displayMainMenuScene() {
         // only clean the temporary files when the user goes back to the main screen, i.e. cancels
         // whatever they are doing.
-        cleanUpTempFiles();
+        //cleanUpTempFiles();
 
         _currentScene = new SceneFactory(SceneType.MainMenu, this).getScene();
         update();
@@ -253,18 +253,15 @@ public class Main extends Application {
     }
 
     /**
-     * Helper method that deletes the content of a folder recursively up to three layers
-     * @param tempFolder Folder to delete.
+     * Helper method that deletes the content of a folder recursively
+     * @param tempFile File to delete.
      */
-    private void cleanUpTempFolder(File tempFolder) {
-        if (tempFolder.exists()) {
-            for (File innerFolder: Objects.requireNonNull(tempFolder.listFiles())) {
-                for (File file: Objects.requireNonNull(innerFolder.listFiles())) {
-                    file.delete();
-                }
-                innerFolder.delete();
+    private void cleanUpTempFolder(File tempFile) {
+        while(tempFile.exists() && tempFile.isDirectory()) {
+            for (File inner: Objects.requireNonNull(tempFile.listFiles())) {
+                cleanUpTempFolder(inner);
             }
-            tempFolder.delete();
+            tempFile.delete();
         }
     }
 

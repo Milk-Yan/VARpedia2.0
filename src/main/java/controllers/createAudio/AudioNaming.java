@@ -88,8 +88,13 @@ public class AudioNaming extends Controller {
     @FXML
     private void create() {
 
+        // folder to store audio
+        File audioFolder =
+                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
+                        "audio" + File.separator + _term);
+
         // use new thread to create in bg
-        _task = new CreateAudioTask(_name, _term, _chosenText, _mainApp, _voice);
+        _task = new CreateAudioTask(audioFolder, _name, _chosenText, _mainApp, _voice, false);
         new Thread(_task).start();
 
         // gives indication that the scene is loading

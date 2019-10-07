@@ -42,6 +42,7 @@ public class VideoPlayer extends Controller {
 
         // create a new window for the VideoPlayer
         Stage stage = new Stage();
+        stage.setTitle(_videoName);
         stage.setScene(_viewer.getScene());
         stage.setX(700);
         stage.setY(300);

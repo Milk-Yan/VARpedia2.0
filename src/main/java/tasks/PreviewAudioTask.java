@@ -25,6 +25,8 @@ public class PreviewAudioTask extends Task<Void> {
                 "echo -e \"(voice_" + _voice + ") ;; \\n(SayText \\\"" +
                         _previewText + "\\\")\" | festival -i ").start();
 
+
+
         if (_process.exitValue() != 0) {
             Platform.runLater(() -> {
                 new AlertFactory(AlertType.ERROR, "Error", "Process failed", "Could not preview.");
