@@ -57,7 +57,7 @@ public class ChooseImages extends Controller {
 
         File imageFolder =
                 new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "tempImages" + File.separator + _term);
+                        "temp" + File.separator + "tempImages" + File.separator + _term);
 
         int index = 1;
 

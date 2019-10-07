@@ -66,7 +66,7 @@ public class Main extends Application {
     public void displayMainMenuScene() {
         // only clean the temporary files when the user goes back to the main screen, i.e. cancels
         // whatever they are doing.
-        //cleanUpTempFiles();
+        cleanUpTempFiles();
 
         _currentScene = new SceneFactory(SceneType.MainMenu, this).getScene();
         update();
@@ -233,23 +233,14 @@ public class Main extends Application {
     }
 
     /**
-     * clean up any temporary files created previously
+     * clean up any temporary files created previously recursively
      */
     private void cleanUpTempFiles() {
-        File tempImagesFolder =
+        File tempFolder =
                 new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                        + "tempImages");
-        File tempAudioFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                        + "tempAudio");
-        File tempVideoFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                        + "tempVideo");
+                + "temp");
 
-        cleanUpTempFolder(tempImagesFolder);
-        cleanUpTempFolder(tempAudioFolder);
-        cleanUpTempFolder(tempVideoFolder);
-
+        cleanUpTempFolder(tempFolder);
     }
 
     /**
@@ -263,6 +254,7 @@ public class Main extends Application {
             }
             tempFile.delete();
         }
+        tempFile.delete();
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -15,7 +15,6 @@ import main.java.application.AlertFactory;
 import main.java.application.StringManipulator;
 import main.java.controllers.Controller;
 import main.java.tasks.CreateAudioTask;
-import main.java.tasks.PreviewAudioTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,7 +137,7 @@ public class ChooseText extends Controller {
 
         File tempAudioFolder =
                 new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                        + "tempAudio");
+                        + "temp" + File.separator + "tempAudio");
 
         String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();

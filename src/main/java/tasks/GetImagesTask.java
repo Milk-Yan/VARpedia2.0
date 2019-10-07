@@ -32,7 +32,8 @@ public class GetImagesTask extends Task<Void> {
     protected Void call() throws Exception {
         String s = File.separator;
         _imageFolder =
-                new File(System.getProperty("user.dir") + s + "bin" + s + "tempImages" + s + _term);
+                new File(System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
+                        "tempImages" + s + _term);
         _imageFolder.mkdirs();
 
         try {

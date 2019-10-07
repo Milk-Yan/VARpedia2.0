@@ -48,7 +48,8 @@ public class CreateCreationTask extends Task<Void> {
         String s = File.separator;
 
         File tempFolder =
-                new File(System.getProperty("user.dir") + s + "bin" + s + "tempAudio" + s + _term);
+                new File(System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
+                        "tempAudio" + s + _term);
         tempFolder.mkdirs();
 
         // create string of all audio files
@@ -93,10 +94,12 @@ public class CreateCreationTask extends Task<Void> {
         String s = File.separator;
 
         String imageFilesFolder =
-                System.getProperty("user.dir") + s + "bin" + s + "tempImages" + s + _term + s;
+                System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
+        "tempImages" + s + _term + s;
 
         String tempFolderPath =
-                System.getProperty("user.dir") + s + "bin" + s + "tempVideo" + s + _term;
+                System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
+        "tempVideo" + s + _term;
         File tempFolder = new File(tempFolderPath);
         tempFolder.mkdirs();
 
@@ -114,7 +117,7 @@ public class CreateCreationTask extends Task<Void> {
             _imageMergeProcess = new ProcessBuilder("bash", "-c",
                     // get length of audio file
                     "VIDEO_LENGTH=$(soxi -D " + System.getProperty("user.dir") + s + "bin" + s +
-                            "tempAudio" +
+                            "temp" + File.separator + "tempAudio" +
                             s + _term + s + _name + ".wav);" +
                             // create slideshow from images with same length as audio, images
                             // change every 2 seconds, 30 fps
@@ -153,12 +156,12 @@ public class CreateCreationTask extends Task<Void> {
     private void mergeOverall() {
 
         String videoPath =
-                System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "tempVideo"
+                System.getProperty("user.dir") + File.separator + "bin" + File.separator + "temp" +
+                        File.separator + "tempVideo"
                         + File.separator + _term + File.separator + _name + ".mp4";
         String audioPath =
-                System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "tempAudio"
+                System.getProperty("user.dir") + File.separator + "bin" + File.separator + "temp" +
+                        File.separator + "tempAudio"
                         + File.separator + _term + File.separator + _name + ".wav";
         String creationPath =
                 System.getProperty("user.dir") + File.separator + "bin" + File.separator +
