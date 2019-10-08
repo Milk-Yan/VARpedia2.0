@@ -8,6 +8,7 @@ public enum Folders {
     CreationsFolder(BinFolder.getPath() + File.separator + "creations"),
     CreationPracticeFolder(CreationsFolder.getPath() + File.separator + "practice"),
     CreationTestFolder(CreationsFolder.getPath() + File.separator + "test"),
+    CreationScoreFolder(CreationTestFolder.getPath() + File.separator + "score"),
     AudioFolder(BinFolder.getPath() + File.separator + "audio"),
     AudioPracticeFolder(AudioFolder.getPath() + File.separator + "practice"),
     AudioTestFolder(AudioFolder.getPath() + File.separator + "test"),
