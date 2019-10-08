@@ -2,6 +2,7 @@ package main.java.tasks;
 
 import javafx.concurrent.Task;
 import javafx.scene.control.TreeItem;
+import main.java.application.Folders;
 
 import java.io.File;
 
@@ -12,8 +13,7 @@ public class ViewAudioTask extends Task<TreeItem<String>> {
     @Override
     protected TreeItem<String> call() throws Exception {
         File audioFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "audio");
+                new File(Folders.AudioFolder.getPath());
 
         _root = new TreeItem<String>("Audio");
         _root.setExpanded(true);

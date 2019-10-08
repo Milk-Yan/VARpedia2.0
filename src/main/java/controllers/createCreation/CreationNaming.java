@@ -7,6 +7,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.controllers.Controller;
 import main.java.tasks.CreateCreationTask;
 
@@ -67,7 +68,7 @@ public class CreationNaming extends Controller {
             new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain " +
                     "spaces");
 
-        } else if (new File(System.getProperty("user.dir") + "bin" + s + "creations" + s + _name +
+        } else if (new File(Folders.CreationsFolder.getPath() + s + _name +
                 ".mp4").isFile()) {
 
             // check if want to overwrite

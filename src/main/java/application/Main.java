@@ -51,9 +51,8 @@ public class Main extends Application {
      * Initialises folders if they do not already exist.
      */
     private void createFolders() {
-        String s = File.separator;
-        new File(System.getProperty("user.dir") + s + "bin" + s + "creations").mkdirs();
-        new File(System.getProperty("user.dir") + s + "bin" + s + "audio").mkdirs();
+        new File(Folders.CreationsFolder.getPath()).mkdirs();
+        new File(Folders.AudioFolder.getPath()).mkdirs();
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -237,8 +236,7 @@ public class Main extends Application {
      */
     private void cleanUpTempFiles() {
         File tempFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                + "temp");
+                new File(Folders.TempFolder.getPath());
 
         cleanUpTempFolder(tempFolder);
     }

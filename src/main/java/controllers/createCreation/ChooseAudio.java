@@ -13,6 +13,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.controllers.Controller;
 import main.java.tasks.GetImagesTask;
 
@@ -63,8 +64,7 @@ public class ChooseAudio extends Controller {
         _audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         File folder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "audio" + File.separator + _term);
+                new File(Folders.AudioFolder.getPath() + File.separator + _term);
 
         File[] arrayOfAudioFiles = folder.listFiles((file) -> {
 
@@ -300,8 +300,7 @@ public class ChooseAudio extends Controller {
             audioName = audioName.replaceFirst("\\d+\\. ", "").replaceAll("\n", "");
 
             File audioFile = new File(
-                    System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                            + "audio" + File.separator + _term + File.separator + audioName +
+                    Folders.AudioFolder.getPath() + File.separator + _term + File.separator + audioName +
                             ".wav");
 
             Media audio = new Media(audioFile.toURI().toString());

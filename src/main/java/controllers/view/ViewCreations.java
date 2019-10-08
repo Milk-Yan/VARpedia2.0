@@ -9,6 +9,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.controllers.Controller;
 import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
@@ -140,9 +141,7 @@ public class ViewCreations extends Controller {
                         _listOfAudio.getSelectionModel().getSelectedItem().getParent().getValue();
                 String audioName = _listOfAudio.getSelectionModel().getSelectedItem().getValue();
                 File audioFile =
-                        new File(System.getProperty("user.dir") + File.separator + "bin" +
-                                File.separator
-                                + "audio" + File.separator + term + File.separator + audioName);
+                        new File(Folders.AudioFolder.getPath() + File.separator + term + File.separator + audioName);
 
                 Media audio = new Media(audioFile.toURI().toString());
                 _audioPlayer = new MediaPlayer(audio);
@@ -173,12 +172,10 @@ public class ViewCreations extends Controller {
                 if (alert.getResult() == ButtonType.OK) {
                     String s = File.separator;
                     File fileCreation =
-                            new File(System.getProperty("user.dir") + s + "bin" + s + "creations" +
+                            new File(Folders.CreationsFolder.getPath() +
                                     s + videoName + ".mp4");
-                    //File fileAudio = new File(System.getProperty("user.dir")
-                    // +s+"bin"+s+"audio"+s+videoName+".mp4");
+
                     fileCreation.delete();
-                    //fileAudio.delete();
 
                     _mainApp.displayViewCreationsScene();
                 }
@@ -191,15 +188,12 @@ public class ViewCreations extends Controller {
                 if (alert.getResult() == ButtonType.OK) {
                     String term =
                             _listOfAudio.getSelectionModel().getSelectedItem().getParent().getValue();
-                    File audioFile = new File(System.getProperty("user.dir") + File.separator +
-                            "bin" + File.separator
-                            + "audio" + File.separator + term + File.separator + audioName);
+                    File audioFile =
+                            new File(Folders.AudioFolder.getPath() + File.separator + term + File.separator + audioName);
                     audioFile.delete();
 
                     File audioFolder =
-                            new File(System.getProperty("user.dir") + File.separator + "bin" +
-                                    File.separator
-                                    + "audio" + File.separator + term);
+                            new File(Folders.AudioFolder.getPath() + File.separator + term);
                     if (audioFolder.exists() && Objects.requireNonNull(audioFolder.listFiles().length == 0)){
                         audioFolder.delete();
                     }
@@ -213,8 +207,7 @@ public class ViewCreations extends Controller {
                         "Do you want to delete all audio for " + term + "?").getAlert();
                 if (alert.getResult() == ButtonType.OK) {
                     File audioFolder = new File(
-                            System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                                    + "audio" + File.separator + term);
+                            Folders.AudioFolder.getPath() + File.separator + term);
 
                     for (File audio : Objects.requireNonNull(audioFolder.listFiles())) {
                         audio.delete();

@@ -3,6 +3,7 @@ package main.java.tasks;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import main.java.application.Folders;
 
 import java.io.File;
 import java.util.Arrays;
@@ -20,8 +21,7 @@ public class ViewCreationsTask extends Task<ObservableList<String>> {
     protected ObservableList<String> call() {
 
         File folder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "creations");
+                new File(Folders.CreationsFolder.getPath());
 
         File[] arrayOfCreations = folder.listFiles((file) -> {
             if (file.getName().contains(".mp4")) {

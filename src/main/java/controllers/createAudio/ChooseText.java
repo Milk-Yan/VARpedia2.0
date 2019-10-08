@@ -12,6 +12,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.application.StringManipulator;
 import main.java.controllers.Controller;
 import main.java.tasks.CreateAudioTask;
@@ -136,8 +137,7 @@ public class ChooseText extends Controller {
         stopCurrentPreview();
 
         File tempAudioFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator
-                        + "temp" + File.separator + "tempAudio");
+                new File(Folders.TempAudioFolder.getPath());
 
         String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();

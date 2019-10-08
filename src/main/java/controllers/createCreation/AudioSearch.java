@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.application.StringManipulator;
 import main.java.controllers.Controller;
 import main.java.tasks.ViewSearchTask;
@@ -85,8 +86,7 @@ public class AudioSearch extends Controller {
 
             // check if audio files exists
             File file =
-                    new File(System.getProperty("user.dir") + File.separator + "bin" +
-                            File.separator + "audio" + File.separator + term);
+                    new File(Folders.AudioFolder.getPath()+ File.separator + term);
 
             if (file.isDirectory() && Objects.requireNonNull(file.list()).length > 0) {
 

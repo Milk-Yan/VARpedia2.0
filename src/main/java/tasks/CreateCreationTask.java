@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.application.Main;
 
 import java.io.File;
@@ -48,13 +49,11 @@ public class CreateCreationTask extends Task<Void> {
         String s = File.separator;
 
         File tempFolder =
-                new File(System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
-                        "tempAudio" + s + _term);
+                new File(Folders.TempAudioFolder.getPath() + s + _term);
         tempFolder.mkdirs();
 
         // create string of all audio files
-        String audioFolder = System.getProperty("user.dir") + s + "bin" + s +
-                "audio" + s;
+        String audioFolder = Folders.AudioFolder.getPath() + s;
         String audioFilesFolder = audioFolder + _term + s;
         String audioFiles = "";
 
@@ -94,13 +93,10 @@ public class CreateCreationTask extends Task<Void> {
         String s = File.separator;
 
         String imageFilesFolder =
-                System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
-        "tempImages" + s + _term + s;
+               Folders.TempImagesFolder.getPath() + s + _term + s;
 
-        String tempFolderPath =
-                System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
-        "tempVideo" + s + _term;
-        File tempFolder = new File(tempFolderPath);
+        String tempVideoFolderPath = Folders.TempVideoFolder.getPath() + s + _term;
+        File tempFolder = new File(tempVideoFolderPath);
         tempFolder.mkdirs();
 
         int i = 0;
@@ -116,8 +112,7 @@ public class CreateCreationTask extends Task<Void> {
         try {
             _imageMergeProcess = new ProcessBuilder("bash", "-c",
                     // get length of audio file
-                    "VIDEO_LENGTH=$(soxi -D " + System.getProperty("user.dir") + s + "bin" + s +
-                            "temp" + File.separator + "tempAudio" +
+                    "VIDEO_LENGTH=$(soxi -D " + Folders.TempAudioFolder.getPath() +
                             s + _term + s + _name + ".wav);" +
                             // create slideshow from images with same length as audio, images
                             // change every 2 seconds, 30 fps
@@ -127,7 +122,7 @@ public class CreateCreationTask extends Task<Void> {
                             + "x=(w-text_w)/2:y=(h-text_h)/2:text=\"" + _term +
                             " -s 720x480" +
                             // put video file in temp folder
-                            " -y " + tempFolderPath + s + _name + ".mp4"
+                            " -y " + tempVideoFolderPath + s + _name + ".mp4"
             ).start();
             try {
                 _imageMergeProcess.waitFor();
@@ -156,16 +151,13 @@ public class CreateCreationTask extends Task<Void> {
     private void mergeOverall() {
 
         String videoPath =
-                System.getProperty("user.dir") + File.separator + "bin" + File.separator + "temp" +
-                        File.separator + "tempVideo"
+                Folders.TempVideoFolder.getPath()
                         + File.separator + _term + File.separator + _name + ".mp4";
         String audioPath =
-                System.getProperty("user.dir") + File.separator + "bin" + File.separator + "temp" +
-                        File.separator + "tempAudio"
+               Folders.TempAudioFolder.getPath()
                         + File.separator + _term + File.separator + _name + ".wav";
         String creationPath =
-                System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "creations"
+                Folders.CreationsFolder.getPath()
                         + File.separator + _name + ".mp4";
         try {
             _mergeOverallProcess = new ProcessBuilder("bash", "-c",

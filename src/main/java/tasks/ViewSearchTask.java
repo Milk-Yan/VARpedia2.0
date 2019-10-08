@@ -3,6 +3,7 @@ package main.java.tasks;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import main.java.application.Folders;
 
 import java.io.File;
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class ViewSearchTask extends Task<ObservableList<String>> {
 
     @Override
     protected ObservableList<String> call() throws Exception {
-        File folder = new File(System.getProperty("user.dir") + s + "bin" + s + "audio");
+        File folder = new File(Folders.AudioFolder.getPath());
 
         File[] arrayOfFolders = folder.listFiles((file) -> {
             return true;

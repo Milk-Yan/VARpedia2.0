@@ -7,6 +7,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.controllers.Controller;
 import main.java.tasks.CreateAudioTask;
 
@@ -66,7 +67,7 @@ public class AudioNaming extends Controller {
                     "spaces");
 
         } else if (new File(
-                System.getProperty("user.dir") + s + "bin" + s + "audio" + s + _term + s +
+                Folders.AudioFolder.getPath() + s + _term + s +
                         _name + ".wav").isFile()) {
 
             // check if want to overwrite
@@ -90,8 +91,7 @@ public class AudioNaming extends Controller {
 
         // folder to store audio
         File audioFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "audio" + File.separator + _term);
+                new File(Folders.AudioFolder.getPath() + File.separator + _term);
 
         // use new thread to create in bg
         _task = new CreateAudioTask(audioFolder, _name, _chosenText, _mainApp, _voice, false);

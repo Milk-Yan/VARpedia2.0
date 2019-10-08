@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.controllers.Controller;
 
 import javax.sound.sampled.AudioFormat;
@@ -56,8 +57,7 @@ public class ChooseImages extends Controller {
         _message.setText("Images files for " + term + ": ");
 
         File imageFolder =
-                new File(System.getProperty("user.dir") + File.separator + "bin" + File.separator +
-                        "temp" + File.separator + "tempImages" + File.separator + _term);
+                new File(Folders.TempImagesFolder.getPath() + File.separator + _term);
 
         int index = 1;
 
@@ -97,9 +97,7 @@ public class ChooseImages extends Controller {
         double lengthOfAudio = 0;
         for (String audio : _audioList) {
             File audioFile =
-                    new File(System.getProperty("user.dir") + File.separator + "bin" +
-                            File.separator +
-                            "audio" + File.separator + _term + File.separator + audio + ".wav");
+                    new File(Folders.AudioFolder.getPath() + File.separator + _term + File.separator + audio + ".wav");
 
             AudioInputStream audioInputStream;
             try {

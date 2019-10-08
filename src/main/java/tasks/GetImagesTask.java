@@ -6,6 +6,7 @@ import com.flickr4java.flickr.REST;
 import com.flickr4java.flickr.photos.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import main.java.application.Folders;
 import main.java.application.Main;
 import main.java.application.StringManipulator;
 
@@ -32,8 +33,7 @@ public class GetImagesTask extends Task<Void> {
     protected Void call() throws Exception {
         String s = File.separator;
         _imageFolder =
-                new File(System.getProperty("user.dir") + s + "bin" + s + "temp" + File.separator +
-                        "tempImages" + s + _term);
+                new File(Folders.TempImagesFolder.getPath() + s + _term);
         _imageFolder.mkdirs();
 
         try {
