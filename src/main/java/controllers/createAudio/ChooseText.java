@@ -72,7 +72,7 @@ public class ChooseText extends Controller {
         _sourceString = searchResults.trim();
         _wordLimit.setTextFill(Color.GREEN);
 
-        _message.setText("TermSearch results for " + _term + ": ");
+        _message.setText("Search results for " + _term + ": ");
         _searchResults.setText(_sourceString);
         setDisable(true);
 
