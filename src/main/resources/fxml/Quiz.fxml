@@ -110,7 +110,7 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefWidth="230.0" text="Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#mainMenuPress" prefWidth="230.0" text="Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font size="26.0" />
                </font>
