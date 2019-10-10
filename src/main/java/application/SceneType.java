@@ -10,16 +10,16 @@ import java.io.File;
 
 public enum SceneType {
 
-    MainMenu("/main/resources/application/MainMenu.fxml"),
-    CreateAudioSearch("/main/resources/application/createAudio/TermSearch.fxml"),
-    CreateAudioChooseText("/main/resources/application/createAudio/ChooseText.fxml"),
-    CreateAudioNaming("/main/resources/application/createAudio/AudioNaming.fxml"),
-    CreateCreationSearch("/main/resources/application/createCreation/AudioSearch.fxml"),
-    CreateCreationChooseAudio("/main/resources/application/createCreation/ChooseAudio.fxml"),
-    CreateCreationNaming("/main/resources/application/createCreation/CreationNaming.fxml"),
-    ViewCreations("/main/resources/application/view/ViewCreations.fxml"),
-    VideoPlayer("/main/resources/application/view/VideoPlayer.fxml"),
-    CreateCreationChooseImages("/main/resources/application/createCreation/ChooseImages.fxml");
+    MainMenu("/main/resources/fxml/MainMenu.fxml"),
+    CreateAudioSearch("/main/resources/fxml/createAudio/TermSearch.fxml"),
+    CreateAudioChooseText("/main/resources/fxml/createAudio/ChooseText.fxml"),
+    CreateAudioNaming("/main/resources/fxml/createAudio/AudioNaming.fxml"),
+    CreateCreationSearch("/main/resources/fxml/createCreation/AudioSearch.fxml"),
+    CreateCreationChooseAudio("/main/resources/fxml/createCreation/ChooseAudio.fxml"),
+    CreateCreationNaming("/main/resources/fxml/createCreation/CreationNaming.fxml"),
+    ViewCreations("/main/resources/fxml/view/ViewCreations.fxml"),
+    VideoPlayer("/main/resources/fxml/view/VideoPlayer.fxml"),
+    CreateCreationChooseImages("/main/resources/fxml/createCreation/ChooseImages.fxml");
 
     private String _address;
 

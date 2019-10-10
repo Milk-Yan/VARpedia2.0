@@ -56,6 +56,7 @@ public class AudioSearch extends Controller {
 
 
             } else {
+
                 _wikitTerm.setItems(folderList);
             }
 
