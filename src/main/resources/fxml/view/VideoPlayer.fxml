@@ -7,28 +7,46 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.media.MediaView?>
-
+<?import javafx.scene.text.Font?>
 
 <GridPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.view.VideoPlayer">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="15.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
         <MediaView fx:id="_viewer" fitHeight="300.0" fitWidth="500.0" />
       <Slider GridPane.rowIndex="1" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
             <children>
-                <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Pause" />
-                <Button fx:id="_fastForwardBtn" mnemonicParsing="false" onAction="#fastForward" text="Fast Forward" />
-                <Button fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" text="Slow Down" />
-                <Button fx:id="_forwardBtn" mnemonicParsing="false" onAction="#forward" text="Forward" />
-                <Button fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" text="Backward" />
-                <Button fx:id="_muteBtn" mnemonicParsing="false" onAction="#mute" text="Mute" />
+                <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Pause">
+               <font>
+                  <Font size="26.0" />
+               </font></Button>
+                <Button fx:id="_fastForwardBtn" mnemonicParsing="false" onAction="#fastForward" text="Fast Forward">
+               <font>
+                  <Font size="26.0" />
+               </font></Button>
+                <Button fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" text="Slow Down">
+               <font>
+                  <Font size="26.0" />
+               </font></Button>
+                <Button fx:id="_forwardBtn" mnemonicParsing="false" onAction="#forward" text="Forward">
+               <font>
+                  <Font size="26.0" />
+               </font></Button>
+                <Button fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" text="Backward">
+               <font>
+                  <Font size="26.0" />
+               </font></Button>
+                <Button fx:id="_muteBtn" mnemonicParsing="false" onAction="#mute" text="Mute">
+               <font>
+                  <Font size="26.0" />
+               </font></Button>
             </children>
         </HBox>
    </children>

@@ -330,7 +330,7 @@ public class ChooseAudio extends Controller {
             if (_task != null) {
                 _task.cancel();
             }
-
+            _mainApp.displayMainMenuScene();
 
         } else {
             _mainMenuBtn.setText("Confirm?");

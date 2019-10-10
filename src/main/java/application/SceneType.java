@@ -19,6 +19,7 @@ public enum SceneType {
     CreateCreationNaming("/main/resources/fxml/createCreation/CreationNaming.fxml"),
     ViewCreations("/main/resources/fxml/view/ViewCreations.fxml"),
     VideoPlayer("/main/resources/fxml/view/VideoPlayer.fxml"),
+    Quiz("/main/resources/fxml/Quiz.fxml"),
     CreateCreationChooseImages("/main/resources/fxml/createCreation/ChooseImages.fxml");
 
     private String _address;
