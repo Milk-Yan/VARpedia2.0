@@ -2,8 +2,10 @@ package main.java.controllers.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -40,6 +42,7 @@ public class VideoPlayer extends Controller {
     @FXML
     private Label _playTime;
 
+
     private String _videoName;
     private MediaPlayer _player;
 
@@ -75,6 +78,7 @@ public class VideoPlayer extends Controller {
 
             updateValues(Duration.ZERO);
         });
+
 
         stage.setOnCloseRequest(closeEvent -> {
             player.stop();
