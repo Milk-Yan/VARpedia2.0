@@ -59,11 +59,11 @@ public class ChooseAudio extends Controller {
 
         _title.setText("Audio files for " + term + ":");
 
-        // make the ListView multiple-selection
-        _audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // make the ListView single-selection
+        _audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         File folder =
-                new File(Folders.AudioFolder.getPath() + File.separator + _term);
+                new File(Folders.AudioPracticeFolder.getPath() + File.separator + _term);
 
         File[] arrayOfAudioFiles = folder.listFiles((file) -> {
 
@@ -299,7 +299,7 @@ public class ChooseAudio extends Controller {
             audioName = audioName.replaceFirst("\\d+\\. ", "").replaceAll("\n", "");
 
             File audioFile = new File(
-                    Folders.AudioFolder.getPath() + File.separator + _term + File.separator + audioName +
+                    Folders.AudioPracticeFolder.getPath() + File.separator + _term + File.separator + audioName +
                             ".wav");
 
             Media audio = new Media(audioFile.toURI().toString());

@@ -12,6 +12,7 @@ import main.java.controllers.view.VideoPlayer;
 import main.java.controllers.view.ViewCreations;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -207,13 +208,13 @@ public class Main extends Application {
     /**
      * Creates a new stage and plays the video.
      *
-     * @param name
+     * @param videoFile file to play
      */
-    public void playVideo(String name) {
+    public void playVideo(File videoFile) {
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.VideoPlayer, this);
         VideoPlayer controller = (VideoPlayer) sceneFactory.getController();
-        controller.setUp(name);
+        controller.setUp(videoFile);
 
 
     }
@@ -237,7 +238,11 @@ public class Main extends Application {
         File tempFolder =
                 new File(Folders.TempFolder.getPath());
 
-        new ProcessBuilder("bash", "-c", "rm -rf " + tempFolder);
+        try {
+            new ProcessBuilder("bash", "-c", "rm -rf " + tempFolder).start();
+        } catch (IOException e) {
+            // don't do anything
+        }
     }
 
     // ---------------------------------------------------------------------------------------------

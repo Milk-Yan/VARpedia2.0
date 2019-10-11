@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.application.Main;
+import main.java.application.StringManipulator;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +22,12 @@ public class CreateCreationTask extends Task<Void> {
     private ArrayList<String> _imageList;
     private Main _mainApp;
 
-    private Process _audioMergeProcess;
-    private Process _imageMergeProcess;
-    private Process _mergeOverallProcess;
+    private Process _audioMergePracticeProcess;
+    private Process _audioMergeTestProcess;
+    private Process _imageMergePracticeProcess;
+    private Process _imageMergeTestProcess;
+    private Process _mergeOverallPracticeProcess;
+    private Process _mergeOverallTestProcess;
 
     public CreateCreationTask(String name, String term, ArrayList<String> audioList,
                               ArrayList<String> imageList, Main mainApp) {
@@ -38,35 +42,69 @@ public class CreateCreationTask extends Task<Void> {
     @Override
     protected Void call() throws Exception {
 
-        audioMerge();
-        imageMerge();
-        mergeOverall();
+        // create audio for practice
+        String audioInputPracticeFolder = Folders.AudioPracticeFolder.getPath() + File.separator + _term;
+        String audioOutputPracticeFolder =
+                Folders.TempAudioPracticeFolder.getPath() + File.separator + _term;
+        audioMerge(audioInputPracticeFolder, audioOutputPracticeFolder, _audioMergePracticeProcess);
+
+        // create audio for quiz
+        String audioInputTestFolder = Folders.AudioTestFolder.getPath() + File.separator + _term;
+        String audioOutputTestFolder =
+                Folders.TempAudioTestFolder.getPath() + File.separator + _term;
+        audioMerge(audioInputTestFolder, audioOutputTestFolder, _audioMergeTestProcess);
+
+        // merge image for practice
+        String imageInputPracticeFolder =
+                Folders.TempImagesFolder.getPath() + File.separator + _term;
+        String videoOutputPracticeFolder =
+                Folders.TempVideoPracticeFolder + File.separator + _term;
+        imageMerge(imageInputPracticeFolder, videoOutputPracticeFolder,
+                audioOutputPracticeFolder, _imageMergePracticeProcess);
+
+        // merge image for quiz
+        String imageInputTestFolder = Folders.TempImagesFolder.getPath() + File.separator + _term;
+        String videoOutputTestFolder =
+                Folders.TempVideoTestFolder.getPath() + File.separator + _term;
+        imageMerge(imageInputTestFolder, videoOutputTestFolder, audioOutputTestFolder,
+                _imageMergeTestProcess);
+
+
+        // merge overall for practice
+        String creationOutputPracticeFolder =
+                Folders.CreationPracticeFolder.getPath() + File.separator + _term;
+        mergeOverall(audioOutputPracticeFolder, videoOutputPracticeFolder,
+                creationOutputPracticeFolder, _mergeOverallPracticeProcess);
+
+        // merge overall for quiz
+        String creationOutputTestFolder =
+                Folders.CreationTestFolder.getPath() + File.separator + _term;
+        mergeOverall(audioOutputTestFolder, videoOutputTestFolder, creationOutputTestFolder, _mergeOverallTestProcess);
 
         return null;
     }
 
-    private void audioMerge() {
-        String s = File.separator;
+    private void audioMerge(String audioInputFolder, String audioOutputFolder,
+                            Process audioMergeProcess) {
 
         File tempFolder =
-                new File(Folders.TempAudioFolder.getPath() + s + _term);
+                new File(audioOutputFolder);
         tempFolder.mkdirs();
 
         // create string of all audio files
-        String audioFolder = Folders.AudioFolder.getPath() + s;
-        String audioFilesFolder = audioFolder + _term + s;
         String audioFiles = "";
 
         for (String fileName : _audioList) {
-            audioFiles = audioFiles.concat(audioFilesFolder + fileName + ".wav ");
+            audioFiles = audioFiles.concat(audioInputFolder + File.separator + fileName + ".wav ");
         }
 
         try {
-            _audioMergeProcess = new ProcessBuilder("bash", "-c",
-                    "sox " + audioFiles + tempFolder + s + _name + ".wav"
+            audioMergeProcess = new ProcessBuilder("bash", "-c",
+                    "sox " + audioFiles + tempFolder + File.separator + _name + ".wav"
             ).start();
+
             try {
-                _audioMergeProcess.waitFor();
+                audioMergeProcess.waitFor();
 
             } catch (InterruptedException e) {
                 // don't do anything
@@ -80,7 +118,8 @@ public class CreateCreationTask extends Task<Void> {
             });
         }
 
-        if (_audioMergeProcess.exitValue() != 0) {
+        if (audioMergeProcess.exitValue() != 0) {
+            System.out.println(new StringManipulator().inputStreamToString(audioMergeProcess.getErrorStream()));
             Platform.runLater(() -> {
                 new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The audio did not " +
                         "merge properly");
@@ -89,54 +128,45 @@ public class CreateCreationTask extends Task<Void> {
         }
     }
 
-    private void imageMerge() {
-        String s = File.separator;
+    private void imageMerge(String imageInputFolder, String videoOutputFolder,
+                            String audioOutputFolder, Process imageMergeProcess) {
 
-        String imageFilesFolder =
-               Folders.TempImagesFolder.getPath() + s + _term + s;
-
-        String tempVideoFolderPath = Folders.TempVideoFolder.getPath() + s + _term;
-        File tempFolder = new File(tempVideoFolderPath);
+        File tempFolder = new File(videoOutputFolder);
         tempFolder.mkdirs();
 
         int i = 0;
-
         for (String imageName : _imageList) {
-            File image = new File(imageFilesFolder + imageName);
-            File newImageName = new File(imageFilesFolder + "img" + i + ".jpg");
+            File image = new File(imageInputFolder + File.separator + imageName);
+            File newImageName = new File(imageInputFolder + File.separator + "img" + i + ".jpg");
             image.renameTo(newImageName);
 
             i++;
         }
 
         try {
-            _imageMergeProcess = new ProcessBuilder("bash", "-c",
+            imageMergeProcess = new ProcessBuilder("bash", "-c",
                     // get length of audio file
-                    "VIDEO_LENGTH=$(soxi -D " + Folders.TempAudioFolder.getPath() + File.separator +
-                    "practice" + File.separator +
-                            s + _term + s + _name + ".wav);" +
+                    "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator +  _name +
+                    ".wav);" +
                             // create slideshow from images with same length as audio, images
                             // change every 2 seconds, 30 fps
-                            "ffmpeg -framerate 1/2 -loop 1 -i " + Folders.TempImagesFolder.getPath() + File.separator +
-                            _term + File.separator + "img%01d.jpg" +
-                            " -r 30 -t $VIDEO_LENGTH " +
+                            "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder + File.separator + "img" +
+                            "%01d.jpg -r 30 -t $VIDEO_LENGTH " +
                             "-vf \"drawtext=fontfile=font.ttf:fontsize=200:fontcolor=white:"
                             + "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0.5:boxborderw=0" +
-                            ".5" +
-                            ":text=\"" + _term +
-                            " -s 600x400" +
+                            ".5:text=\"" + _term + " -s 600x400" +
                             // put video file in temp folder
-                            " -y " + Folders.TempVideoFolder.getPath() + File.separator + _term + File.separator + _name +
+                            " -y " + videoOutputFolder + File.separator + _name +
                             ".mp4"
             ).start();
             try {
-                _imageMergeProcess.waitFor();
+                imageMergeProcess.waitFor();
 
             } catch (InterruptedException e) {
                 // don't do anything
             }
 
-            if (_imageMergeProcess.exitValue() != 0) {
+            if (imageMergeProcess.exitValue() != 0) {
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The image did " +
                             "not merge properly");
@@ -153,36 +183,33 @@ public class CreateCreationTask extends Task<Void> {
         }
     }
 
-    private void mergeOverall() {
+    private void mergeOverall(String audioInputFolder, String videoInputFolder,
+                              String creationOutputFolder, Process mergeOverallProcess) {
 
-        String videoPath =
-                Folders.TempVideoFolder.getPath()
-                        + File.separator + _term + File.separator + _name + ".mp4";
-        String audioPath =
-               Folders.TempAudioFolder.getPath()
-                        + File.separator + _term + File.separator + _name + ".wav";
-        String creationPath =
-                Folders.CreationsFolder.getPath()
-                        + File.separator + _name + ".mp4";
+        File creationFolder = new File(creationOutputFolder);
+        creationFolder.mkdirs();
+
         try {
-            _mergeOverallProcess = new ProcessBuilder("bash", "-c",
+            mergeOverallProcess = new ProcessBuilder("bash", "-c",
                     // get video
-                    "ffmpeg -i " + videoPath + " " +
+                    "ffmpeg -i " + videoInputFolder + File.separator + _name + ".mp4 " +
                             // get audio
-                            "-i " + audioPath + " " +
+                            "-i " + audioInputFolder + File.separator + _name + ".wav " +
                             // combine
-                            "-strict -2 -y " + creationPath
+                            "-strict -2 -y " + creationOutputFolder + File.separator + _name +
+                            ".mp4"
             ).start();
 
             try {
-                _mergeOverallProcess.waitFor();
+                mergeOverallProcess.waitFor();
 
             } catch (InterruptedException e) {
                 // don't do anything
             }
 
 
-            if (_mergeOverallProcess.exitValue() != 0) {
+            if (mergeOverallProcess.exitValue() != 0) {
+                System.out.println(new StringManipulator().inputStreamToString(mergeOverallProcess.getErrorStream()));
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The video and " +
                             "image did not merge properly");
@@ -203,14 +230,13 @@ public class CreateCreationTask extends Task<Void> {
     @Override
     public void cancelled() {
 
-        if (_audioMergeProcess != null) {
-            _audioMergeProcess.destroy();
-        }
-        if (_imageMergeProcess != null) {
-            _imageMergeProcess.destroy();
-        }
-        if (_mergeOverallProcess != null) {
-            _mergeOverallProcess.destroy();
+        Process[] listOfProcesses = {_audioMergePracticeProcess, _audioMergeTestProcess,
+                _imageMergePracticeProcess, _imageMergeTestProcess, _mergeOverallPracticeProcess,
+                _mergeOverallTestProcess};
+        for (Process process: listOfProcesses) {
+            if (process != null && process.isAlive()) {
+                process.destroy();
+            }
         }
     }
 
@@ -228,7 +254,9 @@ public class CreateCreationTask extends Task<Void> {
                 //go to preview scene again
                 //NOT DONE YET
                 _mainApp.displayMainMenuScene();
-                _mainApp.playVideo(_name);
+                File creationFile =
+                        new File(Folders.CreationPracticeFolder.getPath() + File.separator + _term + File.separator + _name + ".mp4");
+                _mainApp.playVideo(creationFile);
             } else {
                 _mainApp.displayMainMenuScene();
             }

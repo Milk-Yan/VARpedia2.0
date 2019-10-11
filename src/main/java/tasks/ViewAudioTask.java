@@ -5,6 +5,7 @@ import javafx.scene.control.TreeItem;
 import main.java.application.Folders;
 
 import java.io.File;
+import java.util.Objects;
 
 public class ViewAudioTask extends Task<TreeItem<String>> {
 
@@ -13,7 +14,7 @@ public class ViewAudioTask extends Task<TreeItem<String>> {
     @Override
     protected TreeItem<String> call() throws Exception {
         File audioFolder =
-                new File(Folders.AudioFolder.getPath());
+                new File(Folders.AudioPracticeFolder.getPath());
 
         _root = new TreeItem<String>("Audio");
         _root.setExpanded(true);
@@ -28,7 +29,7 @@ public class ViewAudioTask extends Task<TreeItem<String>> {
         });
 
 
-        for (File audioTermFolder : audioFolders) {
+        for (File audioTermFolder : Objects.requireNonNull(audioFolders)) {
 
             TreeItem<String> term = new TreeItem<String>(audioTermFolder.getName());
             _root.getChildren().add(term);
@@ -42,13 +43,12 @@ public class ViewAudioTask extends Task<TreeItem<String>> {
                 }
             });
 
-            for (File audioFile : audioFiles) {
+            for (File audioFile : Objects.requireNonNull(audioFiles)) {
                 TreeItem<String> audio = new TreeItem<String>(audioFile.getName());
                 term.getChildren().add(audio);
             }
 
         }
-
 
         return _root;
     }

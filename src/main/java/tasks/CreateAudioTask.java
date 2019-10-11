@@ -56,11 +56,11 @@ public class CreateAudioTask extends Task<Void> {
             _practiceText = new StringManipulator().getQuizText(_practiceText, _term);
 
             // make quiz audio
-            File tempFolder =
-                    new File(Folders.TempAudioFolder.getPath() + File.separator + "quiz" +
-                            File.separator + _term);
-            tempFolder.mkdirs();
-            makeAudioProcess(_processQuiz, _quizText, tempFolder);
+            File testFolder =
+                    new File(Folders.AudioTestFolder.getPath() + File.separator + _term);
+            testFolder.mkdirs();
+
+            makeAudioProcess(_processQuiz, _quizText, testFolder);
         }
 
         return null;

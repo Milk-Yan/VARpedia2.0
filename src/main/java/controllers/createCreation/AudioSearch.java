@@ -87,7 +87,7 @@ public class AudioSearch extends Controller {
 
             // check if audio files exists
             File file =
-                    new File(Folders.AudioFolder.getPath()+ File.separator + term);
+                    new File(Folders.AudioPracticeFolder.getPath()+ File.separator + term);
 
             if (file.isDirectory() && Objects.requireNonNull(file.list()).length > 0) {
 

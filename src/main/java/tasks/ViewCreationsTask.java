@@ -1,52 +1,60 @@
 package main.java.tasks;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.control.TreeItem;
 import main.java.application.Folders;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Searches and returns the list of current creations.
  *
  * @author Milk
  */
-public class ViewCreationsTask extends Task<ObservableList<String>> {
+public class ViewCreationsTask extends Task<TreeItem<String>> {
+
+    private TreeItem<String> _root;
 
     @Override
-    protected ObservableList<String> call() {
+    protected TreeItem<String> call() {
 
         File folder =
-                new File(Folders.CreationsFolder.getPath());
+                new File(Folders.CreationPracticeFolder.getPath());
 
-        File[] arrayOfCreations = folder.listFiles((file) -> {
-            if (file.getName().contains(".mp4")) {
+        _root = new TreeItem<String>("Creations");
+        _root.setExpanded(true);
+
+        // get all creations in the creation folder
+        File[] creationFolders = folder.listFiles((file) -> {
+            if (file.isDirectory()) {
                 return true;
             } else {
                 return false;
             }
         });
 
-        // sorts the list of creations in alphabetical order.
-        List<File> listOfCreations = Arrays.asList(arrayOfCreations);
-        Collections.sort(listOfCreations);
+        for (File creationFolder: creationFolders) {
+            TreeItem<String> term = new TreeItem<>(creationFolder.getName());
+            _root.getChildren().add(term);
 
-        ObservableList<String> outputList = FXCollections.observableArrayList();
-        int lineNumber = 1;
+            // get all mp4 files in the folder
+            File[] creationFiles = creationFolder.listFiles((file -> {
+                if (file.getName().contains(".mp4")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }));
 
-        // only gives the name of the file, and gives a number as
-        // indication of the number of current creations.
-        for (File file : listOfCreations) {
-            String name = file.getName().replace(".mp4", "");
-            outputList.add(lineNumber + ". " + name + "\n");
-            lineNumber++;
+            for (File creationFile:creationFiles) {
+                TreeItem<String> creation = new TreeItem<>(creationFile.getName());
+                term.getChildren().add(creation);
+            }
         }
 
-        return outputList;
+        return _root;
+
+
     }
 
 

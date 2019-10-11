@@ -83,15 +83,11 @@ public class AudioNaming extends Controller {
         }
     }
 
-    /**
-     * creations the audio file using passed parameters
-     */
-    @FXML
     private void create() {
 
         // folder to store audio
         File audioFolder =
-                new File(Folders.AudioFolder.getPath() + File.separator + "practice" + File.separator +  _term);
+                new File(Folders.AudioPracticeFolder.getPath() + File.separator +  _term);
 
         // use new thread to create in bg
         _task = new CreateAudioTask(audioFolder, _term,  _name, _chosenText, _mainApp, _voice,

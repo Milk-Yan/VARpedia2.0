@@ -43,23 +43,23 @@ public class VideoPlayer extends Controller {
     private Label _playTime;
 
 
-    private String _videoName;
+    private File _videoFile;
     private MediaPlayer _player;
 
     /**
      * initial setup for video playback. Video starts automatically
      *
-     * @param videoName
+     * @param videoFile
      */
-    public void setUp(String videoName) {
-        _videoName = videoName;
+    public void setUp(File videoFile) {
+        _videoFile = videoFile;
 
         MediaPlayer player = createPlayer();
         _viewer.setMediaPlayer(player);
 
         // create a new window for the VideoPlayer
         Stage stage = new Stage();
-        stage.setTitle(_videoName);
+        stage.setTitle(_videoFile.getName());
         stage.setScene(_viewer.getScene());
         stage.setX(700);
         stage.setY(300);
@@ -199,8 +199,7 @@ public class VideoPlayer extends Controller {
      */
     private MediaPlayer createPlayer() {
         Media video =
-                new Media(Paths.get("bin" + File.separator + "creations" + File.separator +
-                        _videoName + ".mp4").toUri().toString());
+                new Media(Paths.get(_videoFile.getPath()).toUri().toString());
         _player = new MediaPlayer(video);
         _player.setAutoPlay(true);
 

@@ -4,11 +4,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 
 <GridPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.MainMenu">
    <columnConstraints>
@@ -67,7 +64,7 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#viewQuiz" prefHeight="50.0" prefWidth="450.0" text="Quiz" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="_quizBtn" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#viewQuiz" prefHeight="50.0" prefWidth="450.0" text="Quiz" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
                </font>

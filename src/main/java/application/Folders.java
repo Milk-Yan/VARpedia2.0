@@ -14,8 +14,12 @@ public enum Folders {
     AudioTestFolder(AudioFolder.getPath() + File.separator + "test"),
     TempFolder(BinFolder.getPath() + File.separator + ".temp"),
     TempAudioFolder(TempFolder.getPath() + File.separator + "audio"),
+    TempAudioPracticeFolder(TempAudioFolder.getPath() + File.separator + "practice"),
+    TempAudioTestFolder(TempAudioFolder.getPath() + File.separator + "test"),
     TempImagesFolder(TempFolder.getPath() + File.separator + "images"),
-    TempVideoFolder(TempFolder.getPath() + File.separator + "video");
+    TempVideoFolder(TempFolder.getPath() + File.separator + "video"),
+    TempVideoPracticeFolder(TempVideoFolder.getPath() + File.separator + "practice"),
+    TempVideoTestFolder(TempVideoFolder.getPath() + File.separator + "test");
 
     private String _path;
 
