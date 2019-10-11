@@ -60,7 +60,7 @@
                   <Font size="26.0" />
               </font>
           </Button>
-          <Button fx:id="_previewBtn" minWidth="300.0" mnemonicParsing="false" onAction="#preview" prefWidth="300.0" text="Preview" GridPane.rowIndex="4">
+          <Button fx:id="_previewBtn" mnemonicParsing="false" onAction="#preview" prefWidth="300.0" text="Preview" GridPane.rowIndex="4">
               <font>
                   <Font size="26.0" />
               </font>
