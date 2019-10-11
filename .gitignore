@@ -28,7 +28,7 @@ hs_err_pid*
 
 #inteliJ files
 .idea/
-*.iml
+SE206AS2.iml
 
 Midnight Bangkok.ttf
 wiki.docx
