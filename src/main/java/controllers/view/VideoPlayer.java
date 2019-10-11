@@ -2,6 +2,10 @@ package main.java.controllers.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -26,6 +30,19 @@ public class VideoPlayer extends Controller {
     @FXML
     private Button _playPauseBtn;
 
+    @FXML
+    private Slider _volSlider;
+
+    @FXML
+    private Slider _timeSlider;
+
+    @FXML
+    private Label _maxTime;
+
+    @FXML
+    private Label _playTime;
+
+
     private String _videoName;
     private MediaPlayer _player;
 
@@ -47,6 +64,22 @@ public class VideoPlayer extends Controller {
         stage.setX(700);
         stage.setY(300);
 
+        // add listener for media player that will trigger the sliders
+        _player.currentTimeProperty().addListener(
+                (observable, oldTime, newTime) -> updateValues(newTime));
+
+
+        _player.setOnReady(() -> {
+            setUpSliders();
+
+            // set up the duration time for the player label
+            formatTime(_maxTime, _player.getTotalDuration());
+            _playTime.setText("00:00");
+
+            updateValues(Duration.ZERO);
+        });
+
+
         stage.setOnCloseRequest(closeEvent -> {
             player.stop();
         });
@@ -55,6 +88,54 @@ public class VideoPlayer extends Controller {
 
     }
 
+    private void setUpSliders() {
+
+        // set up time slider
+        _timeSlider.setMin(0);
+        _timeSlider.setMax(_player.getTotalDuration().toMillis());
+
+        // set up vol slider
+        _volSlider.setValue(50);
+
+        // add listener for time slider
+        _timeSlider.valueProperty().addListener(observable -> {
+            if (_timeSlider.isPressed()) {
+                _player.seek(new Duration(_timeSlider.getValue()));
+            }
+        });
+
+        // add listener for volume
+        _volSlider.valueProperty().addListener(observable -> {
+            _player.setVolume(_volSlider.getValue()/100.0);
+        });
+    }
+
+    private void updateValues(Duration currentTime) {
+        _timeSlider.setValue(currentTime.toMillis());
+        formatTime(_playTime, currentTime);
+    }
+
+    private void formatTime(Label label, Duration duration) {
+        Double durationMillis = duration.toMillis();
+        int minutes = (int) Math.floor(durationMillis/1000/60);
+        int seconds = (int) Math.floor(durationMillis/1000 - minutes*60);
+        String minutesStr;
+        String secondsStr;
+
+        if (minutes > 9) {
+            minutesStr = String.valueOf(minutes);
+        } else {
+            minutesStr = "0" + String.valueOf(minutes);
+        }
+
+        if (seconds > 9) {
+            secondsStr = String.valueOf(seconds);
+        } else {
+            secondsStr = "0" + String.valueOf(seconds);
+        }
+
+        label.setText(minutesStr + ":" + secondsStr);
+    }
 
     /**
      * button to allow the user to pause/play the video
