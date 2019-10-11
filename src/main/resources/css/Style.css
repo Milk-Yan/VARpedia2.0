@@ -1,13 +1,10 @@
 #background {
-
-    -fx-background-color: #303030;
+    -fx-background-color: linear-gradient(#303030,#1f0000);
 }
 
-/**
- * for all text
- */
+
 .text {
-    -fx-font-size: 16;
+    -fx-font-size: 18;
 }
 
 .list-cell
@@ -15,23 +12,112 @@
   -fx-font: 18pt "Arial";
 }
 
-/**
- *for text font
- */
 {
     -fx-fill: lightgray;
 }
 
-
-
 .button {
-    -fx-background-color: #692d30;
+    -fx-background-color: #b83e3e;
+    -fx-border-color: white;
+    -fx-border-radius: 15;
+    -fx-border-width: 1.5;
+    -fx-background-insets: 0;
     -fx-text-fill: #996051;
-    -fx-background-radius: 15;
+    -fx-background-radius: 16;
 }
 
 .button:hover {
-    -fx-border-color: #11ff00;
-    -fx-border-width: 3;
+    -fx-border-color: #ff0000;
+    -fx-border-width: 1.5;
     -fx-border-radius: 15;
+}
+
+.text-field{
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+    -fx-background-color: black;
+}
+
+.text-area .content{
+    -fx-background-color: #2b2b2b ;
+}
+
+.text-area {
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: white;
+    -fx-font-color: black;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: gray;
+}
+
+.choice-box .menu-item > .label {
+     -fx-text-fill: white;
+}
+
+.choice-box .menu-item:focused > .label {
+     -fx-text-fill: black;
+}
+
+.choice-box {
+  -fx-background-color: black;
+  -fx-mark-color: white;
+}
+
+
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 0.0 10.0 0.0;
+
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.15em 0.0;
+}
+
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
 }
