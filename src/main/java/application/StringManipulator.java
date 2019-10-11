@@ -63,4 +63,10 @@ public class StringManipulator {
         String newText = text.replaceAll("\\d+\\. ", "").replaceAll("\n", "");
         return newText;
     }
+
+    public String getQuizText(String practiceText, String term) {
+        String quizText = practiceText.replaceAll(term, "secret word");
+        return quizText;
+    }
 }
+

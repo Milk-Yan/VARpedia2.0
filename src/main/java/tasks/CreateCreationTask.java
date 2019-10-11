@@ -112,7 +112,8 @@ public class CreateCreationTask extends Task<Void> {
         try {
             _imageMergeProcess = new ProcessBuilder("bash", "-c",
                     // get length of audio file
-                    "VIDEO_LENGTH=$(soxi -D " + Folders.TempAudioFolder.getPath() +
+                    "VIDEO_LENGTH=$(soxi -D " + Folders.TempAudioFolder.getPath() + File.separator +
+                    "practice" + File.separator +
                             s + _term + s + _name + ".wav);" +
                             // create slideshow from images with same length as audio, images
                             // change every 2 seconds, 30 fps

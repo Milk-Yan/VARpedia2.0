@@ -45,10 +45,6 @@
                <font>
                   <Font size="26.0" />
                </font></Button>
-                <Button fx:id="_muteBtn" mnemonicParsing="false" onAction="#mute" text="Mute">
-               <font>
-                  <Font size="26.0" />
-               </font></Button>
             </children>
         </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">

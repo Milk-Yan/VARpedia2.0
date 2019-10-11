@@ -193,18 +193,6 @@ public class VideoPlayer extends Controller {
     }
 
     /**
-     * button to mute audio
-     */
-    @FXML
-    private void mute() {
-        if (_player.isMute()) {
-            _player.setMute(false);
-        } else {
-            _player.setMute(true);
-        }
-    }
-
-    /**
      * initialize the video playing
      *
      * @return

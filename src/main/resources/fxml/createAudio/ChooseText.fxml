@@ -51,7 +51,8 @@
             <Font size="26.0" />
          </font>
       </Button>
-          <Button minWidth="300.0" mnemonicParsing="false" onAction="#mainMenu" prefWidth="300.0" text="Quit to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="4">
+          <Button minWidth="300.0" mnemonicParsing="false" onAction="#mainMenuPress"
+                  prefWidth="300.0" text="Quit to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="4">
               <font>
                   <Font size="26.0" />
               </font>

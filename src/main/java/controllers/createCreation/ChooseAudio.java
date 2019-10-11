@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -219,7 +218,7 @@ public class ChooseAudio extends Controller {
             // add to candidate list
             addToEndOfList(chosen, _audioCandidates);
             // remove from chosen list
-            _audioChosen.getItems().add(chosen);
+            _audioChosen.getItems().remove(chosen);
 
             sortLists();
         }

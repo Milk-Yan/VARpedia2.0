@@ -13,7 +13,6 @@ import main.java.controllers.view.ViewCreations;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Main class of the Main. Extends JavaFX Application.
@@ -238,22 +237,9 @@ public class Main extends Application {
         File tempFolder =
                 new File(Folders.TempFolder.getPath());
 
-        cleanUpTempFolder(tempFolder);
+        new ProcessBuilder("bash", "-c", "rm -rf " + tempFolder);
     }
 
-    /**
-     * Helper method that deletes the content of a folder recursively
-     * @param tempFile File to delete.
-     */
-    private void cleanUpTempFolder(File tempFile) {
-        while(tempFile.exists() && tempFile.isDirectory()) {
-            for (File inner: Objects.requireNonNull(tempFile.listFiles())) {
-                cleanUpTempFolder(inner);
-            }
-            tempFile.delete();
-        }
-        tempFile.delete();
-    }
     // ---------------------------------------------------------------------------------------------
     // ----------------------DISPLAY QUIZ SCENES ---------------------------------------------------
     // ---------------------------------------------------------------------------------------------

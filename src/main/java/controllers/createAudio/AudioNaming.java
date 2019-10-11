@@ -91,10 +91,11 @@ public class AudioNaming extends Controller {
 
         // folder to store audio
         File audioFolder =
-                new File(Folders.AudioFolder.getPath() + File.separator + _term);
+                new File(Folders.AudioFolder.getPath() + File.separator + "practice" + File.separator +  _term);
 
         // use new thread to create in bg
-        _task = new CreateAudioTask(audioFolder, _name, _chosenText, _mainApp, _voice, false);
+        _task = new CreateAudioTask(audioFolder, _term,  _name, _chosenText, _mainApp, _voice,
+                false);
         new Thread(_task).start();
 
         // gives indication that the scene is loading

@@ -142,7 +142,8 @@ public class ChooseText extends Controller {
         String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();
 
-        CreateAudioTask task = new CreateAudioTask(tempAudioFolder, "previewAudio", chosenText,
+        CreateAudioTask task = new CreateAudioTask(tempAudioFolder, _term, "previewAudio",
+                chosenText,
                 _mainApp,_voices.get(index), true);
 
         new Thread(task).start();
@@ -159,7 +160,6 @@ public class ChooseText extends Controller {
     private void stopCurrentPreview() {
         if (_audioPlayer != null && _audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             _audioPlayer.stop();
-            _audioPlayer = null;
         }
     }
 
@@ -267,6 +267,12 @@ public class ChooseText extends Controller {
             _chosenText.setText("");
         }
         updateCount();
+    }
+
+    @FXML
+    private void mainMenuPress() {
+        stopCurrentPreview();
+        mainMenu();
     }
 
 
