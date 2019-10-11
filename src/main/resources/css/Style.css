@@ -6,16 +6,19 @@
     -fx-background-color: linear-gradient(#303030,#1f0000);
 }
 
-.text {
-    -fx-font-size: 16;
-}
-
 {
     -fx-fill: lightgray;
 }
 
-.list-cell
-{
+.text {
+    -fx-font-size: 16;
+}
+
+.list-view {
+    -fx-background-color: darkgray;
+}
+
+.list-cell {
   -fx-font: 16pt "Arial";
   -fx-text-fill: black;
 }
@@ -25,7 +28,8 @@
     -fx-text-fill: white;
 }
 
-.list-cell:even { /* <=== changed to even */
+.list-cell:even {
+    -fx-text-fill:red;
     -fx-background-color: white;
 }
 
@@ -141,4 +145,3 @@
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
-
