@@ -1,0 +1,37 @@
+#background {
+
+    -fx-background-color: #303030;
+}
+
+/**
+ * for all text
+ */
+.text {
+    -fx-font-size: 16;
+}
+
+.list-cell
+{
+  -fx-font: 18pt "Arial";
+}
+
+/**
+ *for text font
+ */
+{
+    -fx-fill: lightgray;
+}
+
+
+
+.button {
+    -fx-background-color: #692d30;
+    -fx-text-fill: #996051;
+    -fx-background-radius: 15;
+}
+
+.button:hover {
+    -fx-border-color: #11ff00;
+    -fx-border-width: 3;
+    -fx-border-radius: 15;
+}
