@@ -111,7 +111,6 @@ public class VideoPlayer extends Controller {
     }
 
     private void updateValues(Duration currentTime) {
-
         _timeSlider.setValue(currentTime.toMillis());
         formatTime(_playTime, currentTime);
     }

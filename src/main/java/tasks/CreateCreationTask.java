@@ -116,15 +116,17 @@ public class CreateCreationTask extends Task<Void> {
                             s + _term + s + _name + ".wav);" +
                             // create slideshow from images with same length as audio, images
                             // change every 2 seconds, 30 fps
-                            "ffmpeg -framerate 1/2 -loop 1 -i " + imageFilesFolder + "img%01d.jpg" +
+                            "ffmpeg -framerate 1/2 -loop 1 -i " + Folders.TempImagesFolder.getPath() + File.separator +
+                            _term + File.separator + "img%01d.jpg" +
                             " -r 30 -t $VIDEO_LENGTH " +
                             "-vf \"drawtext=fontfile=font.ttf:fontsize=200:fontcolor=white:"
-                            + "x=(w-text_w)/2:box=1:boxcolor=black@0.5:boxborderw=0" +
-                            ".5:fix_bounds=true:y=(h-text_h)" +
+                            + "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0.5:boxborderw=0" +
+                            ".5" +
                             ":text=\"" + _term +
-                            " -s 720x480" +
+                            " -s 600x400" +
                             // put video file in temp folder
-                            " -y " + tempVideoFolderPath + s + _name + ".mp4"
+                            " -y " + Folders.TempVideoFolder.getPath() + File.separator + _term + File.separator + _name +
+                            ".mp4"
             ).start();
             try {
                 _imageMergeProcess.waitFor();
