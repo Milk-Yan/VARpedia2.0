@@ -5,11 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TreeItem;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
-import main.java.tasks.ViewAudioTask;
-import main.java.tasks.ViewCreationsTask;
 import main.java.tasks.ViewSearchTask;
 
 import java.util.concurrent.ExecutionException;
@@ -41,7 +38,6 @@ public class MainMenu extends Controller {
         } catch (InterruptedException | ExecutionException e) {
 
         }
-
     }
 
     /**
