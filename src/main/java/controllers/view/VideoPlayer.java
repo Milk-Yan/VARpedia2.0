@@ -54,7 +54,7 @@ public class VideoPlayer extends Controller {
     public void setUp(File videoFile) {
         _videoFile = videoFile;
 
-        MediaPlayer player = createPlayer();
+        MediaPlayer player = createPlayer(_videoFile, _playPauseBtn);
         _viewer.setMediaPlayer(player);
 
         // create a new window for the VideoPlayer
@@ -142,12 +142,16 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void playPause() {
-        if (_player.getStatus() == Status.PAUSED || _player.getStatus() == Status.STOPPED) {
-            _player.play();
-            _playPauseBtn.setText("Pause");
-        } else if (_player.getStatus() == Status.PLAYING) {
-            _player.pause();
-            _playPauseBtn.setText("Play");
+        playPauseFunctionality(_player, _playPauseBtn);
+    }
+
+    public void playPauseFunctionality(MediaPlayer player, Button playPauseBtn) {
+        if (player.getStatus() == Status.PAUSED || player.getStatus() == Status.STOPPED) {
+            player.play();
+            playPauseBtn.setText("Pause");
+        } else if (player.getStatus() == Status.PLAYING) {
+            player.pause();
+            playPauseBtn.setText("Play");
         }
     }
 
@@ -156,8 +160,12 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void fastForward() {
-        double fasterRate = _player.getRate() + 0.5;
-        _player.setRate(fasterRate);
+        fastForwardFunctionality(_player);
+    }
+
+    public void fastForwardFunctionality(MediaPlayer player) {
+        double fasterRate = player.getRate() + 0.5;
+        player.setRate(fasterRate);
     }
 
     /**
@@ -165,11 +173,15 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void slowDown() {
-        double slowerRate = _player.getRate() - 0.5;
+        slowDownFunctionality(_player);
+    }
+
+    public void slowDownFunctionality(MediaPlayer player) {
+        double slowerRate = player.getRate() - 0.5;
 
         // if rate is already the slowest, don't make the video stop.
         if (slowerRate != 0) {
-            _player.setRate(slowerRate);
+            player.setRate(slowerRate);
         }
     }
 
@@ -178,8 +190,12 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void forward() {
-        Duration newTime = _player.getCurrentTime().add(Duration.seconds(5));
-        _player.seek(newTime);
+        forwardFunctionality(_player);
+    }
+
+    public void forwardFunctionality(MediaPlayer player) {
+        Duration newTime = player.getCurrentTime().add(Duration.seconds(5));
+        player.seek(newTime);
     }
 
     /**
@@ -187,9 +203,13 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void backward() {
-        Duration newTime = _player.getCurrentTime().subtract(Duration.seconds(5));
-        _player.seek(newTime);
+        backwardFunctionality(_player);
 
+    }
+
+    public void backwardFunctionality(MediaPlayer player) {
+        Duration newTime = player.getCurrentTime().subtract(Duration.seconds(5));
+        player.seek(newTime);
     }
 
     /**
@@ -197,20 +217,20 @@ public class VideoPlayer extends Controller {
      *
      * @return
      */
-    private MediaPlayer createPlayer() {
+    public MediaPlayer createPlayer(File mediaFile, Button playPauseBtn) {
         Media video =
-                new Media(Paths.get(_videoFile.getPath()).toUri().toString());
-        _player = new MediaPlayer(video);
-        _player.setAutoPlay(true);
+                new Media(Paths.get(mediaFile.getPath()).toUri().toString());
+        MediaPlayer player = new MediaPlayer(video);
+        player.setAutoPlay(true);
 
         // Media functionality
-        _player.setOnEndOfMedia(() -> {
-            _playPauseBtn.setText("Play");
-            _player.stop();
-            _player.seek(Duration.ZERO);
+        player.setOnEndOfMedia(() -> {
+            playPauseBtn.setText("Play");
+            player.stop();
+            player.seek(Duration.ZERO);
         });
 
-        return _player;
+        return player;
     }
 
 }

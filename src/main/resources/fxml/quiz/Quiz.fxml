@@ -36,7 +36,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#playPause" text="Pause">
+                  <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Pause">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -118,7 +118,7 @@
             </Button>
          </children>
       </GridPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+      <HBox fx:id="_contentContainer" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
