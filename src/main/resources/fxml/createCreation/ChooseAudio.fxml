@@ -51,20 +51,20 @@
             </Label>
          </children>
       </GridPane>
-      <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+      <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="42.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
          <font>
             <Font size="26.0" />
          </font>
       </Button>
       <HBox alignment="CENTER" prefHeight="120.0" prefWidth="1075.0" spacing="30.0" GridPane.rowIndex="3">
          <children>
-            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefWidth="300.0" text="Confirm">
+            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefHeight="42.0" prefWidth="300.0" text="Confirm">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
             <ProgressIndicator fx:id="_indicator" visible="false" />
-            <Button fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefWidth="300.0" text="Listen">
+            <Button fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefHeight="42.0" prefWidth="300.0" text="Listen">
                <font>
                   <Font size="26.0" />
                </font>

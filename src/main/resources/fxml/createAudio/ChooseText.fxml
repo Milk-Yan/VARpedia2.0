@@ -45,29 +45,29 @@
          </font>
       </TextArea>
           <Button mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-          <Button mnemonicParsing="false" onAction="#selectReset" text="Reset Selected Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+          <Button minWidth="242.0" mnemonicParsing="false" onAction="#selectReset" prefHeight="42.0" prefWidth="242.0" text="Reset Selected Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
-            <Font size="26.0" />
+            <Font size="16.0" />
          </font>
       </Button>
-          <Button minWidth="300.0" mnemonicParsing="false" onAction="#mainMenu" prefWidth="300.0" text="Quit to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="4">
+          <Button minWidth="242.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="42.0" prefWidth="242.0" text="Quit to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="4">
               <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
               </font>
           </Button>
-          <Button fx:id="_createBtn" minWidth="200.0" mnemonicParsing="false" onAction="#create" text="Create" GridPane.columnSpan="3" GridPane.rowIndex="4">
+          <Button fx:id="_createBtn" minWidth="242.0" mnemonicParsing="false" onAction="#create" prefHeight="42.0" prefWidth="242.0" text="Create" GridPane.columnSpan="3" GridPane.rowIndex="4">
               <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
               </font>
           </Button>
-          <Button fx:id="_previewBtn" mnemonicParsing="false" onAction="#preview" prefWidth="300.0" text="Preview" GridPane.rowIndex="4">
+          <Button fx:id="_previewBtn" minWidth="242.0" mnemonicParsing="false" onAction="#preview" prefHeight="42.0" prefWidth="242.0" text="Preview" GridPane.rowIndex="4">
               <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
               </font>
           </Button>
-          <Button mnemonicParsing="false" onAction="#reset" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+          <Button minWidth="242.0" mnemonicParsing="false" onAction="#reset" prefHeight="42.0" prefWidth="242.0" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
-            <Font size="26.0" />
+            <Font size="16.0" />
          </font>
       </Button>
           <TextArea fx:id="_searchResults" prefHeight="200.0" prefWidth="230.0" wrapText="true" GridPane.rowIndex="2">
