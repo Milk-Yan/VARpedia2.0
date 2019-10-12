@@ -5,8 +5,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.media.MediaView;
+import main.java.application.Folders;
 import main.java.controllers.Controller;
 import main.java.controllers.view.VideoPlayer;
+
+import java.io.File;
 
 public class Quiz extends Controller {
 
@@ -30,7 +33,23 @@ public class Quiz extends Controller {
 
     @FXML
     private CheckBox _includeMastered;
-    
+
+    @FXML
+    private void initialize() {
+        // create the score folder
+        new File(Folders.CreationScoreFolder.getPath()).mkdirs();
+
+        _videoPlayer = new VideoPlayer();
+
+        displayNotMasteredCreation();
+
+        // randomise which term to test the user
+    }
+
+    private void displayNotMasteredCreation() {
+        
+    }
+
     @FXML
     private void playPause() {
 

@@ -51,8 +51,9 @@ public class Main extends Application {
      * Initialises folders if they do not already exist.
      */
     private void createFolders() {
-        new File(Folders.CreationsFolder.getPath()).mkdirs();
+        new File(Folders.CreationScoreFolder.getPath()).mkdirs();
         new File(Folders.AudioFolder.getPath()).mkdirs();
+
     }
 
     // ---------------------------------------------------------------------------------------------

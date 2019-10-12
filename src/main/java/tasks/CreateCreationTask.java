@@ -12,7 +12,12 @@ import main.java.application.StringManipulator;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateCreationTask extends Task<Void> {
 
@@ -28,6 +33,9 @@ public class CreateCreationTask extends Task<Void> {
     private Process _imageMergeTestProcess;
     private Process _mergeOverallPracticeProcess;
     private Process _mergeOverallTestProcess;
+
+    private File _creationOutputFolder;
+    private File _creationScoreFolder;
 
     public CreateCreationTask(String name, String term, ArrayList<String> audioList,
                               ArrayList<String> imageList, Main mainApp) {
@@ -58,16 +66,16 @@ public class CreateCreationTask extends Task<Void> {
         String imageInputPracticeFolder =
                 Folders.TempImagesFolder.getPath() + File.separator + _term;
         String videoOutputPracticeFolder =
-                Folders.TempVideoPracticeFolder + File.separator + _term;
+                Folders.TempVideoPracticeFolder.getPath() + File.separator + _term;
         imageMerge(imageInputPracticeFolder, videoOutputPracticeFolder,
-                audioOutputPracticeFolder, _imageMergePracticeProcess);
+                audioOutputPracticeFolder, _imageMergePracticeProcess, false);
 
         // merge image for quiz
         String imageInputTestFolder = Folders.TempImagesFolder.getPath() + File.separator + _term;
         String videoOutputTestFolder =
                 Folders.TempVideoTestFolder.getPath() + File.separator + _term;
         imageMerge(imageInputTestFolder, videoOutputTestFolder, audioOutputTestFolder,
-                _imageMergeTestProcess);
+                _imageMergeTestProcess, true);
 
 
         // merge overall for practice
@@ -119,7 +127,6 @@ public class CreateCreationTask extends Task<Void> {
         }
 
         if (audioMergeProcess.exitValue() != 0) {
-            System.out.println(new StringManipulator().inputStreamToString(audioMergeProcess.getErrorStream()));
             Platform.runLater(() -> {
                 new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The audio did not " +
                         "merge properly");
@@ -129,7 +136,7 @@ public class CreateCreationTask extends Task<Void> {
     }
 
     private void imageMerge(String imageInputFolder, String videoOutputFolder,
-                            String audioOutputFolder, Process imageMergeProcess) {
+                            String audioOutputFolder, Process imageMergeProcess, boolean isTest) {
 
         File tempFolder = new File(videoOutputFolder);
         tempFolder.mkdirs();
@@ -144,21 +151,34 @@ public class CreateCreationTask extends Task<Void> {
         }
 
         try {
-            imageMergeProcess = new ProcessBuilder("bash", "-c",
-                    // get length of audio file
-                    "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator +  _name +
-                    ".wav);" +
-                            // create slideshow from images with same length as audio, images
-                            // change every 2 seconds, 30 fps
-                            "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder + File.separator + "img" +
-                            "%01d.jpg -r 30 -t $VIDEO_LENGTH " +
-                            "-vf \"drawtext=fontfile=font.ttf:fontsize=200:fontcolor=white:"
-                            + "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0.5:boxborderw=0" +
-                            ".5:text=\"" + _term + " -s 600x400" +
-                            // put video file in temp folder
-                            " -y " + videoOutputFolder + File.separator + _name +
-                            ".mp4"
-            ).start();
+            if (isTest) {
+                imageMergeProcess = new ProcessBuilder("bash", "-c",
+                        "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator + _name +
+                                ".wav);" +
+                        // create slideshow from images with same length as audio, images change
+                        // every 2 seconds, 30 fps
+                            "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder + File.separator +
+                                "img%01d.jpg -r 30 -t $VIDEO_LENGTH -s 600x400" +
+                        // put video file in temp folder
+                        " -y " + videoOutputFolder + File.separator + _name + ".mp4").start();
+            } else {
+                imageMergeProcess = new ProcessBuilder("bash", "-c",
+                        // get length of audio file
+                        "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator +  _name +
+                                ".wav);" +
+                                // create slideshow from images with same length as audio, images
+                                // change every 2 seconds, 30 fps
+                                "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder + File.separator + "img" +
+                                "%01d.jpg -r 30 -t $VIDEO_LENGTH " +
+                                "-vf \"drawtext=fontfile=font.ttf:fontsize=200:fontcolor=white:"
+                                + "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0.5:boxborderw=0" +
+                                ".5:text=\"" + _term + " -s 600x400" +
+                                // put video file in temp folder
+                                " -y " + videoOutputFolder + File.separator + _name +
+                                ".mp4"
+                ).start();
+            }
+
             try {
                 imageMergeProcess.waitFor();
 
@@ -167,6 +187,7 @@ public class CreateCreationTask extends Task<Void> {
             }
 
             if (imageMergeProcess.exitValue() != 0) {
+                System.out.println(new StringManipulator().inputStreamToString(imageMergeProcess.getErrorStream()));
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The image did " +
                             "not merge properly");
@@ -209,12 +230,20 @@ public class CreateCreationTask extends Task<Void> {
 
 
             if (mergeOverallProcess.exitValue() != 0) {
-                System.out.println(new StringManipulator().inputStreamToString(mergeOverallProcess.getErrorStream()));
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The video and " +
                             "image did not merge properly");
                     _mainApp.displayMainMenuScene();
                 });
+            } else {
+                // create a score file for the term if it doesn't exist already
+                File scoreNotMastered =
+                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator + _term + ".txt");
+                File scoreMastered =
+                        new File(Folders.CreationScoreMasteredFolder.getPath() + File.separator + _term + ".txt");
+                if (!scoreNotMastered.exists() && !scoreMastered.exists()) {
+                    createNewScoreFile(scoreNotMastered);
+                }
             }
 
         } catch (IOException e) {
@@ -224,8 +253,21 @@ public class CreateCreationTask extends Task<Void> {
                 _mainApp.displayMainMenuScene();
             });
         }
+
+
     }
 
+    private void createNewScoreFile(File newFile) {
+        List<String> zero = Arrays.asList("0");
+        try {
+            new File(Folders.CreationScoreNotMasteredFolder.getPath()).mkdirs();
+
+            newFile.createNewFile();
+            Files.write(Paths.get(newFile.getPath()), zero, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void cancelled() {
@@ -237,6 +279,11 @@ public class CreateCreationTask extends Task<Void> {
             if (process != null && process.isAlive()) {
                 process.destroy();
             }
+        }
+
+        // delete folder if creation didn't go properly
+        if (_creationOutputFolder.exists() && _creationOutputFolder.listFiles().length == 0) {
+            _creationOutputFolder.delete();
         }
     }
 

@@ -70,7 +70,7 @@ public class VideoPlayer extends Controller {
 
 
         _player.setOnReady(() -> {
-            setUpSliders();
+            setUpSliders(_timeSlider, _volSlider, _player);
 
             // set up the duration time for the player label
             formatTime(_maxTime, _player.getTotalDuration());
@@ -88,25 +88,25 @@ public class VideoPlayer extends Controller {
 
     }
 
-    private void setUpSliders() {
+    private void setUpSliders(Slider timeSlider, Slider volSlider, MediaPlayer player) {
 
         // set up time slider
-        _timeSlider.setMin(0);
-        _timeSlider.setMax(_player.getTotalDuration().toMillis());
+        timeSlider.setMin(0);
+        timeSlider.setMax(player.getTotalDuration().toMillis());
 
         // set up vol slider
-        _volSlider.setValue(50);
+        volSlider.setValue(50);
 
         // add listener for time slider
-        _timeSlider.valueProperty().addListener(observable -> {
-            if (_timeSlider.isPressed()) {
-                _player.seek(new Duration(_timeSlider.getValue()));
+        timeSlider.valueProperty().addListener(observable -> {
+            if (timeSlider.isPressed()) {
+                player.seek(new Duration(timeSlider.getValue()));
             }
         });
 
         // add listener for volume
-        _volSlider.valueProperty().addListener(observable -> {
-            _player.setVolume(_volSlider.getValue()/100.0);
+        volSlider.valueProperty().addListener(observable -> {
+            player.setVolume(volSlider.getValue()/100.0);
         });
     }
 

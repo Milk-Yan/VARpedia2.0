@@ -53,12 +53,13 @@ public class CreateAudioTask extends Task<Void> {
 
         if (!_isPreview) {
             // make the quiz text from the practice text, removing the key word.
-            _practiceText = new StringManipulator().getQuizText(_practiceText, _term);
+            _quizText = new StringManipulator().getQuizText(_practiceText, _term);
 
             // make quiz audio
             File testFolder =
                     new File(Folders.AudioTestFolder.getPath() + File.separator + _term);
             testFolder.mkdirs();
+
 
             makeAudioProcess(_processQuiz, _quizText, testFolder);
         }
