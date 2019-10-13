@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.quiz.Quiz">
+<GridPane id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" stylesheets="@../../css/Style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.quiz.Quiz">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
@@ -78,12 +78,12 @@
          <children>
             <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" text="CONFIRM" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
             <CheckBox fx:id="_includeMastered" mnemonicParsing="false" onAction="#includeMastered" text="Include Mastered" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font>
             </CheckBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.rowIndex="1">
