@@ -67,7 +67,7 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#viewQuiz" prefHeight="50.0" prefWidth="400.0" text="Quiz" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Button fx:id="_quizBtn" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#viewQuiz" prefHeight="50.0" prefWidth="400.0" text="Quiz" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
                </font>
