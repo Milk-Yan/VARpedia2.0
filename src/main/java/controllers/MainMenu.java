@@ -30,14 +30,14 @@ public class MainMenu extends Controller {
     private void disableInvalidButtons() {
 
         // check if audio exists so creations can to be created
-        File audioFolder = new File(Folders.AudioFolder.getPath());
-        if (!audioFolder.exists() || audioFolder.listFiles().length == 0) {
+        File audioFolder = new File(Folders.AudioPracticeFolder.getPath());
+        if (!audioFolder.exists() || audioFolder.list().length == 0) {
             _createCreationBtn.setDisable(true);
         }
 
         // check if creations exist so there is something to be quizzed on
-        File creationFolder = new File(Folders.CreationTestFolder.getPath());
-        if (!creationFolder.exists() || audioFolder.listFiles().length == 0) {
+        File creationFolder = new File(Folders.CreationPracticeFolder.getPath());
+        if (!creationFolder.exists() || creationFolder.list().length == 0) {
             _quizBtn.setDisable(true);
         }
 
@@ -79,7 +79,7 @@ public class MainMenu extends Controller {
     @FXML
     private void viewQuiz(){
 
-        _mainApp.displayQuizScene();
+        _mainApp.displayQuizScene(false);
 
     }
 }

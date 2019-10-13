@@ -8,6 +8,7 @@ import main.java.controllers.createAudio.ChooseText;
 import main.java.controllers.createCreation.ChooseAudio;
 import main.java.controllers.createCreation.ChooseImages;
 import main.java.controllers.createCreation.CreationNaming;
+import main.java.controllers.quiz.Quiz;
 import main.java.controllers.view.VideoPlayer;
 import main.java.controllers.view.ViewCreations;
 
@@ -51,8 +52,13 @@ public class Main extends Application {
      * Initialises folders if they do not already exist.
      */
     private void createFolders() {
-        new File(Folders.CreationScoreFolder.getPath()).mkdirs();
-        new File(Folders.AudioFolder.getPath()).mkdirs();
+        Folders[] foldersToCreate = new Folders[]{Folders.CreationScoreNotMasteredFolder,
+                Folders.CreationScoreMasteredFolder, Folders.AudioPracticeFolder,
+                Folders.AudioTestFolder, Folders.CreationPracticeFolder, Folders.CreationTestFolder};
+
+        for (Folders folderPath: foldersToCreate) {
+            new File(folderPath.getPath()).mkdirs();
+        }
 
     }
 
@@ -250,8 +256,12 @@ public class Main extends Application {
     // ----------------------DISPLAY QUIZ SCENES ---------------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
-    public void displayQuizScene(){
-        _currentScene = new SceneFactory(SceneType.Quiz, this).getScene();
+    public void displayQuizScene(boolean includeMastered){
+        SceneFactory sceneFactory = new SceneFactory(SceneType.Quiz, this);
+        Quiz controller = (Quiz) sceneFactory.getController();
+        controller.setIncludeMastered(includeMastered);
+
+        _currentScene = sceneFactory.getScene();
         update();
     }
 

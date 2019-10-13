@@ -1,6 +1,8 @@
 package main.java.application;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.BreakIterator;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -56,6 +58,12 @@ public class StringManipulator {
         }
 
         return null;
+
+    }
+
+    public String readScoreFromFile(File file) throws IOException {
+        String text =  new String(Files.readAllBytes(Paths.get(file.getPath())));
+        return text.trim();
 
     }
 

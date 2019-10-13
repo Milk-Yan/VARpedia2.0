@@ -54,8 +54,8 @@ public class VideoPlayer extends Controller {
     public void setUp(File videoFile) {
         _videoFile = videoFile;
 
-        MediaPlayer player = createPlayer(_videoFile, _playPauseBtn);
-        _viewer.setMediaPlayer(player);
+        _player = createPlayer(_videoFile, _playPauseBtn, _timeSlider, _volSlider, _playTime, _maxTime);
+        _viewer.setMediaPlayer(_player);
 
         // create a new window for the VideoPlayer
         Stage stage = new Stage();
@@ -64,31 +64,16 @@ public class VideoPlayer extends Controller {
         stage.setX(700);
         stage.setY(300);
 
-        // add listener for media player that will trigger the sliders
-        _player.currentTimeProperty().addListener(
-                (observable, oldTime, newTime) -> updateValues(newTime));
-
-
-        _player.setOnReady(() -> {
-            setUpSliders(_timeSlider, _volSlider, _player);
-
-            // set up the duration time for the player label
-            formatTime(_maxTime, _player.getTotalDuration());
-            _playTime.setText("00:00");
-
-            updateValues(Duration.ZERO);
-        });
-
 
         stage.setOnCloseRequest(closeEvent -> {
-            player.stop();
+            _player.stop();
         });
 
         stage.show();
 
     }
 
-    private void setUpSliders(Slider timeSlider, Slider volSlider, MediaPlayer player) {
+    public void setUpSliders(Slider timeSlider, Slider volSlider, MediaPlayer player) {
 
         // set up time slider
         timeSlider.setMin(0);
@@ -110,9 +95,9 @@ public class VideoPlayer extends Controller {
         });
     }
 
-    private void updateValues(Duration currentTime) {
-        _timeSlider.setValue(currentTime.toMillis());
-        formatTime(_playTime, currentTime);
+    private void updateValues(Duration currentTime, Slider timeSlider, Label playTime) {
+        timeSlider.setValue(currentTime.toMillis());
+        formatTime(playTime, currentTime);
     }
 
     private void formatTime(Label label, Duration duration) {
@@ -146,10 +131,10 @@ public class VideoPlayer extends Controller {
     }
 
     public void playPauseFunctionality(MediaPlayer player, Button playPauseBtn) {
-        if (player.getStatus() == Status.PAUSED || player.getStatus() == Status.STOPPED) {
+        if (player.getStatus() != Status.PLAYING) {
             player.play();
             playPauseBtn.setText("Pause");
-        } else if (player.getStatus() == Status.PLAYING) {
+        } else {
             player.pause();
             playPauseBtn.setText("Play");
         }
@@ -217,7 +202,8 @@ public class VideoPlayer extends Controller {
      *
      * @return
      */
-    public MediaPlayer createPlayer(File mediaFile, Button playPauseBtn) {
+    public MediaPlayer createPlayer(File mediaFile, Button playPauseBtn, Slider timeSlider,
+                                    Slider volSlider, Label playTime, Label maxTime) {
         Media video =
                 new Media(Paths.get(mediaFile.getPath()).toUri().toString());
         MediaPlayer player = new MediaPlayer(video);
@@ -228,6 +214,21 @@ public class VideoPlayer extends Controller {
             playPauseBtn.setText("Play");
             player.stop();
             player.seek(Duration.ZERO);
+        });
+
+        // add listener for media player that will trigger the sliders
+        player.currentTimeProperty().addListener(
+                (observable, oldTime, newTime) -> updateValues(newTime, timeSlider, playTime));
+
+
+        player.setOnReady(() -> {
+            setUpSliders(timeSlider, volSlider, player);
+
+            // set up the duration time for the player label
+            formatTime(maxTime, player.getTotalDuration());
+            playTime.setText("00:00");
+
+            updateValues(Duration.ZERO, timeSlider, playTime);
         });
 
         return player;

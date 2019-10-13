@@ -21,11 +21,12 @@
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
+      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox GridPane.rowIndex="1">
+      <VBox fx:id="_buttonPane" GridPane.rowIndex="2">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
@@ -36,7 +37,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Pause">
+                  <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Play">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -61,16 +62,11 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#mute" text="Mute">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
                </children>
             </HBox>
          </children>
       </VBox>
-      <GridPane GridPane.columnIndex="1">
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
         </columnConstraints>
@@ -80,24 +76,32 @@
           <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#confirm" text="CONFIRM" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" text="CONFIRM" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <CheckBox fx:id="_includeMastered" mnemonicParsing="false" onAction="#includeMastered" text="Included Mastered" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <CheckBox fx:id="_includeMastered" mnemonicParsing="false" onAction="#includeMastered" text="Include Mastered" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="26.0" />
                </font>
             </CheckBox>
-            <TextField fx:id="_termInput" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.rowIndex="1">
+               <children>
+                  <Label fx:id="_correctionLabel" text="Label" visible="false">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="_termInput" />
+               </children>
                <GridPane.margin>
-                  <Insets bottom="10.0" left="20.0" right="20.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
-            </TextField>
+            </VBox>
          </children>
       </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
@@ -118,7 +122,7 @@
             </Button>
          </children>
       </GridPane>
-      <HBox fx:id="_contentContainer" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+      <HBox fx:id="_contentContainer" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.rowIndex="1">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
@@ -128,7 +132,15 @@
             </VBox>
             <MediaView fx:id="_videoViewer" fitHeight="400.0" fitWidth="600.0" />
          </children>
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
       </HBox>
+      <Label fx:id="_promptLabel" text="You've mastered everything! Practice what you've mastered or create new creations." visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
    <padding>
       <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
