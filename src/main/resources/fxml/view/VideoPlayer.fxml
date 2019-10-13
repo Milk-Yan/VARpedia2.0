@@ -25,29 +25,29 @@
    <children>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
             <children>
-                <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Pause">
+                <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefHeight="42.0" prefWidth="114.0" text="Pause">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_fastForwardBtn" mnemonicParsing="false" onAction="#fastForward" text="Fast Forward">
+                <Button fx:id="_fastForwardBtn" mnemonicParsing="false" onAction="#fastForward" prefHeight="42.0" prefWidth="205.0" text="Fast Forward">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" text="Slow Down">
+                <Button fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" prefHeight="42.0" prefWidth="180.0" text="Slow Down">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_forwardBtn" mnemonicParsing="false" onAction="#forward" text="Forward">
+                <Button fx:id="_forwardBtn" mnemonicParsing="false" onAction="#forward" prefHeight="42.0" prefWidth="160.0" text="Forward">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" text="Backward">
+                <Button fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" prefHeight="42.0" prefWidth="165.0" text="Backward">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_muteBtn" mnemonicParsing="false" onAction="#mute" text="Mute">
+                <Button fx:id="_muteBtn" mnemonicParsing="false" onAction="#mute" prefHeight="42.0" prefWidth="120.0" text="Mute">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font></Button>
             </children>
         </HBox>
@@ -65,7 +65,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </GridPane.margin>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="1">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="1">
          <children>
             <Label fx:id="_playTime" text="Label" />
             <Slider fx:id="_timeSlider" HBox.hgrow="SOMETIMES" />

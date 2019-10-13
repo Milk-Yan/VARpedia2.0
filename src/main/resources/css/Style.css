@@ -1,45 +1,21 @@
 #background {
-    -fx-background-color: linear-gradient(#303030,#1f0000);
+    -fx-background-color: #000a36;
 }
 
 #naming {
-    -fx-background-color: linear-gradient(#303030,#1f0000);
+    -fx-background-color: #000a36;
 }
 
 {
-    -fx-fill: lightgray;
+    -fx-fill: white;
 }
 
 .text {
     -fx-font-size: 16;
 }
 
-.list-view {
-    -fx-background-color: darkgray;
-}
-
-.list-cell {
-  -fx-font: 16pt "Arial";
-  -fx-text-fill: black;
-}
-
-.list-cell:filled:selected:focused, .list-cell:filled:selected {
-    -fx-background-color: black;
-    -fx-text-fill: white;
-}
-
-.list-cell:even {
-    -fx-text-fill:red;
-    -fx-background-color: white;
-}
-
-.list-cell:filled:hover {
-    -fx-background-color: white;
-    -fx-text-fill: black;
-}
-
 .button {
-    -fx-background-color: #b83e3e;
+    -fx-background-color: #7289DA;
     -fx-border-color: white;
     -fx-border-radius: 15;
     -fx-border-width: 1.5;
@@ -48,17 +24,18 @@
 }
 
 .button:hover {
-    -fx-border-color: #ff0000;
-    -fx-border-width: 1.5;
+    -fx-border-color: #00fbff;
+    -fx-border-width: 3;
     -fx-border-radius: 15;
     -fx-background-radius: 16;
-
 }
 
 .text-field{
     -fx-font-size: 16;
     -fx-text-fill: white;
-    -fx-background-color: black;
+    -fx-background-color: #2e2e2e;
+    -fx-border-color: #7289DA;
+    -fx-border-radius: 10;
 }
 
 .text-area .content{
