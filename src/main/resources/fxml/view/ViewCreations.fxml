@@ -66,20 +66,20 @@
          <children>
             <Button fx:id="_playBtn" mnemonicParsing="false" onAction="#play" prefWidth="200.0" text="Play">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
             <ProgressIndicator visible="false" />
             <Button fx:id="_deleteBtn" mnemonicParsing="false" onAction="#delete" prefWidth="200.0" text="Delete">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
          </children>
       </HBox>
       <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefWidth="300.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <font>
-            <Font size="26.0" />
+            <Font size="16.0" />
          </font>
       </Button>
    </children>
