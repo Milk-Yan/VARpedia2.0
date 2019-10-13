@@ -97,7 +97,7 @@ public class ChooseImages extends Controller {
         double lengthOfAudio = 0;
         for (String audio : _audioList) {
             File audioFile =
-                    new File(Folders.AudioFolder.getPath() + File.separator + _term + File.separator + audio + ".wav");
+                    new File(Folders.AudioPracticeFolder.getPath() + File.separator + _term + File.separator + audio + ".wav");
 
             AudioInputStream audioInputStream;
             try {

@@ -45,10 +45,6 @@
                <font>
                   <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_muteBtn" mnemonicParsing="false" onAction="#mute" prefHeight="42.0" prefWidth="120.0" text="Mute">
-               <font>
-                  <Font size="16.0" />
-               </font></Button>
             </children>
         </HBox>
       <GridPane>

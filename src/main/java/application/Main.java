@@ -8,12 +8,13 @@ import main.java.controllers.createAudio.ChooseText;
 import main.java.controllers.createCreation.ChooseAudio;
 import main.java.controllers.createCreation.ChooseImages;
 import main.java.controllers.createCreation.CreationNaming;
+import main.java.controllers.quiz.Quiz;
 import main.java.controllers.view.VideoPlayer;
 import main.java.controllers.view.ViewCreations;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Main class of the Main. Extends JavaFX Application.
@@ -51,8 +52,14 @@ public class Main extends Application {
      * Initialises folders if they do not already exist.
      */
     private void createFolders() {
-        new File(Folders.CreationsFolder.getPath()).mkdirs();
-        new File(Folders.AudioFolder.getPath()).mkdirs();
+        Folders[] foldersToCreate = new Folders[]{Folders.CreationScoreNotMasteredFolder,
+                Folders.CreationScoreMasteredFolder, Folders.AudioPracticeFolder,
+                Folders.AudioTestFolder, Folders.CreationPracticeFolder, Folders.CreationTestFolder};
+
+        for (Folders folderPath: foldersToCreate) {
+            new File(folderPath.getPath()).mkdirs();
+        }
+
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -208,13 +215,13 @@ public class Main extends Application {
     /**
      * Creates a new stage and plays the video.
      *
-     * @param name
+     * @param videoFile file to play
      */
-    public void playVideo(String name) {
+    public void playVideo(File videoFile) {
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.VideoPlayer, this);
         VideoPlayer controller = (VideoPlayer) sceneFactory.getController();
-        controller.setUp(name);
+        controller.setUp(videoFile);
 
 
     }
@@ -238,28 +245,23 @@ public class Main extends Application {
         File tempFolder =
                 new File(Folders.TempFolder.getPath());
 
-        cleanUpTempFolder(tempFolder);
+        try {
+            new ProcessBuilder("bash", "-c", "rm -rf " + tempFolder).start();
+        } catch (IOException e) {
+            // don't do anything
+        }
     }
 
-    /**
-     * Helper method that deletes the content of a folder recursively
-     * @param tempFile File to delete.
-     */
-    private void cleanUpTempFolder(File tempFile) {
-        while(tempFile.exists() && tempFile.isDirectory()) {
-            for (File inner: Objects.requireNonNull(tempFile.listFiles())) {
-                cleanUpTempFolder(inner);
-            }
-            tempFile.delete();
-        }
-        tempFile.delete();
-    }
     // ---------------------------------------------------------------------------------------------
     // ----------------------DISPLAY QUIZ SCENES ---------------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
-    public void displayQuizScene(){
-        _currentScene = new SceneFactory(SceneType.Quiz, this).getScene();
+    public void displayQuizScene(boolean includeMastered){
+        SceneFactory sceneFactory = new SceneFactory(SceneType.Quiz, this);
+        Quiz controller = (Quiz) sceneFactory.getController();
+        controller.setIncludeMastered(includeMastered);
+
+        _currentScene = sceneFactory.getScene();
         update();
     }
 

@@ -1,7 +1,6 @@
 package main.java.controllers.view;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -15,7 +14,6 @@ import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -37,7 +35,7 @@ public class ViewCreations extends Controller {
     private Tab _audioTab;
 
     @FXML
-    private ListView<String> _listOfCreations;
+    private TreeView<String> _listOfCreations;
 
     @FXML
     private TreeView<String> _listOfAudio;
@@ -55,22 +53,22 @@ public class ViewCreations extends Controller {
      */
     public void setUp() {
 
-        ViewCreationsTask viewCreationTask = new ViewCreationsTask();
+        ViewCreationsTask viewCreationsTask = new ViewCreationsTask();
         ViewAudioTask viewAudioTask = new ViewAudioTask();
 
-        new Thread(viewCreationTask).start();
+        new Thread(viewCreationsTask).start();
         new Thread(viewAudioTask).start();
 
         try {
-            ObservableList<String> creationsList = viewCreationTask.get();
+            TreeItem<String> creationsTreeRoot = viewCreationsTask.get();
             TreeItem<String> audioTreeRoot = viewAudioTask.get();
 
-            if (creationsList.isEmpty() && audioTreeRoot.getChildren().isEmpty()) {
+            if (creationsTreeRoot.getChildren().isEmpty() && audioTreeRoot.getChildren().isEmpty()) {
                 _playBtn.setVisible(false);
                 _deleteBtn.setVisible(false);
             }
 
-            if (creationsList.isEmpty()) {
+            if (creationsTreeRoot.getChildren().isEmpty()) {
                 // show that there are no creations available
                 _listOfCreations.setVisible(false);
 
@@ -79,7 +77,7 @@ public class ViewCreations extends Controller {
                 //_container.getChildren().add(1, text);
 
             } else {
-                _listOfCreations.setItems(creationsList);
+                _listOfCreations.setRoot(creationsTreeRoot);
             }
 
             if (audioTreeRoot.getChildren().isEmpty()) {
@@ -99,6 +97,7 @@ public class ViewCreations extends Controller {
             // probably intended, don't do anything
         } catch (ExecutionException e) {
             Platform.runLater(() -> {
+                e.printStackTrace();
                 new AlertFactory(AlertType.ERROR, "Error", "Execution Exception", "Could not " +
                         "execute the view function");
             });
@@ -120,36 +119,30 @@ public class ViewCreations extends Controller {
 
         //checks where the selected creation is listed as
         if (tab == _creationTab) {
-            String selectionName = _listOfCreations.getSelectionModel().getSelectedItem();
-            String videoName = selectionName.replaceFirst("\\d+\\. ", "").replace("\n", "");
-
-            if (videoName.isEmpty()) {
-                new AlertFactory(AlertType.ERROR, "Error", "Wrong selection", "Selection cannot " +
-                        "be null");
-            } else {
-
-                if (!(selectionName.isEmpty())) {
-                    _mainApp.playVideo(videoName);
-                }
-
-            }
+            String creationFile = Folders.CreationPracticeFolder.getPath();
+            playMedia(_listOfCreations.getSelectionModel().getSelectedItem(), creationFile);
         } else {
-
-            // all audio files are leaves
-            if (_listOfAudio.getSelectionModel().getSelectedItem().isLeaf()) {
-                String term =
-                        _listOfAudio.getSelectionModel().getSelectedItem().getParent().getValue();
-                String audioName = _listOfAudio.getSelectionModel().getSelectedItem().getValue();
-                File audioFile =
-                        new File(Folders.AudioFolder.getPath() + File.separator + term + File.separator + audioName);
-
-                Media audio = new Media(audioFile.toURI().toString());
-                _audioPlayer = new MediaPlayer(audio);
-                _audioPlayer.play();
-            }
+            String audioFile = Folders.AudioPracticeFolder.getPath();
+            playMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFile);
 
         }
+    }
 
+    private void playMedia(TreeItem<String> selectedItem, String mediaFolder) {
+        if (selectedItem.isLeaf()) {
+            String term = selectedItem.getParent().getValue();
+            String name = selectedItem.getValue();
+
+            File mediaFile = new File(mediaFolder + File.separator + term + File.separator + name);
+            Media media = new Media(mediaFile.toURI().toString());
+
+            if (selectedItem.getParent().getParent().getValue().equals("Audio")) {
+                _audioPlayer = new MediaPlayer(media);
+                _audioPlayer.play();
+            } else {
+                _mainApp.playVideo(mediaFile);
+            }
+        }
 
     }
 
@@ -164,62 +157,67 @@ public class ViewCreations extends Controller {
 
         //checks if the selected item is an audio or a video
         if (tab == _creationTab) {
-            String creationName = _listOfCreations.getSelectionModel().getSelectedItem();
-            if (creationName != null) {
-                String videoName = creationName.replaceFirst("\\d+\\. ", "").replace("\n", "");
-                Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Confirmation",
-                        "Would you like to delete " + videoName + "?").getAlert();
-                if (alert.getResult() == ButtonType.OK) {
-                    String s = File.separator;
-                    File fileCreation =
-                            new File(Folders.CreationsFolder.getPath() +
-                                    s + videoName + ".mp4");
+            String creationFolder = Folders.CreationsFolder.getPath();
+            deleteMedia(_listOfCreations.getSelectionModel().getSelectedItem(), creationFolder);
 
-                    fileCreation.delete();
-
-                    _mainApp.displayViewCreationsScene();
-                }
-            }
         } else {
-            if (_listOfAudio.getSelectionModel().getSelectedItem().isLeaf()) {
-                String audioName = _listOfAudio.getSelectionModel().getSelectedItem().getValue();
-                Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting " +
-                        "audio", "Do you want to delete " + audioName + "?").getAlert();
-                if (alert.getResult() == ButtonType.OK) {
-                    String term =
-                            _listOfAudio.getSelectionModel().getSelectedItem().getParent().getValue();
-                    File audioFile =
-                            new File(Folders.AudioFolder.getPath() + File.separator + term + File.separator + audioName);
-                    audioFile.delete();
-
-                    File audioFolder =
-                            new File(Folders.AudioFolder.getPath() + File.separator + term);
-                    if (audioFolder.exists() && Objects.requireNonNull(audioFolder.listFiles().length == 0)){
-                        audioFolder.delete();
-                    }
-                    _mainApp.displayViewCreationsScene();
-                }
-            } else if (_listOfAudio.getSelectionModel().getSelectedItem() != null) {
-                // selected is a folder
-                String term = _listOfAudio.getSelectionModel().getSelectedItem().getValue();
-                Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation",
-                        "Deleting audio folder",
-                        "Do you want to delete all audio for " + term + "?").getAlert();
-                if (alert.getResult() == ButtonType.OK) {
-                    File audioFolder = new File(
-                            Folders.AudioFolder.getPath() + File.separator + term);
-
-                    for (File audio : Objects.requireNonNull(audioFolder.listFiles())) {
-                        audio.delete();
-                    }
-                    audioFolder.delete();
-
-                    _mainApp.displayViewCreationsScene();
-
-                }
-            }
+            String audioFolder = Folders.AudioFolder.getPath();
+            deleteMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFolder);
         }
 
+    }
+
+    private void deleteMedia(TreeItem<String> selectedItem, String mediaFolder) {
+        if (selectedItem.isLeaf()) {
+            String name = selectedItem.getValue();
+            Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting " +
+                    "media", "Do you want to delete " + name + "?").getAlert();
+            if (alert.getResult() == ButtonType.OK) {
+                String term = selectedItem.getParent().getValue();
+                File mediaPracticeFile =
+                        new File(mediaFolder + File.separator + "practice" + File.separator + term +
+                                File.separator + name);
+                File mediaTestFile =
+                        new File(mediaFolder + File.separator + "test" + File.separator + term + File.separator + name);
+                mediaPracticeFile.delete();
+                mediaTestFile.delete();
+
+                // if folder does not contain any creations, delete the folder
+                File termPracticeFolder =
+                        new File(mediaFolder + File.separator + "practice" + File.separator + term);
+                File termTestFolder =
+                        new File(mediaFolder + File.separator + "test" + File.separator + name);
+                if (termPracticeFolder.exists() && termPracticeFolder.listFiles().length == 0) {
+                    termPracticeFolder.delete();
+                }
+                if (termTestFolder.exists() && termTestFolder.listFiles().length == 0) {
+                    termTestFolder.delete();
+                }
+
+                _mainApp.displayViewCreationsScene();
+            }
+        } else if (selectedItem != null) {
+            // selected is a folder
+            String term = selectedItem.getValue();
+            Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting " +
+                    "media folder", "Do you want to delete all files for " + term + "?").getAlert();
+            if (alert.getResult() == ButtonType.OK) {
+                File termPracticeFolder =
+                        new File(mediaFolder + File.separator + "practice" + File.separator + term);
+                File termTestFolder =
+                        new File(mediaFolder + File.separator + "test" + File.separator + term);
+                for (File media: termPracticeFolder.listFiles()) {
+                    media.delete();
+                }
+                termPracticeFolder.delete();
+                for (File media: termTestFolder.listFiles()) {
+                    media.delete();
+                }
+                termTestFolder.delete();
+
+                _mainApp.displayViewCreationsScene();
+            }
+        }
     }
 
     /**

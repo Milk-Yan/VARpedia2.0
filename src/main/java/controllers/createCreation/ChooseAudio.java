@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -60,11 +59,11 @@ public class ChooseAudio extends Controller {
 
         _title.setText("Audio files for " + term + ":");
 
-        // make the ListView multiple-selection
-        _audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // make the ListView single-selection
+        _audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         File folder =
-                new File(Folders.AudioFolder.getPath() + File.separator + _term);
+                new File(Folders.AudioPracticeFolder.getPath() + File.separator + _term);
 
         File[] arrayOfAudioFiles = folder.listFiles((file) -> {
 
@@ -219,7 +218,7 @@ public class ChooseAudio extends Controller {
             // add to candidate list
             addToEndOfList(chosen, _audioCandidates);
             // remove from chosen list
-            _audioChosen.getItems().add(chosen);
+            _audioChosen.getItems().remove(chosen);
 
             sortLists();
         }
@@ -300,7 +299,7 @@ public class ChooseAudio extends Controller {
             audioName = audioName.replaceFirst("\\d+\\. ", "").replaceAll("\n", "");
 
             File audioFile = new File(
-                    Folders.AudioFolder.getPath() + File.separator + _term + File.separator + audioName +
+                    Folders.AudioPracticeFolder.getPath() + File.separator + _term + File.separator + audioName +
                             ".wav");
 
             Media audio = new Media(audioFile.toURI().toString());

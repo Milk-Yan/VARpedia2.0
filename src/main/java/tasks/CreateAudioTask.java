@@ -6,70 +6,93 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
+import main.java.application.Folders;
 import main.java.application.Main;
+import main.java.application.StringManipulator;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Creates the video creation.
+ * Creates the audio for quiz and practice.
  *
  * @author Milk
  */
 public class CreateAudioTask extends Task<Void> {
     private String _voice;
     private String _name;
-    private String _text;
+    private String _term;
+    private String _practiceText;
+    private String _quizText;
     private Main _mainApp;
     private boolean _isPreview;
     private File _audioFolder;
-    private Process _process;
+    private Process _processPractice;
+    private Process _processQuiz;
 
-    public CreateAudioTask(File audioFolder, String name, String text, Main mainApp,
+    public CreateAudioTask(File audioFolder, String term, String name, String text, Main mainApp,
                            String voice, boolean isPreview) {
+        _term = term;
         _name = name;
-        _text = text;
+        _practiceText = text;
         _mainApp = mainApp;
         _voice = voice;
         _audioFolder = audioFolder;
         _isPreview = isPreview;
+
     }
 
     @Override
     protected Void call() {
 
-        try {
-            _audioFolder.mkdirs();
+        _audioFolder.mkdirs();
 
-            _process = new ProcessBuilder("bash", "-c",
+        // make practice audio
+        makeAudioProcess(_processPractice, _practiceText, _audioFolder);
+
+        if (!_isPreview) {
+            // make the quiz text from the practice text, removing the key word.
+            _quizText = new StringManipulator().getQuizText(_practiceText, _term);
+
+            // make quiz audio
+            File testFolder =
+                    new File(Folders.AudioTestFolder.getPath() + File.separator + _term);
+            testFolder.mkdirs();
+
+
+            makeAudioProcess(_processQuiz, _quizText, testFolder);
+        }
+
+        return null;
+    }
+
+    private void makeAudioProcess(Process process, String text, File folder) {
+        try {
+            process = new ProcessBuilder("bash", "-c",
                     // set voice
                     "echo \"(voice_" + _voice + ") "
                             // create utterance
-                            + "(set! utt1 (Utterance Text \\\"" + _text + "\\\")) "
+                            + "(set! utt1 (Utterance Text \\\"" + text + "\\\")) "
                             // synthesise utterance
                             + "(utt.synth utt1) "
                             // save
-                            + "(utt.save.wave utt1 \\\"" + _audioFolder + File.separator + _name +
+                            + "(utt.save.wave utt1 \\\"" + folder.getPath() + File.separator + _name +
                             ".wav" + "\\\" \\`riff)\" | festival\n").start();
-
-
             try {
-                _process.waitFor();
+                process.waitFor();
 
             } catch (InterruptedException e) {
                 // don't do anything
             }
 
-            if (_process.exitValue() != 0) {
+            if (process.exitValue() != 0) {
                 this.cancelled();
             }
 
         } catch (IOException e) {
             this.cancelled();
         }
-
-        return null;
     }
 
     @Override
@@ -82,8 +105,11 @@ public class CreateAudioTask extends Task<Void> {
      * destroys the current process.
      */
     public void destroyProcess() {
-        if (_process != null && _process.isAlive()) {
-            _process.destroy();
+        if (_processPractice != null && _processPractice.isAlive()) {
+            _processPractice.destroy();
+        }
+        if (_processQuiz != null && _processQuiz.isAlive()) {
+            _processQuiz.destroy();
         }
     }
 

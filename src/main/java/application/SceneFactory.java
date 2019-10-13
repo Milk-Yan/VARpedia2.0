@@ -35,6 +35,7 @@ public class SceneFactory {
         } catch (IOException e) {
             new AlertFactory(AlertType.ERROR, "IOException", "Oops", "Something wrong happened " +
                     "when making the scene. Sorry :(");
+            e.printStackTrace();
             mainApp.displayMainMenuScene();
         }
 

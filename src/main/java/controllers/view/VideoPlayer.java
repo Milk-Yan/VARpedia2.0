@@ -43,76 +43,61 @@ public class VideoPlayer extends Controller {
     private Label _playTime;
 
 
-    private String _videoName;
+    private File _videoFile;
     private MediaPlayer _player;
 
     /**
      * initial setup for video playback. Video starts automatically
      *
-     * @param videoName
+     * @param videoFile
      */
-    public void setUp(String videoName) {
-        _videoName = videoName;
+    public void setUp(File videoFile) {
+        _videoFile = videoFile;
 
-        MediaPlayer player = createPlayer();
-        _viewer.setMediaPlayer(player);
+        _player = createPlayer(_videoFile, _playPauseBtn, _timeSlider, _volSlider, _playTime, _maxTime);
+        _viewer.setMediaPlayer(_player);
 
         // create a new window for the VideoPlayer
         Stage stage = new Stage();
-        stage.setTitle(_videoName);
+        stage.setTitle(_videoFile.getName());
         stage.setScene(_viewer.getScene());
         stage.setX(700);
         stage.setY(300);
 
-        // add listener for media player that will trigger the sliders
-        _player.currentTimeProperty().addListener(
-                (observable, oldTime, newTime) -> updateValues(newTime));
-
-
-        _player.setOnReady(() -> {
-            setUpSliders();
-
-            // set up the duration time for the player label
-            formatTime(_maxTime, _player.getTotalDuration());
-            _playTime.setText("00:00");
-
-            updateValues(Duration.ZERO);
-        });
-
 
         stage.setOnCloseRequest(closeEvent -> {
-            player.stop();
+            _player.stop();
         });
 
         stage.show();
 
     }
 
-    private void setUpSliders() {
+    public void setUpSliders(Slider timeSlider, Slider volSlider, MediaPlayer player) {
 
         // set up time slider
-        _timeSlider.setMin(0);
-        _timeSlider.setMax(_player.getTotalDuration().toMillis());
+        timeSlider.setMin(0);
+        timeSlider.setMax(player.getTotalDuration().toMillis());
 
         // set up vol slider
-        _volSlider.setValue(50);
+        volSlider.setValue(50);
 
         // add listener for time slider
-        _timeSlider.valueProperty().addListener(observable -> {
-            if (_timeSlider.isPressed()) {
-                _player.seek(new Duration(_timeSlider.getValue()));
+        timeSlider.valueProperty().addListener(observable -> {
+            if (timeSlider.isPressed()) {
+                player.seek(new Duration(timeSlider.getValue()));
             }
         });
 
         // add listener for volume
-        _volSlider.valueProperty().addListener(observable -> {
-            _player.setVolume(_volSlider.getValue()/100.0);
+        volSlider.valueProperty().addListener(observable -> {
+            player.setVolume(volSlider.getValue()/100.0);
         });
     }
 
-    private void updateValues(Duration currentTime) {
-        _timeSlider.setValue(currentTime.toMillis());
-        formatTime(_playTime, currentTime);
+    private void updateValues(Duration currentTime, Slider timeSlider, Label playTime) {
+        timeSlider.setValue(currentTime.toMillis());
+        formatTime(playTime, currentTime);
     }
 
     private void formatTime(Label label, Duration duration) {
@@ -142,12 +127,16 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void playPause() {
-        if (_player.getStatus() == Status.PAUSED || _player.getStatus() == Status.STOPPED) {
-            _player.play();
-            _playPauseBtn.setText("Pause");
-        } else if (_player.getStatus() == Status.PLAYING) {
-            _player.pause();
-            _playPauseBtn.setText("Play");
+        playPauseFunctionality(_player, _playPauseBtn);
+    }
+
+    public void playPauseFunctionality(MediaPlayer player, Button playPauseBtn) {
+        if (player.getStatus() != Status.PLAYING) {
+            player.play();
+            playPauseBtn.setText("Pause");
+        } else {
+            player.pause();
+            playPauseBtn.setText("Play");
         }
     }
 
@@ -156,8 +145,12 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void fastForward() {
-        double fasterRate = _player.getRate() + 0.5;
-        _player.setRate(fasterRate);
+        fastForwardFunctionality(_player);
+    }
+
+    public void fastForwardFunctionality(MediaPlayer player) {
+        double fasterRate = player.getRate() + 0.5;
+        player.setRate(fasterRate);
     }
 
     /**
@@ -165,11 +158,15 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void slowDown() {
-        double slowerRate = _player.getRate() - 0.5;
+        slowDownFunctionality(_player);
+    }
+
+    public void slowDownFunctionality(MediaPlayer player) {
+        double slowerRate = player.getRate() - 0.5;
 
         // if rate is already the slowest, don't make the video stop.
         if (slowerRate != 0) {
-            _player.setRate(slowerRate);
+            player.setRate(slowerRate);
         }
     }
 
@@ -178,8 +175,12 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void forward() {
-        Duration newTime = _player.getCurrentTime().add(Duration.seconds(5));
-        _player.seek(newTime);
+        forwardFunctionality(_player);
+    }
+
+    public void forwardFunctionality(MediaPlayer player) {
+        Duration newTime = player.getCurrentTime().add(Duration.seconds(5));
+        player.seek(newTime);
     }
 
     /**
@@ -187,21 +188,13 @@ public class VideoPlayer extends Controller {
      */
     @FXML
     private void backward() {
-        Duration newTime = _player.getCurrentTime().subtract(Duration.seconds(5));
-        _player.seek(newTime);
+        backwardFunctionality(_player);
 
     }
 
-    /**
-     * button to mute audio
-     */
-    @FXML
-    private void mute() {
-        if (_player.isMute()) {
-            _player.setMute(false);
-        } else {
-            _player.setMute(true);
-        }
+    public void backwardFunctionality(MediaPlayer player) {
+        Duration newTime = player.getCurrentTime().subtract(Duration.seconds(5));
+        player.seek(newTime);
     }
 
     /**
@@ -209,21 +202,36 @@ public class VideoPlayer extends Controller {
      *
      * @return
      */
-    private MediaPlayer createPlayer() {
+    public MediaPlayer createPlayer(File mediaFile, Button playPauseBtn, Slider timeSlider,
+                                    Slider volSlider, Label playTime, Label maxTime) {
         Media video =
-                new Media(Paths.get("bin" + File.separator + "creations" + File.separator +
-                        _videoName + ".mp4").toUri().toString());
-        _player = new MediaPlayer(video);
-        _player.setAutoPlay(true);
+                new Media(Paths.get(mediaFile.getPath()).toUri().toString());
+        MediaPlayer player = new MediaPlayer(video);
+        player.setAutoPlay(true);
 
         // Media functionality
-        _player.setOnEndOfMedia(() -> {
-            _playPauseBtn.setText("Play");
-            _player.stop();
-            _player.seek(Duration.ZERO);
+        player.setOnEndOfMedia(() -> {
+            playPauseBtn.setText("Play");
+            player.stop();
+            player.seek(Duration.ZERO);
         });
 
-        return _player;
+        // add listener for media player that will trigger the sliders
+        player.currentTimeProperty().addListener(
+                (observable, oldTime, newTime) -> updateValues(newTime, timeSlider, playTime));
+
+
+        player.setOnReady(() -> {
+            setUpSliders(timeSlider, volSlider, player);
+
+            // set up the duration time for the player label
+            formatTime(maxTime, player.getTotalDuration());
+            playTime.setText("00:00");
+
+            updateValues(Duration.ZERO, timeSlider, playTime);
+        });
+
+        return player;
     }
 
 }

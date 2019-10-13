@@ -1,15 +1,10 @@
 package main.java.controllers;
 
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.text.Text;
-import main.java.application.AlertFactory;
-import main.java.tasks.ViewSearchTask;
+import main.java.application.Folders;
 
-import java.util.concurrent.ExecutionException;
+import java.io.File;
 
 /**
  * Controller for functionality of Main.fxml
@@ -21,22 +16,34 @@ public class MainMenu extends Controller {
     @FXML
     private Button _createCreationBtn;
 
+    @FXML
+    private Button _quizBtn;
+
+    @FXML
+    private Button _viewCreationsBtn;
+
+    @FXML
     public void initialize() {
-        ViewSearchTask searchTask = new ViewSearchTask();
-        new Thread(searchTask).start();
+        disableInvalidButtons();
+    }
 
-        try {
-            ObservableList<String> folderList = searchTask.get();
+    private void disableInvalidButtons() {
 
-            if (folderList.isEmpty()) {
-                _createCreationBtn.setDisable(true);
-            } else {
-                _createCreationBtn.setDisable(false);
-            }
+        // check if audio exists so creations can to be created
+        File audioFolder = new File(Folders.AudioPracticeFolder.getPath());
+        if (!audioFolder.exists() || audioFolder.list().length == 0) {
+            _createCreationBtn.setDisable(true);
+        }
 
+        // check if creations exist so there is something to be quizzed on
+        File creationFolder = new File(Folders.CreationPracticeFolder.getPath());
+        if (!creationFolder.exists() || creationFolder.list().length == 0) {
+            _quizBtn.setDisable(true);
+        }
 
-        } catch (InterruptedException | ExecutionException e) {
-
+        // if there are no audio and no creations then there is no reason to view
+        if (_createCreationBtn.isDisabled() && _quizBtn.isDisabled()) {
+            _viewCreationsBtn.setDisable(true);
         }
     }
 
@@ -72,7 +79,7 @@ public class MainMenu extends Controller {
     @FXML
     private void viewQuiz(){
 
-        _mainApp.displayQuizScene();
+        _mainApp.displayQuizScene(false);
 
     }
 }
