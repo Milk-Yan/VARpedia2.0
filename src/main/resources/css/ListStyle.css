@@ -32,7 +32,7 @@
 }
 
 .list-cell {
-  -fx-font: 16pt "Arial";
+  -fx-font: 16;
   -fx-text-fill: red;
   -fx-background-color: #2e2e2e;
 }
@@ -71,11 +71,15 @@
 }
 
 .tree-view .virtual-flow .clipped-container .sheet .tree-cell{
-    -fx-background-color: #2e2e2e;
+    -fx-background-color: #323232;
+}
+
+.tree-cell > .tree-disclosure-node > .arrow{
+    -fx-background-color: white;
 }
 
 .tree-view .virtual-flow .clipped-container .sheet .tree-cell:odd{
-    -fx-background-color: #323232;
+    -fx-background-color: #2e2e2e;
 }
 
 .tree-view .virtual-flow .clipped-container .sheet .tree-cell:filled:hover{
@@ -85,6 +89,8 @@
 .tree-view .virtual-flow .clipped-container .sheet .tree-cell:filled:selected:focused, .tree-view .virtual-flow .clipped-container .sheet .tree-cell:filled:selected{
     -fx-background-color: #000a36;
 }
+
+
 
 
 .scroll-bar:horizontal .track,
