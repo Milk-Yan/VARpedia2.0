@@ -186,7 +186,7 @@ public class ViewCreations extends Controller {
                 File termPracticeFolder =
                         new File(mediaFolder + File.separator + "practice" + File.separator + term);
                 File termTestFolder =
-                        new File(mediaFolder + File.separator + "test" + File.separator + name);
+                        new File(mediaFolder + File.separator + "test" + File.separator + term);
                 if (termPracticeFolder.exists() && termPracticeFolder.listFiles().length == 0) {
                     termPracticeFolder.delete();
                 }
