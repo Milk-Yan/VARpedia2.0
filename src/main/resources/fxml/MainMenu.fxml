@@ -26,21 +26,6 @@
             <Font size="40.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This tool makes video creations of terms from Wikipedia." GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please select from one of the following options:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Note: you must create an audio file for your Wiki term before creating a new creation)" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
       <GridPane alignment="CENTER" prefHeight="158.0" prefWidth="1024.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
          <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="45.0" prefWidth="100.0" />
@@ -52,22 +37,22 @@
             <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="_createAudioBtn" mnemonicParsing="false" onAction="#createAudio" prefHeight="50.0" prefWidth="400.0" text="Create Audio" GridPane.halignment="RIGHT">
+            <Button fx:id="_createAudioBtn" mnemonicParsing="false" onAction="#createAudio" prefHeight="50.0" prefWidth="400.0" text="1. Create Audio" GridPane.halignment="RIGHT">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button fx:id="_viewCreationsBtn" mnemonicParsing="false" onAction="#viewCreations" prefHeight="50.0" prefWidth="400.0" text="View current creations" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Button fx:id="_viewCreationsBtn" mnemonicParsing="false" onAction="#viewCreations" prefHeight="50.0" prefWidth="400.0" text="3. View current creations" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button fx:id="_createCreationBtn" mnemonicParsing="false" onAction="#createCreation" prefHeight="50.0" prefWidth="400.0" text="Create new creation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+            <Button fx:id="_createCreationBtn" mnemonicParsing="false" onAction="#createCreation" prefHeight="50.0" prefWidth="400.0" text="2. Create new creation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button fx:id="_quizBtn" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#viewQuiz" prefHeight="50.0" prefWidth="400.0" text="Quiz" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Button fx:id="_quizBtn" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#viewQuiz" prefHeight="50.0" prefWidth="400.0" text="4. Quiz" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
                </font>

@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -232,6 +234,17 @@ public class VideoPlayer extends Controller {
         });
 
         return player;
+    }
+
+    @FXML
+    private void onKey(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER) || keyEvent.getCode().equals(KeyCode.SPACE)) {
+            playPause();
+        } else if (keyEvent.getCode().equals(KeyCode.LEFT)) {
+            backward();
+        } else if (keyEvent.getCode().equals(KeyCode.RIGHT)) {
+            forward();
+        }
     }
 
 }

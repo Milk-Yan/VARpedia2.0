@@ -6,6 +6,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.controllers.Controller;
@@ -123,6 +125,13 @@ public class CreationNaming extends Controller {
             mainMenu();
         } else {
             _task.notify();
+        }
+    }
+
+    @FXML
+    private void onEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            create();
         }
     }
 

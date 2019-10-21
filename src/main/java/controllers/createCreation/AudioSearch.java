@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
@@ -102,6 +104,13 @@ public class AudioSearch extends Controller {
         } else {
             new AlertFactory(AlertType.ERROR, "Error", "Audio wikit not selected.",
                     "Please select a wikit search");
+        }
+    }
+
+    @FXML
+    private void onEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            enter();
         }
     }
 

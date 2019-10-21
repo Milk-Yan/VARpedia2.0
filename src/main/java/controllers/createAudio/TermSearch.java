@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import main.java.application.AlertFactory;
 import main.java.controllers.Controller;
 import main.java.tasks.SearchTermTask;
@@ -58,6 +60,13 @@ public class TermSearch extends Controller {
         }
 
         mainMenu();
+    }
+
+    @FXML
+    private void onEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            search();
+        }
     }
 
 }

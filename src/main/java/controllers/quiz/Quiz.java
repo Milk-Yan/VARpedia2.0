@@ -2,6 +2,8 @@ package main.java.controllers.quiz;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
@@ -346,5 +348,12 @@ public class Quiz extends Controller {
 
 
         mainMenu();
+    }
+
+    @FXML
+    private void onEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            confirm();
+        }
     }
 }
