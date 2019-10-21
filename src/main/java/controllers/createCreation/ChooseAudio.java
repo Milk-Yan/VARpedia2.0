@@ -25,6 +25,7 @@ public class ChooseAudio extends Controller {
 
     private String _term;
     private MediaPlayer _audioPlayer;
+    private MediaPlayer _musicPlayer;
     private GetImagesTask _task;
 
     @FXML
@@ -313,10 +314,15 @@ public class ChooseAudio extends Controller {
             File audioFile = new File(
                     Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term + File.separator + audioName +
                             ".wav");
+            File musicFile =
+                    new File(Folders.MUSIC_FOLDER.getPath() + File.separator + _musicChoice.getSelectionModel().getSelectedItem() + ".wav");
 
             Media audio = new Media(audioFile.toURI().toString());
+            Media music = new Media(musicFile.toURI().toString());
             _audioPlayer = new MediaPlayer(audio);
+            _musicPlayer = new MediaPlayer(music);
             _audioPlayer.play();
+            _musicPlayer.play();
 
         } else {
             new AlertFactory(AlertType.ERROR, "Error", "Invalid selection",
@@ -356,6 +362,10 @@ public class ChooseAudio extends Controller {
         if (_audioPlayer != null) {
             _audioPlayer.stop();
             _audioPlayer = null;
+        }
+        if (_musicPlayer != null) {
+            _musicPlayer.stop();
+            _musicPlayer = null;
         }
     }
 }

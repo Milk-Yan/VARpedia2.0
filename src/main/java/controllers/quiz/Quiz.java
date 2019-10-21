@@ -339,14 +339,27 @@ public class Quiz extends Controller {
 
     @FXML
     private void clearProgress() {
+        File notMasteredFolder = Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getFile();
+        File masteredFolder = Folders.CREATION_SCORE_MASTERED_FOLDER.getFile();
 
+        // change all the scores in the not mastered folder to 0
+        for (File notMasteredTerm: notMasteredFolder.listFiles()) {
+            updateScoreFile(notMasteredTerm, "0");
+        }
+
+        // move all terms from the mastered folder to the not mastered folder and make their
+        // score to be 0
+        for (File masteredTerm: masteredFolder.listFiles()) {
+            updateScore(masteredTerm.getName().replace(".txt", ""), false);
+        }
+
+        // start quiz
+        displayNotMasteredCreation();
     }
 
     @FXML
     private void mainMenuPressed() {
         stopCurrentPlayer();
-
-
         mainMenu();
     }
 

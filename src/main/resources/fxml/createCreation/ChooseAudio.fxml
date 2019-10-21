@@ -30,15 +30,15 @@
             <Font size="26.0" />
          </font>
       </Button>
-      <HBox alignment="CENTER" prefHeight="120.0" prefWidth="1075.0" spacing="30.0" GridPane.rowIndex="2">
+      <HBox alignment="CENTER" prefHeight="120.0" prefWidth="1075.0" spacing="50.0" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefHeight="42.0" prefWidth="300.0" text="Confirm">
+            <Button fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefHeight="42.0" prefWidth="300.0" text="Listen">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
             <ProgressIndicator fx:id="_indicator" visible="false" />
-            <Button fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefHeight="42.0" prefWidth="300.0" text="Listen">
+            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefHeight="42.0" prefWidth="300.0" text="Confirm">
                <font>
                   <Font size="26.0" />
                </font>
