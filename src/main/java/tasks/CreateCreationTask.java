@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.application.Main;
+import main.java.application.StringManipulator;
 
 import java.io.File;
 import java.io.IOException;
@@ -163,7 +164,9 @@ public class CreateCreationTask extends Task<Void> {
                                 // every 2 seconds, 30 fps
                                 "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder +
                                 File.separator +
-                                "img%01d.jpg -r 30 -t $VIDEO_LENGTH -s 600x400" +
+                                "img%01d.jpg -r 30 -t $VIDEO_LENGTH  -vf " +
+                                "\"scale=w=600:h=400:force_original_aspect_ratio=1,pad=600:400:" +
+                                "(ow-iw)/2:(oh-ih)/2\" -s 600x400" +
                                 // put video file in temp folder
                                 " -y " + videoOutputFolder + File.separator + _name +
                                 ".mp4").start();
@@ -177,11 +180,12 @@ public class CreateCreationTask extends Task<Void> {
                                 "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder +
                                 File.separator + "img" +
                                 "%01d.jpg -r 30 -t $VIDEO_LENGTH " +
-                                "-vf \"drawtext=fontfile=font.ttf:fontsize=200:fontcolor=white:"
+                                "-vf \"scale=w=600:h=400:force_original_aspect_ratio=1," +
+                                "pad=600:400:(ow-iw)/2:(oh-ih)/2, drawtext=fontfile=font" +
+                                ".ttf:fontsize=100:fontcolor=white:"
                                 +
-                                "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0" +
-                                ".5:boxborderw=0" +
-                                ".5:text=\"" + _term + " -s 600x400" +
+                                "x=(w-text_w)/2:y=(h-text_h-20):text=" + _term + ", drawbox=y" +
+                                "=ih-h:color=black@0.5:width=iw:height=100:t=fill\"" +
                                 // put video file in temp folder
                                 " -y " + videoOutputFolder + File.separator + _name +
                                 ".mp4"
@@ -201,6 +205,7 @@ public class CreateCreationTask extends Task<Void> {
                             "not merge properly");
                     _mainApp.displayMainMenuScene();
                 });
+                System.out.println(new StringManipulator().inputStreamToString(imageMergeProcess.getErrorStream()));
             }
 
         } catch (IOException e) {
