@@ -51,8 +51,15 @@ public class SearchTermTask extends Task<String> {
                 });
 
             } else {
-
                 _searchResults = manipulator.inputStreamToString(process.getInputStream());
+                if (_searchResults.contains("? Ambiguous results")) {
+                    Platform.runLater(() -> {
+                        new AlertFactory(AlertType.ERROR, "Ambiguous results", "There are " +
+                                "multiple results for this term",
+                                "refine your search and try again.");
+                    });
+                    cancel();
+                }
             }
 
 
@@ -73,7 +80,7 @@ public class SearchTermTask extends Task<String> {
 
         if (_searchResults.contains(":^(")) {
             _isInvalid = true;
-            cancelled(); // run cancel operations
+            cancel(); // run cancel operations
             return;
         }
 
@@ -86,14 +93,16 @@ public class SearchTermTask extends Task<String> {
 
     @Override
     protected void cancelled() {
+        super.cancelled();
         if (_isInvalid) {
             // run on GUI thread
             Platform.runLater(() -> {
                 new AlertFactory(AlertType.ERROR, "Error encountered", "Invalid term",
                         "This term cannot be found. Please try again.");
-                _mainApp.displayCreateAudioSearchScene();
             });
+
         }
+        _mainApp.displayCreateAudioSearchScene();
 
     }
 

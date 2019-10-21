@@ -80,6 +80,7 @@ public class GetImagesTask extends Task<Void> {
 
     @Override
     public void cancelled() {
+        super.cancelled();
 
         // delete previously made folder
         if (_imageFolder != null && _imageFolder.exists() && Objects.requireNonNull(

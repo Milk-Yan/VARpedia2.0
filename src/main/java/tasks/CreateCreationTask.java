@@ -298,6 +298,7 @@ public class CreateCreationTask extends Task<Void> {
 
     @Override
     public void cancelled() {
+        super.cancelled();
 
         Process[] listOfProcesses = {_audioMergePracticeProcess, _audioMergeTestProcess,
                 _imageMergePracticeProcess, _imageMergeTestProcess, _mergeOverallPracticeProcess,
