@@ -57,7 +57,7 @@ public class Main extends Application {
                 Folders.AUDIO_TEST_FOLDER, Folders.CREATION_PRACTICE_FOLDER, Folders.CREATION_TEST_FOLDER};
 
         for (Folders folderPath: foldersToCreate) {
-            new File(folderPath.getPath()).mkdirs();
+            folderPath.getFile().mkdirs();
         }
 
     }
@@ -244,8 +244,7 @@ public class Main extends Application {
      * clean up any temporary files created previously recursively
      */
     private void cleanUpTempFiles() {
-        File tempFolder =
-                new File(Folders.TEMP_FOLDER.getPath());
+        File tempFolder = Folders.TEMP_FOLDER.getFile();
 
         try {
             new ProcessBuilder("bash", "-c", "rm -rf " + tempFolder).start();

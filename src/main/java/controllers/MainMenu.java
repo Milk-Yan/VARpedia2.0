@@ -30,13 +30,13 @@ public class MainMenu extends Controller {
     private void disableInvalidButtons() {
 
         // check if audio exists so creations can to be created
-        File audioFolder = new File(Folders.AUDIO_PRACTICE_FOLDER.getPath());
+        File audioFolder = Folders.AUDIO_PRACTICE_FOLDER.getFile();
         if (!audioFolder.exists() || audioFolder.list().length == 0) {
             _createCreationBtn.setDisable(true);
         }
 
         // check if creations exist so there is something to be quizzed on
-        File creationFolder = new File(Folders.CREATION_PRACTICE_FOLDER.getPath());
+        File creationFolder = Folders.CREATION_PRACTICE_FOLDER.getFile();
         if (!creationFolder.exists() || creationFolder.list().length == 0) {
             _quizBtn.setDisable(true);
         }

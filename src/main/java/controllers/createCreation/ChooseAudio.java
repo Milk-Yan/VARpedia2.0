@@ -95,7 +95,7 @@ public class ChooseAudio extends Controller {
         // add a choice for no music
         _musicChoice.getItems().add("None");
 
-        File musicFolder = new File(Folders.MUSIC_FOLDER.getPath());
+        File musicFolder = Folders.MUSIC_FOLDER.getFile();
 
         for (File music: Objects.requireNonNull(musicFolder.listFiles())) {
             // remove the extension name

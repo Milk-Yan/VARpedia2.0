@@ -322,7 +322,7 @@ public class Quiz extends Controller {
     }
 
     private boolean checkIfMastered(String termName) {
-        File masteredFolder = new File(Folders.CREATION_SCORE_MASTERED_FOLDER.getPath());
+        File masteredFolder = Folders.CREATION_SCORE_MASTERED_FOLDER.getFile();
 
         if (masteredFolder.listFiles() != null) {
             for (File notMasteredTerm:masteredFolder.listFiles()) {

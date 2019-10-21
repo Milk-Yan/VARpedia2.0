@@ -21,7 +21,7 @@ public class ViewSearchTask extends Task<ObservableList<String>> {
 
     @Override
     protected ObservableList<String> call() throws Exception {
-        File folder = new File(Folders.AUDIO_PRACTICE_FOLDER.getPath());
+        File folder = Folders.AUDIO_PRACTICE_FOLDER.getFile();
 
         File[] arrayOfFolders = folder.listFiles((file) -> {
             return true;
