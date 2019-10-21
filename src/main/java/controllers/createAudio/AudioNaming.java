@@ -55,16 +55,16 @@ public class AudioNaming extends Controller {
         String s = File.separator;
 
         // check for correct input
-        _name = _nameInput.getText();
+        _name = _nameInput.getText().trim();
 
         if (_name.isEmpty()) {
 
             new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot be empty");
 
-        } else if (_name.contains(" ")) {
+        } else if (!_name.matches("[A-Za-z0-9]+")) {
 
-            new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain " +
-                    "spaces");
+            new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name can only contain " +
+                    "a-A and 0-9.");
 
         } else if (new File(
                 Folders.AudioFolder.getPath() + s + _term + s +

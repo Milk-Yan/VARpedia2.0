@@ -66,10 +66,10 @@ public class CreationNaming extends Controller {
 
             new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot be empty");
 
-        } else if (_name.contains(" ")) {
+        } else if (!_name.matches("[A-Za-z0-9]+")) {
 
-            new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot contain " +
-                    "spaces");
+            new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name can only contain " +
+                    "a-A and 0-9.");
 
         } else if (new File(Folders.CreationPracticeFolder.getPath() + s + _name +
                 ".mp4").isFile()) {
