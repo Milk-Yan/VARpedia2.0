@@ -54,7 +54,7 @@ public class ChooseAudio extends Controller {
         _audioCandidates.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         File folder =
-                new File(Folders.AudioPracticeFolder.getPath() + File.separator + _term);
+                new File(Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term);
 
         File[] arrayOfAudioFiles = folder.listFiles((file) -> {
 
@@ -95,7 +95,7 @@ public class ChooseAudio extends Controller {
         // add a choice for no music
         _musicChoice.getItems().add("None");
 
-        File musicFolder = new File(Folders.MusicFolder.getPath());
+        File musicFolder = new File(Folders.MUSIC_FOLDER.getPath());
 
         for (File music: Objects.requireNonNull(musicFolder.listFiles())) {
             // remove the extension name
@@ -311,7 +311,7 @@ public class ChooseAudio extends Controller {
             audioName = audioName.replaceFirst("\\d+\\. ", "").replaceAll("\n", "");
 
             File audioFile = new File(
-                    Folders.AudioPracticeFolder.getPath() + File.separator + _term + File.separator + audioName +
+                    Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term + File.separator + audioName +
                             ".wav");
 
             Media audio = new Media(audioFile.toURI().toString());

@@ -70,7 +70,7 @@ public class Quiz extends Controller {
     @FXML
     private void initialize() {
         // create the score folder
-        new File(Folders.CreationScoreFolder.getPath()).mkdirs();
+        new File(Folders.CREATION_SCORE_FOLDER.getPath()).mkdirs();
 
         _videoPlayer = new VideoPlayer();
 
@@ -86,7 +86,7 @@ public class Quiz extends Controller {
 
     private void displayNotMasteredCreation() {
         stopCurrentPlayer();
-        File notMasteredFolder = new File(Folders.CreationScoreNotMasteredFolder.getPath());
+        File notMasteredFolder = new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath());
 
         int numberOfTerms = 0;
         if (notMasteredFolder.listFiles() != null) {
@@ -99,7 +99,7 @@ public class Quiz extends Controller {
             setVisibilityOfVideo(true);
             ArrayList<File> listOfFiles = new ArrayList<File>();
             for (File notMasteredScoreFile: notMasteredFolder.listFiles()) {
-                listOfFiles.add(new File(Folders.CreationTestFolder.getPath() + File.separator + notMasteredScoreFile.getName().replace(".txt", "")));
+                listOfFiles.add(new File(Folders.CREATION_TEST_FOLDER.getPath() + File.separator + notMasteredScoreFile.getName().replace(".txt", "")));
             }
             File randomCreation = getRandomCreationFile(numberOfTerms,
                     listOfFiles.toArray(new File[listOfFiles.size()]));
@@ -156,7 +156,7 @@ public class Quiz extends Controller {
         if (_includeMastered.isSelected()) {
             // get the number of terms to test on and the files
 
-            File testFolder = new File(Folders.CreationTestFolder.getPath());
+            File testFolder = new File(Folders.CREATION_TEST_FOLDER.getPath());
             File[] creations = testFolder.listFiles((file) -> {
                 if (file.isDirectory() && !file.getName().equals("score")) {
                     return true;
@@ -198,7 +198,7 @@ public class Quiz extends Controller {
 
         // choose a random creation for the term
         File randomTermFolder =
-                new File(Folders.CreationTestFolder.getPath() + File.separator + randomTerm);
+                new File(Folders.CREATION_TEST_FOLDER.getPath() + File.separator + randomTerm);
 
         File[] creations = randomTermFolder.listFiles((file) -> {
             if (file.getName().contains(".mp4")) {
@@ -266,7 +266,7 @@ public class Quiz extends Controller {
             } else {
                 // update score to +1
                 File scoreFile =
-                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator + termName + ".txt");
+                        new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath() + File.separator + termName + ".txt");
                 try {
                     int score = Integer.valueOf(new StringManipulator().readScoreFromFile(scoreFile));
                     int newScore = score + 1;
@@ -276,7 +276,7 @@ public class Quiz extends Controller {
 
                         // add to mastered folder
                         File newFile =
-                                new File(Folders.CreationScoreMasteredFolder.getPath() + File.separator + termName + ".txt");
+                                new File(Folders.CREATION_SCORE_MASTERED_FOLDER.getPath() + File.separator + termName + ".txt");
                         updateScoreFile(newFile, "5");
                     } else {
                         updateScoreFile(scoreFile, String.valueOf(newScore));
@@ -291,17 +291,17 @@ public class Quiz extends Controller {
             if (isMastered) {
                 // remove original file from mastered
                 File oldScore =
-                        new File(Folders.CreationScoreMasteredFolder.getPath() + File.separator + termName + ".txt");
+                        new File(Folders.CREATION_SCORE_MASTERED_FOLDER.getPath() + File.separator + termName + ".txt");
                 oldScore.delete();
 
                 // add new score file to not mastered, with score 0
                 File newScore =
-                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator + termName + ".txt");
+                        new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath() + File.separator + termName + ".txt");
                 updateScoreFile(newScore, "0");
             } else {
                 // update file to a score of 0
                 File score =
-                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator + termName + ".txt");
+                        new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath() + File.separator + termName + ".txt");
                 updateScoreFile(score, "0");
             }
         }
@@ -322,7 +322,7 @@ public class Quiz extends Controller {
     }
 
     private boolean checkIfMastered(String termName) {
-        File masteredFolder = new File(Folders.CreationScoreMasteredFolder.getPath());
+        File masteredFolder = new File(Folders.CREATION_SCORE_MASTERED_FOLDER.getPath());
 
         if (masteredFolder.listFiles() != null) {
             for (File notMasteredTerm:masteredFolder.listFiles()) {

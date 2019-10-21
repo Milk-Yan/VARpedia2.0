@@ -53,42 +53,42 @@ public class CreateCreationTask extends Task<Void> {
 
         // create audio for practice
         String audioInputPracticeFolder =
-                Folders.AudioPracticeFolder.getPath() + File.separator + _term;
+                Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term;
         String audioOutputPracticeFolder =
-                Folders.TempAudioPracticeFolder.getPath() + File.separator + _term;
+                Folders.TEMP_AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term;
         audioMerge(audioInputPracticeFolder, audioOutputPracticeFolder, _audioMergePracticeProcess);
 
         // create audio for quiz
-        String audioInputTestFolder = Folders.AudioTestFolder.getPath() + File.separator + _term;
+        String audioInputTestFolder = Folders.AUDIO_TEST_FOLDER.getPath() + File.separator + _term;
         String audioOutputTestFolder =
-                Folders.TempAudioTestFolder.getPath() + File.separator + _term;
+                Folders.TEMP_AUDIO_TEST_FOLDER.getPath() + File.separator + _term;
         audioMerge(audioInputTestFolder, audioOutputTestFolder, _audioMergeTestProcess);
 
         // merge image for practice
         String imageInputPracticeFolder =
-                Folders.TempImagesFolder.getPath() + File.separator + _term;
+                Folders.TEMP_IMAGES_FOLDER.getPath() + File.separator + _term;
         String videoOutputPracticeFolder =
-                Folders.TempVideoPracticeFolder.getPath() + File.separator + _term;
+                Folders.TEMP_VIDEO_PRACTICE_FOLDER.getPath() + File.separator + _term;
         imageMerge(imageInputPracticeFolder, videoOutputPracticeFolder,
                 audioOutputPracticeFolder, _imageMergePracticeProcess, false);
 
         // merge image for quiz
-        String imageInputTestFolder = Folders.TempImagesFolder.getPath() + File.separator + _term;
+        String imageInputTestFolder = Folders.TEMP_IMAGES_FOLDER.getPath() + File.separator + _term;
         String videoOutputTestFolder =
-                Folders.TempVideoTestFolder.getPath() + File.separator + _term;
+                Folders.TEMP_VIDEO_TEST_FOLDER.getPath() + File.separator + _term;
         imageMerge(imageInputTestFolder, videoOutputTestFolder, audioOutputTestFolder,
                 _imageMergeTestProcess, true);
 
 
         // merge overall for practice
         String creationOutputPracticeFolder =
-                Folders.CreationPracticeFolder.getPath() + File.separator + _term;
+                Folders.CREATION_PRACTICE_FOLDER.getPath() + File.separator + _term;
         mergeOverall(audioOutputPracticeFolder, videoOutputPracticeFolder,
                 creationOutputPracticeFolder, _mergeOverallPracticeProcess);
 
         // merge overall for quiz
         String creationOutputTestFolder =
-                Folders.CreationTestFolder.getPath() + File.separator + _term;
+                Folders.CREATION_TEST_FOLDER.getPath() + File.separator + _term;
         mergeOverall(audioOutputTestFolder, videoOutputTestFolder, creationOutputTestFolder,
                 _mergeOverallTestProcess);
 
@@ -231,7 +231,7 @@ public class CreateCreationTask extends Task<Void> {
                 ).start();
             } else {
                 String bgm =
-                        (Folders.MusicFolder.getPath() + File.separator + _musicSelection);
+                        (Folders.MUSIC_FOLDER.getPath() + File.separator + _musicSelection);
                 mergeOverallProcess = new ProcessBuilder("bash", "-c",
                         // get video
                         "ffmpeg -i " + videoInputFolder + File.separator + _name + ".mp4 " +
@@ -263,10 +263,10 @@ public class CreateCreationTask extends Task<Void> {
             } else {
                 // create a score file for the term if it doesn't exist already
                 File scoreNotMastered =
-                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator +
+                        new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath() + File.separator +
                                 _term + ".txt");
                 File scoreMastered =
-                        new File(Folders.CreationScoreMasteredFolder.getPath() + File.separator +
+                        new File(Folders.CREATION_SCORE_MASTERED_FOLDER.getPath() + File.separator +
                                 _term + ".txt");
                 if (!scoreNotMastered.exists() && !scoreMastered.exists()) {
                     createNewScoreFile(scoreNotMastered);
@@ -287,7 +287,7 @@ public class CreateCreationTask extends Task<Void> {
     private void createNewScoreFile(File newFile) {
         List<String> zero = Arrays.asList("0");
         try {
-            new File(Folders.CreationScoreNotMasteredFolder.getPath()).mkdirs();
+            new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath()).mkdirs();
 
             newFile.createNewFile();
             Files.write(Paths.get(newFile.getPath()), zero, StandardCharsets.UTF_8);
@@ -329,7 +329,7 @@ public class CreateCreationTask extends Task<Void> {
                 //NOT DONE YET
                 _mainApp.displayMainMenuScene();
                 File creationFile =
-                        new File(Folders.CreationPracticeFolder.getPath() + File.separator + _term +
+                        new File(Folders.CREATION_PRACTICE_FOLDER.getPath() + File.separator + _term +
                                 File.separator + _name + ".mp4");
                 _mainApp.playVideo(creationFile);
             } else {

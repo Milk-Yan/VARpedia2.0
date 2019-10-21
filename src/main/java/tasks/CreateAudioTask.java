@@ -57,7 +57,7 @@ public class CreateAudioTask extends Task<Void> {
 
             // make quiz audio
             File testFolder =
-                    new File(Folders.AudioTestFolder.getPath() + File.separator + _term);
+                    new File(Folders.AUDIO_TEST_FOLDER.getPath() + File.separator + _term);
             testFolder.mkdirs();
 
             _processQuiz = makeAudioProcess(_quizText, testFolder);

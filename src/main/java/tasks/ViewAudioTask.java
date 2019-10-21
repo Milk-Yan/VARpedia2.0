@@ -14,7 +14,7 @@ public class ViewAudioTask extends Task<TreeItem<String>> {
     @Override
     protected TreeItem<String> call() throws Exception {
         File audioFolder =
-                new File(Folders.AudioPracticeFolder.getPath());
+                new File(Folders.AUDIO_PRACTICE_FOLDER.getPath());
 
         _root = new TreeItem<String>("Audio");
         _root.setExpanded(true);

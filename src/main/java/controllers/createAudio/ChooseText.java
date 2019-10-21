@@ -137,7 +137,7 @@ public class ChooseText extends Controller {
         stopCurrentPreview();
 
         File tempAudioFolder =
-                new File(Folders.TempAudioFolder.getPath());
+                new File(Folders.TEMP_AUDIO_FOLDER.getPath());
 
         String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();

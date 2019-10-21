@@ -52,9 +52,9 @@ public class Main extends Application {
      * Initialises folders if they do not already exist.
      */
     private void createFolders() {
-        Folders[] foldersToCreate = new Folders[]{Folders.CreationScoreNotMasteredFolder,
-                Folders.CreationScoreMasteredFolder, Folders.AudioPracticeFolder,
-                Folders.AudioTestFolder, Folders.CreationPracticeFolder, Folders.CreationTestFolder};
+        Folders[] foldersToCreate = new Folders[]{Folders.CREATION_SCORE_NOT_MASTERED_FOLDER,
+                Folders.CREATION_SCORE_MASTERED_FOLDER, Folders.AUDIO_PRACTICE_FOLDER,
+                Folders.AUDIO_TEST_FOLDER, Folders.CREATION_PRACTICE_FOLDER, Folders.CREATION_TEST_FOLDER};
 
         for (Folders folderPath: foldersToCreate) {
             new File(folderPath.getPath()).mkdirs();
@@ -245,7 +245,7 @@ public class Main extends Application {
      */
     private void cleanUpTempFiles() {
         File tempFolder =
-                new File(Folders.TempFolder.getPath());
+                new File(Folders.TEMP_FOLDER.getPath());
 
         try {
             new ProcessBuilder("bash", "-c", "rm -rf " + tempFolder).start();

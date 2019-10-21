@@ -19,7 +19,7 @@ public class ViewCreationsTask extends Task<TreeItem<String>> {
     protected TreeItem<String> call() {
 
         File folder =
-                new File(Folders.CreationPracticeFolder.getPath());
+                new File(Folders.CREATION_PRACTICE_FOLDER.getPath());
 
         _root = new TreeItem<String>("Creations");
         _root.setExpanded(true);

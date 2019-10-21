@@ -59,7 +59,7 @@ public class ChooseImages extends Controller {
         _message.setText("Images files for " + term + ": ");
 
         File imageFolder =
-                new File(Folders.TempImagesFolder.getPath() + File.separator + _term);
+                new File(Folders.TEMP_IMAGES_FOLDER.getPath() + File.separator + _term);
 
         int index = 1;
 
@@ -99,7 +99,7 @@ public class ChooseImages extends Controller {
         double lengthOfAudio = 0;
         for (String audio : _audioList) {
             File audioFile =
-                    new File(Folders.AudioPracticeFolder.getPath() + File.separator + _term + File.separator + audio + ".wav");
+                    new File(Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term + File.separator + audio + ".wav");
 
             AudioInputStream audioInputStream;
             try {

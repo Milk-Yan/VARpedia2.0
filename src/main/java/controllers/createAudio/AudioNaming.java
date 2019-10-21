@@ -67,7 +67,7 @@ public class AudioNaming extends Controller {
                     "a-A and 0-9.");
 
         } else if (new File(
-                Folders.AudioFolder.getPath() + s + _term + s +
+                Folders.AUDIO_FOLDER.getPath() + s + _term + s +
                         _name + ".wav").isFile()) {
 
             // check if want to overwrite
@@ -88,7 +88,7 @@ public class AudioNaming extends Controller {
         _term = _term.replaceAll(" ", "-");
         // folder to store audio
         File audioFolder =
-                new File(Folders.AudioPracticeFolder.getPath() + File.separator +  _term);
+                new File(Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator +  _term);
 
         // use new thread to create in bg
         _task = new CreateAudioTask(audioFolder, _term,  _name, _chosenText, _mainApp, _voice,

@@ -119,10 +119,10 @@ public class ViewCreations extends Controller {
 
         //checks where the selected creation is listed as
         if (tab == _creationTab) {
-            String creationFile = Folders.CreationPracticeFolder.getPath();
+            String creationFile = Folders.CREATION_PRACTICE_FOLDER.getPath();
             playMedia(_listOfCreations.getSelectionModel().getSelectedItem(), creationFile);
         } else {
-            String audioFile = Folders.AudioPracticeFolder.getPath();
+            String audioFile = Folders.AUDIO_PRACTICE_FOLDER.getPath();
             playMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFile);
 
         }
@@ -157,11 +157,11 @@ public class ViewCreations extends Controller {
 
         //checks if the selected item is an audio or a video
         if (tab == _creationTab) {
-            String creationFolder = Folders.CreationsFolder.getPath();
+            String creationFolder = Folders.CREATIONS_FOLDER.getPath();
             deleteMedia(_listOfCreations.getSelectionModel().getSelectedItem(), creationFolder);
 
         } else {
-            String audioFolder = Folders.AudioFolder.getPath();
+            String audioFolder = Folders.AUDIO_FOLDER.getPath();
             deleteMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFolder);
         }
 
