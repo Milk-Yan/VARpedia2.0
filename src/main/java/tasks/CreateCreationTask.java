@@ -8,7 +8,6 @@ import javafx.scene.control.ButtonType;
 import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.application.Main;
-import main.java.application.StringManipulator;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +24,7 @@ public class CreateCreationTask extends Task<Void> {
     private String _term;
     private ArrayList<String> _audioList;
     private ArrayList<String> _imageList;
+    private String _musicSelection;
     private Main _mainApp;
 
     private Process _audioMergePracticeProcess;
@@ -38,12 +38,13 @@ public class CreateCreationTask extends Task<Void> {
     private File _creationScoreFolder;
 
     public CreateCreationTask(String name, String term, ArrayList<String> audioList,
-                              ArrayList<String> imageList, Main mainApp) {
+                              ArrayList<String> imageList, String musicSelection, Main mainApp) {
         _name = name;
         _term = term;
         _audioList = audioList;
         _imageList = imageList;
         _mainApp = mainApp;
+        _musicSelection = musicSelection;
 
     }
 
@@ -51,7 +52,8 @@ public class CreateCreationTask extends Task<Void> {
     protected Void call() throws Exception {
 
         // create audio for practice
-        String audioInputPracticeFolder = Folders.AudioPracticeFolder.getPath() + File.separator + _term;
+        String audioInputPracticeFolder =
+                Folders.AudioPracticeFolder.getPath() + File.separator + _term;
         String audioOutputPracticeFolder =
                 Folders.TempAudioPracticeFolder.getPath() + File.separator + _term;
         audioMerge(audioInputPracticeFolder, audioOutputPracticeFolder, _audioMergePracticeProcess);
@@ -87,7 +89,8 @@ public class CreateCreationTask extends Task<Void> {
         // merge overall for quiz
         String creationOutputTestFolder =
                 Folders.CreationTestFolder.getPath() + File.separator + _term;
-        mergeOverall(audioOutputTestFolder, videoOutputTestFolder, creationOutputTestFolder, _mergeOverallTestProcess);
+        mergeOverall(audioOutputTestFolder, videoOutputTestFolder, creationOutputTestFolder,
+                _mergeOverallTestProcess);
 
         return null;
     }
@@ -155,23 +158,29 @@ public class CreateCreationTask extends Task<Void> {
                 imageMergeProcess = new ProcessBuilder("bash", "-c",
                         "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator + _name +
                                 ".wav);" +
-                        // create slideshow from images with same length as audio, images change
-                        // every 2 seconds, 30 fps
-                            "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder + File.separator +
+                                // create slideshow from images with same length as audio, images
+                                // change
+                                // every 2 seconds, 30 fps
+                                "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder +
+                                File.separator +
                                 "img%01d.jpg -r 30 -t $VIDEO_LENGTH -s 600x400" +
-                        // put video file in temp folder
-                        " -y " + videoOutputFolder + File.separator + _name + ".mp4").start();
+                                // put video file in temp folder
+                                " -y " + videoOutputFolder + File.separator + _name +
+                                ".mp4").start();
             } else {
                 imageMergeProcess = new ProcessBuilder("bash", "-c",
                         // get length of audio file
-                        "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator +  _name +
+                        "VIDEO_LENGTH=$(soxi -D " + audioOutputFolder + File.separator + _name +
                                 ".wav);" +
                                 // create slideshow from images with same length as audio, images
                                 // change every 2 seconds, 30 fps
-                                "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder + File.separator + "img" +
+                                "ffmpeg -framerate 1/2 -loop 1 -i " + imageInputFolder +
+                                File.separator + "img" +
                                 "%01d.jpg -r 30 -t $VIDEO_LENGTH " +
                                 "-vf \"drawtext=fontfile=font.ttf:fontsize=200:fontcolor=white:"
-                                + "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0.5:boxborderw=0" +
+                                +
+                                "x=(w-text_w)/2:y=(h-text_h):box=1:boxcolor=black@0" +
+                                ".5:boxborderw=0" +
                                 ".5:text=\"" + _term + " -s 600x400" +
                                 // put video file in temp folder
                                 " -y " + videoOutputFolder + File.separator + _name +
@@ -187,7 +196,6 @@ public class CreateCreationTask extends Task<Void> {
             }
 
             if (imageMergeProcess.exitValue() != 0) {
-                System.out.println(new StringManipulator().inputStreamToString(imageMergeProcess.getErrorStream()));
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "Process failed", "The image did " +
                             "not merge properly");
@@ -211,15 +219,32 @@ public class CreateCreationTask extends Task<Void> {
         creationFolder.mkdirs();
 
         try {
-            mergeOverallProcess = new ProcessBuilder("bash", "-c",
-                    // get video
-                    "ffmpeg -i " + videoInputFolder + File.separator + _name + ".mp4 " +
-                            // get audio
-                            "-i " + audioInputFolder + File.separator + _name + ".wav " +
-                            // combine
-                            "-strict -2 -y " + creationOutputFolder + File.separator + _name +
-                            ".mp4"
-            ).start();
+            if (_musicSelection == null) {
+                mergeOverallProcess = new ProcessBuilder("bash", "-c",
+                        // get video
+                        "ffmpeg -i " + videoInputFolder + File.separator + _name + ".mp4 " +
+                                // get audio
+                                "-i " + audioInputFolder + File.separator + _name + ".wav " +
+                                // combine
+                                "-strict -2 -y " + creationOutputFolder + File.separator + _name +
+                                ".mp4"
+                ).start();
+            } else {
+                String bgm =
+                        (Folders.MusicFolder.getPath() + File.separator + _musicSelection);
+                mergeOverallProcess = new ProcessBuilder("bash", "-c",
+                        // get video
+                        "ffmpeg -i " + videoInputFolder + File.separator + _name + ".mp4 " +
+                                // get audio
+                                "-i " + audioInputFolder + File.separator + _name + ".wav " +
+                                // get background music
+                                "-stream_loop -1 -i \"" + bgm + "\" -filter_complex amerge -ac 1 " +
+                                // combine
+                                "-shortest -strict -2 -y " + creationOutputFolder + File.separator + _name +
+                                ".mp4"
+                ).start();
+            }
+
 
             try {
                 mergeOverallProcess.waitFor();
@@ -238,9 +263,11 @@ public class CreateCreationTask extends Task<Void> {
             } else {
                 // create a score file for the term if it doesn't exist already
                 File scoreNotMastered =
-                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator + _term + ".txt");
+                        new File(Folders.CreationScoreNotMasteredFolder.getPath() + File.separator +
+                                _term + ".txt");
                 File scoreMastered =
-                        new File(Folders.CreationScoreMasteredFolder.getPath() + File.separator + _term + ".txt");
+                        new File(Folders.CreationScoreMasteredFolder.getPath() + File.separator +
+                                _term + ".txt");
                 if (!scoreNotMastered.exists() && !scoreMastered.exists()) {
                     createNewScoreFile(scoreNotMastered);
                 }
@@ -275,7 +302,7 @@ public class CreateCreationTask extends Task<Void> {
         Process[] listOfProcesses = {_audioMergePracticeProcess, _audioMergeTestProcess,
                 _imageMergePracticeProcess, _imageMergeTestProcess, _mergeOverallPracticeProcess,
                 _mergeOverallTestProcess};
-        for (Process process: listOfProcesses) {
+        for (Process process : listOfProcesses) {
             if (process != null && process.isAlive()) {
                 process.destroy();
             }
@@ -302,14 +329,14 @@ public class CreateCreationTask extends Task<Void> {
                 //NOT DONE YET
                 _mainApp.displayMainMenuScene();
                 File creationFile =
-                        new File(Folders.CreationPracticeFolder.getPath() + File.separator + _term + File.separator + _name + ".mp4");
+                        new File(Folders.CreationPracticeFolder.getPath() + File.separator + _term +
+                                File.separator + _name + ".mp4");
                 _mainApp.playVideo(creationFile);
             } else {
                 _mainApp.displayMainMenuScene();
             }
         });
     }
-
 
 
 }

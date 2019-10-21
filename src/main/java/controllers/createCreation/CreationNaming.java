@@ -26,6 +26,7 @@ public class CreationNaming extends Controller {
     private ArrayList<String> _audioList;
     private ArrayList<String> _imageList;
     private CreateCreationTask _task;
+    private String _musicSelection;
 
     @FXML
     private TextField _nameInput;
@@ -40,10 +41,12 @@ public class CreationNaming extends Controller {
      * @param audioList
      * @param imageList
      */
-    public void setUp(String term, ArrayList<String> audioList, ArrayList<String> imageList) {
+    public void setUp(String term, ArrayList<String> audioList, ArrayList<String> imageList,
+                      String musicSelection) {
         _term = term;
         _audioList = audioList;
         _imageList = imageList;
+        _musicSelection = musicSelection;
     }
 
     /**
@@ -91,7 +94,7 @@ public class CreationNaming extends Controller {
     private void createCreation() {
 
         // use new thread to create in bg
-        _task = new CreateCreationTask(_name, _term, _audioList, _imageList,
+        _task = new CreateCreationTask(_name, _term, _audioList, _imageList, _musicSelection,
                 _mainApp);
 
         new Thread(_task).start();

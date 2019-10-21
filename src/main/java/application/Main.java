@@ -168,11 +168,12 @@ public class Main extends Application {
      * @param imageList
      */
     public void displayCreateCreationNamingScene(String term, ArrayList<String> audioList,
-                                                 ArrayList<String> imageList) {
+                                                 ArrayList<String> imageList,
+                                                 String musicSelection) {
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.CreateCreationNaming, this);
         CreationNaming controller = (CreationNaming) sceneFactory.getController();
-        controller.setUp(term, audioList, imageList);
+        controller.setUp(term, audioList, imageList, musicSelection);
 
         _currentScene = sceneFactory.getScene();
         update();
@@ -184,11 +185,12 @@ public class Main extends Application {
      * @param term
      * @param audioList
      */
-    public void displayCreateCreationChooseImagesScene(String term, ArrayList<String> audioList) {
+    public void displayCreateCreationChooseImagesScene(String term, ArrayList<String> audioList,
+                                                       String musicSelection) {
 
         SceneFactory sceneFactory = new SceneFactory(SceneType.CreateCreationChooseImages, this);
         ChooseImages controller = (ChooseImages) sceneFactory.getController();
-        controller.setUp(term, audioList);
+        controller.setUp(term, audioList, musicSelection);
 
         _currentScene = sceneFactory.getScene();
         update();

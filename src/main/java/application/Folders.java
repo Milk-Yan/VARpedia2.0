@@ -21,7 +21,9 @@ public enum Folders {
     TempImagesFolder(TempFolder.getPath() + File.separator + "images"),
     TempVideoFolder(TempFolder.getPath() + File.separator + "video"),
     TempVideoPracticeFolder(TempVideoFolder.getPath() + File.separator + "practice"),
-    TempVideoTestFolder(TempVideoFolder.getPath() + File.separator + "test");
+    TempVideoTestFolder(TempVideoFolder.getPath() + File.separator + "test"),
+    MusicFolder(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
+            + File.separator + "resources" + File.separator + "music");
 
     private String _path;
 

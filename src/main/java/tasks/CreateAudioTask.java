@@ -49,7 +49,7 @@ public class CreateAudioTask extends Task<Void> {
         _audioFolder.mkdirs();
 
         // make practice audio
-        makeAudioProcess(_processPractice, _practiceText, _audioFolder);
+        _processPractice = makeAudioProcess(_practiceText, _audioFolder);
 
         if (!_isPreview) {
             // make the quiz text from the practice text, removing the key word.
@@ -60,14 +60,14 @@ public class CreateAudioTask extends Task<Void> {
                     new File(Folders.AudioTestFolder.getPath() + File.separator + _term);
             testFolder.mkdirs();
 
-
-            makeAudioProcess(_processQuiz, _quizText, testFolder);
+            _processQuiz = makeAudioProcess(_quizText, testFolder);
         }
 
         return null;
     }
 
-    private void makeAudioProcess(Process process, String text, File folder) {
+    private Process makeAudioProcess(String text, File folder) {
+        Process process = null;
         try {
             process = new ProcessBuilder("bash", "-c",
                     // set voice
@@ -93,6 +93,8 @@ public class CreateAudioTask extends Task<Void> {
         } catch (IOException e) {
             this.cancelled();
         }
+
+        return process;
     }
 
     @Override

@@ -35,6 +35,8 @@ public class ChooseImages extends Controller {
     private ArrayList<String> _imageCandidatesList = new ArrayList<String>();
     private ArrayList<String> _imageChosenList = new ArrayList<String>();
 
+    private String _musicSelection;
+
     @FXML
     private Text _message;
 
@@ -50,10 +52,10 @@ public class ChooseImages extends Controller {
      * @param term
      * @param audioList
      */
-    public void setUp(String term, ArrayList<String> audioList) {
+    public void setUp(String term, ArrayList<String> audioList, String musicSelection) {
         _term = term;
         _audioList = audioList;
-
+        _musicSelection = musicSelection;
         _message.setText("Images files for " + term + ": ");
 
         File imageFolder =
@@ -120,7 +122,7 @@ public class ChooseImages extends Controller {
             new AlertFactory(AlertType.ERROR, "Error", "The audio is too short", "Choose less " +
                     "images or make a longer audio for your creation.");
         } else {
-            _mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList);
+            _mainApp.displayCreateCreationNamingScene(_term, _audioList, _imageChosenList, _musicSelection);
         }
     }
 

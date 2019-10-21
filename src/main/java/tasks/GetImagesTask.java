@@ -22,11 +22,14 @@ public class GetImagesTask extends Task<Void> {
     private File _imageFolder;
     private Main _mainApp;
     private ArrayList<String> _audioList;
+    private String _musicSelection;
 
-    public GetImagesTask(String term, Main mainApp, ArrayList<String> audioList) {
+    public GetImagesTask(String term, Main mainApp, ArrayList<String> audioList,
+                         String musicSelection) {
         _term = term;
         _mainApp = mainApp;
         _audioList = audioList;
+        _musicSelection = musicSelection;
     }
 
     @Override
@@ -92,7 +95,7 @@ public class GetImagesTask extends Task<Void> {
     @Override
     public void succeeded() {
         Platform.runLater(() -> {
-            _mainApp.displayCreateCreationChooseImagesScene(_term, _audioList);
+            _mainApp.displayCreateCreationChooseImagesScene(_term, _audioList, _musicSelection);
         });
     }
 

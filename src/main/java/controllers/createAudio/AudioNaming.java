@@ -85,6 +85,7 @@ public class AudioNaming extends Controller {
 
     private void create() {
 
+        _term = _term.replaceAll(" ", "-");
         // folder to store audio
         File audioFolder =
                 new File(Folders.AudioPracticeFolder.getPath() + File.separator +  _term);

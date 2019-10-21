@@ -225,8 +225,9 @@ public class Quiz extends Controller {
             File termFolder = new File(currentFile.getParent());
             String termName = termFolder.getName();
 
+            String text = _termInput.getText().replaceAll("-", " ");
             // check whether the user got the term correct
-            if (_termInput.getText().equals(termName)) {
+            if (text.equalsIgnoreCase(termName)) {
                 // correct input
                 _correctionLabel.setText("Correct!");
                 _correctionLabel.setVisible(true);
