@@ -112,6 +112,7 @@ public class ChooseText extends Controller {
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();
         // remove all special characters
         String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z\\.A-Z]", "");
+        
 
         // clear the chosen text so if user comes back...
         _chosenText.clear();

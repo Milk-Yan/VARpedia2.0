@@ -86,12 +86,23 @@ public class CreateAudioTask extends Task<Void> {
                 // don't do anything
             }
 
+            if (new StringManipulator().inputStreamToString(process.getErrorStream()).contains(
+                    "SIOD ERROR")) {
+                cancel();
+                Platform.runLater(() -> {
+                    new AlertFactory(AlertType.ERROR, "Error", "The voice " +
+                            "synthesiser is unable to read this input.",
+                            "Do not include non-English words.");
+                });
+
+            }
+
             if (process.exitValue() != 0) {
-                this.cancelled();
+                cancel();
             }
 
         } catch (IOException e) {
-            this.cancelled();
+            cancel();
         }
 
         return process;
@@ -99,8 +110,10 @@ public class CreateAudioTask extends Task<Void> {
 
     @Override
     public void cancelled() {
+        super.cancelled();
         destroyProcess();
         deleteEmptyFolder();
+
     }
 
     /**
