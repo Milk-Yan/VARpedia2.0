@@ -158,16 +158,18 @@ public class ViewCreations extends Controller {
         //checks if the selected item is an audio or a video
         if (tab == _creationTab) {
             String creationFolder = Folders.CREATIONS_FOLDER.getPath();
-            deleteMedia(_listOfCreations.getSelectionModel().getSelectedItem(), creationFolder);
+            deleteMedia(_listOfCreations.getSelectionModel().getSelectedItem(), creationFolder,
+                    _listOfCreations);
 
         } else {
             String audioFolder = Folders.AUDIO_FOLDER.getPath();
-            deleteMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFolder);
+            deleteMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFolder, _listOfAudio);
         }
 
     }
 
-    private void deleteMedia(TreeItem<String> selectedItem, String mediaFolder) {
+    private void deleteMedia(TreeItem<String> selectedItem, String mediaFolder,
+                             TreeView<String> treeView) {
         if (selectedItem.isLeaf()) {
             String name = selectedItem.getValue();
             Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting " +
@@ -194,7 +196,13 @@ public class ViewCreations extends Controller {
                     termTestFolder.delete();
                 }
 
-                _mainApp.displayViewCreationsScene();
+                for (TreeItem<String> parentTerm: treeView.getRoot().getChildren()) {
+                    if (parentTerm.getValue().equals(term)) {
+                        parentTerm.getChildren().remove(selectedItem);
+                    }
+                }
+
+
             }
         } else if (selectedItem != null) {
             // selected is a folder
@@ -215,7 +223,7 @@ public class ViewCreations extends Controller {
                 }
                 termTestFolder.delete();
 
-                _mainApp.displayViewCreationsScene();
+                treeView.getRoot().getChildren().remove(selectedItem);
             }
         }
     }
