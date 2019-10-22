@@ -143,3 +143,25 @@
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
+
+.choice-box .context-menu {
+    -fx-background-color: #000a36;
+    -fx-font-color: black;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: gray;
+}
+
+.choice-box .menu-item > .label {
+     -fx-text-fill: white;
+}
+
+.choice-box .menu-item:focused > .label {
+     -fx-text-fill: black;
+}
+
+.choice-box {
+  -fx-background-color: black;
+  -fx-mark-color: white;
+}

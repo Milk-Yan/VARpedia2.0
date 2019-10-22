@@ -71,9 +71,10 @@ public class ViewCreations extends Controller {
             if (creationsTreeRoot.getChildren().isEmpty()) {
                 // show that there are no creations available
                 _listOfCreations.setVisible(false);
+                _creationTab.setDisable(true);
 
-                Text text = new Text("There are currently no creations available.");
-                _creationTab.setContent(text);
+//                Text text = new Text("There are currently no creations available.");
+//                _creationTab.setContent(text);
                 //_container.getChildren().add(1, text);
 
             } else {
