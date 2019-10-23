@@ -143,9 +143,80 @@
     -fx-background-color: #00fbff;
 }
 
-
-#play{
-    -fx-background-image: url("../images/play.png");
+#back{
+    -fx-background-image: url("../images/back.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-font: "";
 }
 
+#confirm{
+    -fx-background-image: url("../images/Confirm.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
+#create{
+    -fx-background-image: url("../images/Create.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#ff{
+    -fx-background-image: url("../images/FF.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#help{
+    -fx-background-image: url("../images/Help.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#Home{
+    -fx-background-image: url("../images/Home.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#makeAudio{
+    -fx-background-image: url("../images/MakeAudio.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#play{
+    -fx-background-image: url("../images/Play.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#preview{
+    -fx-background-image: url("../images/Preview.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#reset{
+    -fx-background-image: url("../images/reset.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#search{
+    -fx-background-image: url("../images/Search.png");
+    -fx-background-size: 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
