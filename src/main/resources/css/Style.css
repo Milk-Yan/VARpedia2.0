@@ -138,3 +138,14 @@
     -fx-pref-height: 15;
     -fx-opacity:0.5;
 }
+
+.slider .thumb {
+    -fx-background-color: #00fbff;
+}
+
+
+#play{
+    -fx-background-image: url("../images/play.png");
+}
+
+
