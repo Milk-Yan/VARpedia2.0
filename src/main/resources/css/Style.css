@@ -132,3 +132,9 @@
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
+
+.slider .track {
+    -fx-pref-width: 15;
+    -fx-pref-height: 15;
+    -fx-opacity:0.5;
+}
