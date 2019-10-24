@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Controller for displaying wikit search results
@@ -31,8 +30,6 @@ import java.util.Arrays;
  */
 public class ChooseText extends Controller {
 
-    private final ArrayList<String> _voiceSample = new ArrayList<String>(Arrays.asList("Vanilla",
-            "Chocolate", "Strawberry", "Banana", "Orange", "Apple"));
     private StringManipulator _manipulator = new StringManipulator();
     private String _term;
     private String _sourceString;
@@ -183,10 +180,13 @@ public class ChooseText extends Controller {
             if (manipulator.countWords(lineOfVoices) > 0) {
                 String[] voicesOrder = lineOfVoices.split(" ");
 
-                for (int i = 0; i < voicesOrder.length; i++) {
-                    _voices.add(voicesOrder[i]);
-                    // add names of voices
-                    _voiceName.add(_voiceSample.get(i));
+                for (String voice:voicesOrder) {
+                    _voices.add(voice);
+                    if (isRegisteredVoice(voice)) {
+                        _voiceName.add(VoiceName.getName(voice));
+                    } else {
+                        _voiceName.add(voice);
+                    }
                 }
 
             } else {
@@ -200,6 +200,15 @@ public class ChooseText extends Controller {
                     "this voice.");
         }
 
+    }
+
+    private boolean isRegisteredVoice(String voice) {
+        for (VoiceName voiceName:VoiceName.values()) {
+            if (voice.equals((voiceName.getSystemName()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -287,6 +296,19 @@ public class ChooseText extends Controller {
 
         public String getSystemName() {
             return _systemName;
+        }
+
+        public String getName() {
+            return this.toString();
+        }
+
+        public static String getName(String voice) {
+            for (VoiceName voiceName:values()) {
+                if (voice.equals(voiceName.getSystemName())) {
+                    return voiceName.name();
+                }
+            }
+            return null;
         }
     }
 
