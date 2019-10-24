@@ -30,6 +30,7 @@ public class CreateAudioTask extends Task<Void> {
     private File _audioFolder;
     private Process _processPractice;
     private Process _processQuiz;
+    private boolean _isValid = true;
 
     public CreateAudioTask(File audioFolder, String term, String name, String text, Main mainApp,
                            String voice, boolean isPreview) {
@@ -51,7 +52,7 @@ public class CreateAudioTask extends Task<Void> {
         // make practice audio
         _processPractice = makeAudioProcess(_practiceText, _audioFolder);
 
-        if (!_isPreview) {
+        if (!_isPreview && _isValid) {
             // make the quiz text from the practice text, removing the key word.
             _quizText = new StringManipulator().getQuizText(_practiceText, _term);
 
@@ -83,18 +84,19 @@ public class CreateAudioTask extends Task<Void> {
                 process.waitFor();
 
             } catch (InterruptedException e) {
-                // don't do anything
+                cancel();
             }
 
             if (new StringManipulator().inputStreamToString(process.getErrorStream()).contains(
                     "SIOD ERROR")) {
                 cancel();
+                // run the cancelled method immediately in this method before continuing
+                cancelled();
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "The voice " +
                             "synthesiser is unable to read this input.",
                             "Do not include non-English words.");
                 });
-
             }
 
             if (process.exitValue() != 0) {
@@ -111,6 +113,7 @@ public class CreateAudioTask extends Task<Void> {
     @Override
     public void cancelled() {
         super.cancelled();
+        _isValid = false;
         destroyProcess();
         deleteEmptyFolder();
 
@@ -120,10 +123,10 @@ public class CreateAudioTask extends Task<Void> {
      * destroys the current process.
      */
     public void destroyProcess() {
-        if (_processPractice != null && _processPractice.isAlive()) {
+        if (_processPractice != null) {
             _processPractice.destroy();
         }
-        if (_processQuiz != null && _processQuiz.isAlive()) {
+        if (_processQuiz != null) {
             _processQuiz.destroy();
         }
     }

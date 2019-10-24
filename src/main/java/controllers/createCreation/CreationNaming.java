@@ -49,6 +49,15 @@ public class CreationNaming extends Controller {
         _audioList = audioList;
         _imageList = imageList;
         _musicSelection = musicSelection;
+
+        setUpDefaultName();
+    }
+
+    private void setUpDefaultName() {
+        File termFolder =
+                new File(Folders.CREATION_PRACTICE_FOLDER.getPath() + File.separator + _term);
+        int fileNumber = termFolder.listFiles().length+1;
+        _nameInput.setText(_term + fileNumber);
     }
 
     /**

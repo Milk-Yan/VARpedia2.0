@@ -45,6 +45,15 @@ public class AudioNaming extends Controller {
         _term = term;
         _chosenText = chosenText;
         _voice = voice;
+
+        setUpDefaultName();
+    }
+
+    private void setUpDefaultName() {
+        File termFolder =
+                new File(Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term);
+        int fileNumber = termFolder.listFiles().length+1;
+        _nameInput.setText(_term + fileNumber);
     }
 
     /**
