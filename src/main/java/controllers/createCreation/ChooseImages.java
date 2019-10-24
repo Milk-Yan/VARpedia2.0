@@ -25,32 +25,26 @@ import java.util.Objects;
  * Controller for ChooseImages.fxml
  * Allows user to select images to be used
  *
- * @author wcho400
+ * @author Milk, OverCry
  */
 public class ChooseImages extends Controller {
 
     private String _term;
+    private String _musicSelection;
     private ArrayList<String> _audioList;
 
-    private ArrayList<String> _imageCandidatesList = new ArrayList<String>();
-    private ArrayList<String> _imageChosenList = new ArrayList<String>();
+    private ArrayList<String> _imageCandidatesList = new ArrayList<>();
+    private ArrayList<String> _imageChosenList = new ArrayList<>();
 
-    private String _musicSelection;
-
-    @FXML
-    private Text _message;
-
-    @FXML
-    private ListView<HBox> _imageCandidates;
-
-    @FXML
-    private ListView<HBox> _imageChosen;
+    @FXML private Text _message;
+    @FXML private ListView<HBox> _imageCandidates;
+    @FXML private ListView<HBox> _imageChosen;
 
     /**
-     * Passes through list of desired audios, as well as teh search term
+     * Passes through list of selected audio, as well as the search term
      *
-     * @param term
-     * @param audioList
+     * @param term The Wikipedia search term.
+     * @param audioList The list of selected audio.
      */
     public void setUp(String term, ArrayList<String> audioList, String musicSelection) {
         _term = term;
@@ -67,18 +61,10 @@ public class ChooseImages extends Controller {
             _imageCandidatesList.add(imageFile.getName());
 
             Image image = new Image(imageFile.toURI().toString());
-            ImageView imageView = new ImageView(image);
+            ImageView imageView = setUpImageView(image);
 
-            imageView.setFitHeight(200);
-            imageView.setFitWidth(180);
-            imageView.setPreserveRatio(true);
-
-            Label indexLabel = new Label(Integer.toString(index));
-            indexLabel.setPrefWidth(20);
-
-            HBox hbox = new HBox(indexLabel, imageView);
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            _imageCandidates.getItems().add(hbox);
+            Label indexLabel = setUpIndexLabel(index);
+            setUpHBox(indexLabel, imageView);
 
             index++;
         }
@@ -89,11 +75,46 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * button to passes desired parameters to a naming scene
-     * checks if the images are valid
+     * Sets up the image view for images.
+     * @param image Image to put in ImageView
+     * @return ImageView with image put in and some other customisable characteristics.
      */
-    @FXML
-    private void create() {
+    private ImageView setUpImageView(Image image) {
+        ImageView imageView = new ImageView(image);
+
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(180);
+        imageView.setPreserveRatio(true);
+
+        return imageView;
+    }
+
+    /**
+     * Sets up the index label for images.
+     * @param index Index number to put in index label.
+     * @return IndexLabel with index put in and some other customisable characteristics.
+     */
+    private Label setUpIndexLabel(int index) {
+        Label indexLabel = new Label(Integer.toString(index));
+        indexLabel.setPrefWidth(20);
+        return indexLabel;
+    }
+
+    /**
+     * Sets up the hbox for images.
+     * @param indexLabel index label of image
+     * @param imageView ImageView of image.
+     */
+    private void setUpHBox(Label indexLabel, ImageView imageView) {
+        HBox hbox = new HBox(indexLabel, imageView);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        _imageCandidates.getItems().add(hbox);
+    }
+
+    /**
+     * Functionlity of create button to passes desired parameters to a naming scene,
+     */
+    @FXML private void create() {
 
         // check if length of video will be long enough for images to be displayed
         double lengthOfAudio = 0;
@@ -108,12 +129,10 @@ public class ChooseImages extends Controller {
                 long frames = audioInputStream.getFrameLength();
                 lengthOfAudio += (frames + 0.0) / format.getFrameRate();
             } catch (UnsupportedAudioFileException | IOException e) {
-                // Don't do anything here for now.
+                new AlertFactory(AlertType.ERROR, "Error", null, "Could not load the audio " +
+                        "file. Please try again with another audio file.");
             }
-
-
         }
-
 
         if (_imageChosenList.isEmpty()) {
             new AlertFactory(AlertType.ERROR, "Error", "No images selected",
@@ -127,11 +146,9 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * returns to main menu
-     * asks for confirmation before action
+     * Asks for confirmation before returning to the main menu.
      */
-    @FXML
-    private void mainMenuPress() {
+    @FXML private void mainMenuPress() {
         Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Warning", "Return to Main Menu?",
                 "Any unfinished progress will be lost").getAlert();
         if (alert.getResult() == ButtonType.OK) {
@@ -140,24 +157,29 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * method to move a desired image to the list of desired images
+     * Move a desired image to the list of desired images
      */
-    @FXML
-    private void candidateToChosen() {
+    @FXML private void candidateToChosen() {
 
         listToList(_imageCandidatesList, _imageCandidates, _imageChosenList, _imageChosen);
 
     }
 
     /**
-     * method to move a undesired image back to a list of unselected images
+     * Move a undesired image back to a list of unselected images
      */
-    @FXML
-    private void chosenToCandidate() {
+    @FXML private void chosenToCandidate() {
 
         listToList(_imageChosenList, _imageChosen, _imageCandidatesList, _imageCandidates);
     }
 
+    /**
+     * Moves the selected item from one list to the end of another list.
+     * @param fromList The list that the item is from.
+     * @param fromListView The ListView that the item is displayed in.
+     * @param toList The list that the item is going to.
+     * @param toListView The ListView that the item will be displayed in.
+     */
     private void listToList(ArrayList<String> fromList, ListView<HBox> fromListView,
                             ArrayList<String> toList, ListView<HBox> toListView) {
         int index = fromListView.getSelectionModel().getSelectedIndex();
@@ -177,11 +199,9 @@ public class ChooseImages extends Controller {
 
 
     /**
-     * method to shift an image up the list
-     * only if it is not at the top
+     * Shift an image up the list, only if it is not at the top
      */
-    @FXML
-    private void moveChosenUp() {
+    @FXML private void moveChosenUp() {
 
         int currentIndex = _imageChosen.getSelectionModel().getSelectedIndices().get(0);
 
@@ -193,11 +213,9 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * method to shift an image down the list
-     * only if it is not at the bottom
+     * Shift an image down the list, only if it is not at the bottom
      */
-    @FXML
-    private void moveChosenDown() {
+    @FXML private void moveChosenDown() {
 
         int currentIndex = _imageChosen.getSelectionModel().getSelectedIndex();
 
@@ -207,9 +225,15 @@ public class ChooseImages extends Controller {
             reorderList(currentIndex, newIndex, _imageChosenList, _imageChosen);
         }
 
-
     }
 
+    /**
+     * Reorder an item in the selected list to a new index.
+     * @param currentIndex The index the item is currently at.
+     * @param newIndex The index the item will be in.
+     * @param list The list the item is from.
+     * @param listView The ListView the item is displayed in.
+     */
     private void reorderList(int currentIndex, int newIndex,
                              ArrayList<String> list, ListView<HBox> listView) {
         HBox item = listView.getSelectionModel().getSelectedItem();
@@ -227,10 +251,10 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * method to move a selected image to the other ListView
+     * Move a selected image to the end of the other ListView
      *
-     * @param candidate
-     * @param imageList
+     * @param candidate The item to move.
+     * @param imageList The ListView to move the item to.
      */
     private void addToEndOfList(HBox candidate, ListView<HBox> imageList) {
         // remove numbering and put new numbering in
@@ -243,7 +267,7 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * method to sort the images in each TaskView
+     * Sort the images in each TaskView
      */
     private void sortLists() {
 
@@ -251,6 +275,11 @@ public class ChooseImages extends Controller {
         sort(_imageChosen);
     }
 
+    /**
+     * Sorts the images according to their position so that their new label is in accordance with
+     * their current position. I.E. the first image will have the index label 1.
+     * @param list The ListView to sort.
+     */
     private void sort(ListView<HBox> list) {
         int index = 1;
         for (HBox item : list.getItems()) {

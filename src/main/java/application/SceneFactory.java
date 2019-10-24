@@ -9,15 +9,19 @@ import main.java.controllers.Controller;
 import java.io.IOException;
 
 /**
- * Loads the scenes with FXMLLoader.
+ * Initialises JavaFX scenes for a specified scene. Loads the scenes with FXMLLoader.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class SceneFactory {
 
     private Scene _scene;
     private Controller _controller;
 
+    /**
+     * @param sceneType Type of JavaFX scene to create. Will contain the path of the scene.
+     * @param mainApp The app required to change scenes.
+     */
     public SceneFactory(SceneType sceneType, Main mainApp) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource(sceneType.getAddress()));
@@ -26,7 +30,7 @@ public class SceneFactory {
 
             Parent layout = loader.load();
 
-            // give the controller the main app
+            // give the controller the main app so it can switch between scenes in the application.
             _controller = loader.getController();
             _controller.setMainApplication(mainApp);
 
@@ -34,22 +38,21 @@ public class SceneFactory {
 
         } catch (IOException e) {
             new AlertFactory(AlertType.ERROR, "IOException", "Oops", "Something wrong happened " +
-                    "when making the scene. Sorry :(");
-            e.printStackTrace();
+                    "when making the scene. Sorry :( Going back to the main menu now.");
             mainApp.displayMainMenuScene();
         }
 
     }
 
     /**
-     * @return Scene loaded.
+     * @return JavaFX scene loaded from FXMLLoader.
      */
     public Scene getScene() {
         return _scene;
     }
 
     /**
-     * @return Controller of scene loaded.
+     * @return Controller of JavaFX scene loaded.
      */
     public Controller getController() {
         return _controller;

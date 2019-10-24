@@ -13,24 +13,20 @@ import main.java.tasks.SearchTermTask;
 /**
  * Controller for functionality of Create.fxml
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class TermSearch extends Controller {
 
-    @FXML
-    private TextField _termInput;
-
-    @FXML
-    private ProgressIndicator _indicator;
+    @FXML private TextField _termInput;
+    @FXML private ProgressIndicator _indicator;
 
     private SearchTermTask _task;
 
     /**
-     * search for a term in wikipedia
-     * checks if input is empty
+     * Search for a term in Wikipedia.
+     * Checks if input is empty.
      */
-    @FXML
-    private void search() {
+    @FXML private void search() {
 
         if (_termInput.getText().trim().isEmpty()) {
 
@@ -51,10 +47,12 @@ public class TermSearch extends Controller {
         }
     }
 
-    @FXML
-    private void mainMenuPress() {
+    /**
+     * Functionality of the main menu button. Cancels the current task before returning to the
+     * main menu.
+     */
+    @FXML private void mainMenuPress() {
 
-        // cancel current task before going back to main menu
         if (_task != null && !_task.isCancelled()) {
             _task.cancel();
         }
@@ -62,6 +60,10 @@ public class TermSearch extends Controller {
         mainMenu();
     }
 
+    /**
+     * If the user presses enter, it will be the same as clicking search.
+     * @param keyEvent The event triggered by a keypress
+     */
     @FXML
     private void onEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
