@@ -57,7 +57,12 @@ public class CreationNaming extends Controller {
     private void setUpDefaultName() {
         File termFolder =
                 new File(Folders.CREATION_PRACTICE_FOLDER.getPath() + File.separator + _term);
-        int fileNumber = termFolder.listFiles().length+1;
+
+        int fileNumber = 1;
+        if (termFolder.exists()) {
+            fileNumber = termFolder.listFiles().length+1;
+        }
+
         _nameInput.setText(_term + fileNumber);
     }
 
@@ -79,7 +84,7 @@ public class CreationNaming extends Controller {
             new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name can only contain " +
                     "a-A and 0-9.");
 
-        } else if (new File(Folders.CREATION_PRACTICE_FOLDER.getPath() + s + _name +
+        } else if (new File(Folders.CREATION_PRACTICE_FOLDER.getPath() + File.separator + _name +
                 ".mp4").isFile()) {
 
             // check if want to overwrite
