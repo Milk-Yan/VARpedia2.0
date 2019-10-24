@@ -244,7 +244,7 @@ public class Quiz extends Controller {
             _confirmBtn.setText("Next");
         } else {
             _confirmBtn.setText("CONFIRM");
-
+            _correctionLabel.setVisible(false);
             if (_includeMastered.isSelected()) {
                 includeMastered();
             } else {
