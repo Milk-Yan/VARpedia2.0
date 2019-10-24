@@ -17,8 +17,6 @@ import java.util.List;
  */
 public class ViewSearchTask extends Task<ObservableList<String>> {
 
-    String s = File.separator;
-
     @Override
     protected ObservableList<String> call() throws Exception {
         File folder = Folders.AUDIO_PRACTICE_FOLDER.getFile();

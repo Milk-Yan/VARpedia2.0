@@ -275,5 +275,20 @@ public class ChooseText extends Controller {
         mainMenu();
     }
 
+    private enum VoiceName {
+        ROBOTIC("kal_diphone"),
+        NZ_MALE("akl_nz_jdt_diphone");
+
+        private String _systemName;
+
+        VoiceName(String systemName) {
+            _systemName = systemName;
+        }
+
+        public String getSystemName() {
+            return _systemName;
+        }
+    }
+
 
 }

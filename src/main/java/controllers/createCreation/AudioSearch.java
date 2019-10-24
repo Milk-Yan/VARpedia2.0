@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.application.StringManipulator;
@@ -26,9 +24,6 @@ import java.util.concurrent.ExecutionException;
  * @author wcho400
  */
 public class AudioSearch extends Controller {
-
-    @FXML
-    private VBox _container;
 
     @FXML
     private ListView<String> _wikitTerm;
@@ -51,11 +46,6 @@ public class AudioSearch extends Controller {
             if (folderList.isEmpty()) {
                 _wikitTerm.setVisible(false);
                 _enterBtn.setVisible(false);
-
-                Text text = new Text("There are currently no audio available. Go back to the main" +
-                        " menu to create audio first.");
-                _container.getChildren().add(1, text);
-
 
             } else {
 
