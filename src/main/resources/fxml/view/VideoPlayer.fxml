@@ -25,7 +25,7 @@
    <children>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
             <children>
-                <Button id="pause" fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefHeight="42.0" prefWidth="114.0" text="Pause">
+                <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefHeight="42.0" prefWidth="114.0" text="Pause">
                <font>
                   <Font size="16.0" />
                </font></Button>

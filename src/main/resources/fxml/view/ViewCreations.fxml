@@ -63,7 +63,7 @@
       </TabPane>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <children>
-            <Button id="play" fx:id="_playBtn" mnemonicParsing="false" onAction="#play" prefHeight="50.0" prefWidth="300.0" text="Play">
+            <Button id="play" fx:id="_playBtn" mnemonicParsing="false" onAction="#play" prefHeight="50.0" prefWidth="300.0">
                <font>
                   <Font size="16.0" />
                </font>

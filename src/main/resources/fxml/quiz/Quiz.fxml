@@ -37,7 +37,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button id="pause" fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefWidth="100.0">
+                  <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefWidth="100.0" text="Start">
                      <font>
                         <Font size="18.0" />
                      </font>
