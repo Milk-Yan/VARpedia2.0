@@ -24,45 +24,35 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
- * Controller for displaying wikit search results
+ * Controller for ChooseText.fxml. Displays Wikipedia search results.
  *
- * @author wcho400
+ * @author Milk, OverCry
  */
 public class ChooseText extends Controller {
 
     private StringManipulator _manipulator = new StringManipulator();
     private String _term;
     private String _sourceString;
+
     //the actual name
     private ArrayList<String> _voices;
+
     //the displayed name
     private ArrayList<String> _voiceName;
 
     private MediaPlayer _audioPlayer;
 
-    @FXML
-    private Text _message;
-
-    @FXML
-    private TextArea _searchResults;
-
-    @FXML
-    private TextArea _chosenText;
-
-    @FXML
-    private Label _wordLimit;
-
-    @FXML
-    private ChoiceBox<String> _voiceSelection;
-
-    @FXML
-    private Button _previewBtn;
-
-    @FXML
-    private Button _createBtn;
+    @FXML private Text _message;
+    @FXML private TextArea _searchResults;
+    @FXML private TextArea _chosenText;
+    @FXML private Label _wordLimit;
+    @FXML private ChoiceBox<String> _voiceSelection;
+    @FXML private Button _previewBtn;
+    @FXML private Button _createBtn;
+    @FXML private Button _chooseBtn;
 
     /**
-     * Initialise the searchResults TextArea and also the number of lines displayed to user.
+     * Initialises the searchResults TextArea and also the number of lines displayed to user.
      */
     public void setUp(String term, String searchResults) {
         _term = term;
@@ -73,7 +63,7 @@ public class ChooseText extends Controller {
         _searchResults.setText(_sourceString);
         setDisable(true);
 
-        //generate list of different voices
+        // generate list of different voices
         listOfVoices();
         _voiceSelection.setItems(FXCollections.observableArrayList(_voiceName));
         _voiceSelection.getSelectionModel().selectFirst();
@@ -81,35 +71,32 @@ public class ChooseText extends Controller {
     }
 
     /**
-     * converts highlighted text from the search to be used in the audio
+     * Converts highlighted text from the search to be used in the audio.
      */
-    @FXML
-    private void searchToChosen() {
+    @FXML private void searchToChosen() {
         String highlightedText = _searchResults.getSelectedText();
 
         if (highlightedText.trim().isEmpty()) {
-            new AlertFactory(AlertType.ERROR, "Error", "No valid text selected", "Please select " +
-                    "some text.");
+            _chooseBtn.setDisable(true);
         } else {
+            _chooseBtn.setDisable(false);
             _chosenText.appendText(highlightedText);
             updateCount();
         }
     }
 
     /**
-     * passes choosen text to be made into an audio
-     * Checks if the text is valid for creation
+     * Passes chosen text to be made into an audio.
+     * Checks if the text is valid for creation.
      */
-    @FXML
-    private void create() {
+    @FXML private void create() {
 
         stopCurrentPreview();
 
         //creates the audio
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();
         // remove all special characters
-        String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z\\.A-Z]", "");
-
+        String chosenText = _chosenText.getText().replaceAll("[^0-9 a-z.A-Z]", "");
 
         // clear the chosen text so if user comes back...
         _chosenText.clear();
@@ -119,24 +106,22 @@ public class ChooseText extends Controller {
     }
 
     /**
-     * reset any edits of the wikit search results
+     * Reset any edits of the Wikipedia search results.
      */
-    @FXML
-    private void reset() {
+    @FXML private void reset() {
         _searchResults.setText(_sourceString);
     }
 
     /**
-     * plays the current chosen text using the chosen voice
+     * Plays the current chosen text using the chosen voice.
      */
-    @FXML
-    private void preview() {
+    @FXML private void preview() {
 
         stopCurrentPreview();
 
         File tempAudioFolder = Folders.TEMP_AUDIO_FOLDER.getFile();
 
-        String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z\\.A-Z]", "");
+        String chosenText = _chosenText.getText().trim().replaceAll("[^0-9 a-z.A-Z]", "");
         int index = _voiceSelection.getSelectionModel().getSelectedIndex();
 
         CreateAudioTask task = new CreateAudioTask(tempAudioFolder, _term, "previewAudio",
@@ -154,26 +139,26 @@ public class ChooseText extends Controller {
 
     }
 
+    /**
+     * Stops the current preview is there is any.
+     */
     private void stopCurrentPreview() {
         if (_audioPlayer != null && _audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             _audioPlayer.stop();
         }
     }
 
-    /**
-     * choice box of possible voices
-     *
-     * @return an ArrayList of voices
-     */
     private void listOfVoices() {
-        _voices = new ArrayList<String>();
-        _voiceName = new ArrayList<String>();
+        _voices = new ArrayList<>();
+        _voiceName = new ArrayList<>();
 
-        Process source;
+        Process process;
         try {
-            source = new ProcessBuilder("bash", "-c", "echo \"(voice.list)\" | festival -i"
+            // get the list of voices from festival
+            process = new ProcessBuilder("bash", "-c", "echo \"(voice.list)\" | festival -i"
                     + " | grep \"festival> (\" | cut -d \"(\" -f2 | cut -d \")\" -f1").start();
-            InputStream stdout = source.getInputStream();
+
+            InputStream stdout = process.getInputStream();
             StringManipulator manipulator = new StringManipulator();
             String lineOfVoices = manipulator.inputStreamToString(stdout);
 
@@ -183,6 +168,7 @@ public class ChooseText extends Controller {
                 for (String voice:voicesOrder) {
                     _voices.add(voice);
                     if (isRegisteredVoice(voice)) {
+                        // if it is a registered voice, give it a nicer name
                         _voiceName.add(VoiceName.getName(voice));
                     } else {
                         _voiceName.add(voice);
@@ -194,7 +180,6 @@ public class ChooseText extends Controller {
                         " some festival voices");
             }
 
-
         } catch (IOException e) {
             new AlertFactory(AlertType.ERROR, "Error", "Cannot preview", "Could not preview with " +
                     "this voice.");
@@ -202,8 +187,15 @@ public class ChooseText extends Controller {
 
     }
 
+    /**
+     * Checks if the voice is registered.
+     * @param voice The voice to check.
+     * @return If the voice is registered.
+     */
     private boolean isRegisteredVoice(String voice) {
         for (VoiceName voiceName:VoiceName.values()) {
+            // the voice provided is in the form of its system name, so that's what we have to
+            // compare.
             if (voice.equals((voiceName.getSystemName()))) {
                 return true;
             }
@@ -212,17 +204,16 @@ public class ChooseText extends Controller {
     }
 
     /**
-     * reset chosen text to empty
+     * Reset chosen text to empty string.
      */
-    @FXML
-    private void selectReset() {
+    @FXML private void selectReset() {
         _chosenText.setText("");
         updateCount();
     }
 
     /**
-     * displays the amount of words in the chosen text section
-     * Indicates when the limit of words has been reached
+     * Displays the amount of words in the chosen text section.
+     * Indicates when the limit of words has been reached.
      */
     private void updateCount() {
         String content = _chosenText.getText().trim();
@@ -254,8 +245,6 @@ public class ChooseText extends Controller {
             _wordLimit.setText("You're Good! (" + wordCount + ")");
             setDisable(false);
         }
-
-
     }
 
     private void setDisable(boolean disable) {
@@ -268,22 +257,25 @@ public class ChooseText extends Controller {
         }
     }
     /**
-     * method to check the number of words in the chosen text
+     * Check the number of words in the chosen text
      */
-    @FXML
-    private void editCount() {
-        if (_chosenText.getText().equals(" ")) {
-            _chosenText.setText("");
-        }
+    @FXML private void editCount() {
+        _chosenText.setText(_chosenText.getText().trim());
         updateCount();
     }
 
-    @FXML
-    private void mainMenuPress() {
+    /**
+     * Functionality of the main menu button. Stops the current preview before going back to the
+     * main menu.
+     */
+    @FXML private void mainMenuPress() {
         stopCurrentPreview();
         mainMenu();
     }
 
+    /**
+     * Enum for VoiceName. Has the customised names of all registered voices.
+     */
     private enum VoiceName {
         ROBOTIC("kal_diphone"),
         NZ_MALE("akl_nz_jdt_diphone");
@@ -294,21 +286,34 @@ public class ChooseText extends Controller {
             _systemName = systemName;
         }
 
+        /**
+         * @return The system name of the voice
+         */
         public String getSystemName() {
             return _systemName;
         }
 
+        /**
+         * @return The customised name of the voice
+         */
         public String getName() {
             return this.toString();
         }
 
+        /**
+         * Gives the customised name of the voice depending on the type of voice given.
+         * @param voice The voice name given.
+         * @return The customised name of the voice.
+         */
         public static String getName(String voice) {
             for (VoiceName voiceName:values()) {
                 if (voice.equals(voiceName.getSystemName())) {
                     return voiceName.name();
                 }
             }
-            return null;
+
+            // if there is no customised voice, just return the system voice.
+            return voice;
         }
     }
 

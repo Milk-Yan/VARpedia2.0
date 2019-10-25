@@ -81,7 +81,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <CheckBox fx:id="_includeMastered" mnemonicParsing="false" onAction="#includeMastered" text="Include Mastered" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <CheckBox fx:id="_includeMastered" mnemonicParsing="false" onAction="#displayIncludeMastered" text="Include Mastered" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="16.0" />
                </font>

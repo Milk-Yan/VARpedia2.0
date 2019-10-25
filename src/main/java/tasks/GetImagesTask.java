@@ -6,6 +6,8 @@ import com.flickr4java.flickr.REST;
 import com.flickr4java.flickr.photos.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
+import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.application.Main;
 import main.java.application.StringManipulator;
@@ -14,16 +16,24 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 
+/**
+ * Gets the images for the Wikipedia term on the Flickr API.
+ */
 public class GetImagesTask extends Task<Void> {
 
     private String _term;
-    private File _imageFolder;
     private Main _mainApp;
     private ArrayList<String> _audioList;
     private String _musicSelection;
 
+    /**
+     * Gets images from the FlickrAPI.
+     * @param term The Wikipedia term to search.
+     * @param mainApp The main of the application, used for switching between scenes.
+     * @param audioList The list of audio to include in the finished product.
+     * @param musicSelection The music selected to include in the finished product.
+     */
     public GetImagesTask(String term, Main mainApp, ArrayList<String> audioList,
                          String musicSelection) {
         _term = term;
@@ -32,14 +42,18 @@ public class GetImagesTask extends Task<Void> {
         _musicSelection = musicSelection;
     }
 
+    /**
+     * Invoked when the Task is executed. Performs the background thread logic to get the images
+     * from the Flickr API. Credits to Nasser and Catherine for most of this code.
+     */
     @Override
-    protected Void call() throws Exception {
-        String s = File.separator;
-        _imageFolder =
-                new File(Folders.TEMP_IMAGES_FOLDER.getPath() + s + _term);
-        _imageFolder.mkdirs();
+    protected Void call() {
+
+        File imageFolder = new File(Folders.TEMP_IMAGES_FOLDER.getPath() + File.separator + _term);
+        imageFolder.mkdirs();
 
         try {
+            // get the api key from text files
             String apiKey = getAPIKey("apiKey");
             String sharedSecret = getAPIKey("sharedSecret");
 
@@ -66,7 +80,7 @@ public class GetImagesTask extends Task<Void> {
                     String filename =
                             query.trim().replace(' ', '-') + "-" + System.currentTimeMillis() +
                                     "-" + photo.getId() + ".jpg";
-                    File outputFile = new File(_imageFolder, filename);
+                    File outputFile = new File(imageFolder, filename);
                     ImageIO.write(image, "jpg", outputFile);
                 } catch (FlickrException fe) {
                     System.err.println("Ignoring image " + photo.getId() + ": " + fe.getMessage());
@@ -78,21 +92,25 @@ public class GetImagesTask extends Task<Void> {
         return null;
     }
 
+    /**
+     * This method is called whenever the Task transforms to the cancelled state. It tells the
+     * user and goes back to the main menu.
+     */
     @Override
     public void cancelled() {
         super.cancelled();
 
-        // delete previously made folder
-        if (_imageFolder != null && _imageFolder.exists() && Objects.requireNonNull(
-                _imageFolder.listFiles()).length == 0) {
-            _imageFolder.delete();
-        }
-
         Platform.runLater(() -> {
+            new AlertFactory(Alert.AlertType.ERROR, "Error", "Could not get Flickr images",
+                    "Check your internet connection or try again later.");
             _mainApp.displayMainMenuScene();
         });
     }
 
+    /**
+     * This method is called when the Task transforms to the succeeded state. It switches scenes
+     * to allow the user to select the images they want.
+     */
     @Override
     public void succeeded() {
         Platform.runLater(() -> {
@@ -100,14 +118,17 @@ public class GetImagesTask extends Task<Void> {
         });
     }
 
-    public String getAPIKey(String keyType) {
+    /**
+     * Get the API key from the text file.
+     * @param keyType The type of key to look for.
+     * @return The key string.
+     */
+    private String getAPIKey(String keyType) {
         String config = System.getProperty("user.dir")
                 + System.getProperty("file.separator") + "flickr-api-keys.txt";
         File keyFile = new File(config);
 
-        String key = new StringManipulator().readFromFile(keyFile, keyType);
-
-        return key;
+        return new StringManipulator().readFromFile(keyFile, keyType);
     }
 
 }

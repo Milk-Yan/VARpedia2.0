@@ -17,14 +17,13 @@ import java.util.Objects;
 /**
  * Creates the audio for quiz and practice.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class CreateAudioTask extends Task<Void> {
     private String _voice;
     private String _name;
     private String _term;
     private String _practiceText;
-    private String _quizText;
     private Main _mainApp;
     private boolean _isPreview;
     private File _audioFolder;
@@ -32,6 +31,16 @@ public class CreateAudioTask extends Task<Void> {
     private Process _processQuiz;
     private boolean _isValid = true;
 
+    /**
+     * Create an audio using the BASH Festival voice synthesiser.
+     * @param audioFolder The folder the audio will be in.
+     * @param term The Wikipedia term of the audio.
+     * @param name The name of the audio.
+     * @param text The text to synthesis in the audio.
+     * @param mainApp The main of the application. Used to switch scenes.
+     * @param voice The voice to synthesise the audio with.
+     * @param isPreview If the audio is a preview (temporary) or a creation (permanent).
+     */
     public CreateAudioTask(File audioFolder, String term, String name, String text, Main mainApp,
                            String voice, boolean isPreview) {
         _term = term;
@@ -44,6 +53,9 @@ public class CreateAudioTask extends Task<Void> {
 
     }
 
+    /**
+     * Invoked when the Task is executed. Performs the background thread logic to create the audio.
+     */
     @Override
     protected Void call() {
 
@@ -54,19 +66,25 @@ public class CreateAudioTask extends Task<Void> {
 
         if (!_isPreview && _isValid) {
             // make the quiz text from the practice text, removing the key word.
-            _quizText = new StringManipulator().getQuizText(_practiceText, _term);
+            String quizText = new StringManipulator().getQuizText(_practiceText, _term);
 
             // make quiz audio
             File testFolder =
                     new File(Folders.AUDIO_TEST_FOLDER.getPath() + File.separator + _term);
             testFolder.mkdirs();
 
-            _processQuiz = makeAudioProcess(_quizText, testFolder);
+            _processQuiz = makeAudioProcess(quizText, testFolder);
         }
 
         return null;
     }
 
+    /**
+     * Makes the audio process to create the audio.
+     * @param text The text to synthesise.
+     * @param folder The folder to save the audio to.
+     * @return The process made.
+     */
     private Process makeAudioProcess(String text, File folder) {
         Process process = null;
         try {
@@ -87,6 +105,7 @@ public class CreateAudioTask extends Task<Void> {
                 cancel();
             }
 
+            // if the current voice is unable to synthesise this text.
             if (new StringManipulator().inputStreamToString(process.getErrorStream()).contains(
                     "SIOD ERROR")) {
                 cancel();
@@ -95,7 +114,7 @@ public class CreateAudioTask extends Task<Void> {
                 Platform.runLater(() -> {
                     new AlertFactory(AlertType.ERROR, "Error", "The voice " +
                             "synthesiser is unable to read this input.",
-                            "Do not include non-English words.");
+                            "Change voices, or do not include non-English words.");
                 });
             }
 
@@ -110,6 +129,10 @@ public class CreateAudioTask extends Task<Void> {
         return process;
     }
 
+    /**
+     * This method is called whenever the Task transforms to the cancelled state. It destroys all
+     * processes and deletes empty folders before finishing.
+     */
     @Override
     public void cancelled() {
         super.cancelled();
@@ -120,7 +143,7 @@ public class CreateAudioTask extends Task<Void> {
     }
 
     /**
-     * destroys the current process.
+     * Destroys the current process.
      */
     public void destroyProcess() {
         if (_processPractice != null) {
@@ -132,6 +155,10 @@ public class CreateAudioTask extends Task<Void> {
     }
 
 
+    /**
+     * This method is called when the Task transforms to the succeeded state. It deletes empty
+     * folders if there are any, and asks the user if they would like to create any more audio.
+     */
     @Override
     public void succeeded() {
         deleteEmptyFolder();
@@ -141,20 +168,18 @@ public class CreateAudioTask extends Task<Void> {
                 Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Next",
                         "Would you like to make another audio?",
                         "Press 'OK'. Otherwise, press 'Cancel' to return to the main menu").getAlert();
-
                 if (alert.getResult() == ButtonType.OK) {
-                    //go to preview scene again
-                    //NOT DONE YET
-                    _mainApp.setAudioScene();
+                    _mainApp.displayPreviousAudioScene();
                 } else {
                     _mainApp.displayMainMenuScene();
                 }
             });
         }
-
-
     }
 
+    /**
+     * Deletes empty folders that may be created in the process.
+     */
     private void deleteEmptyFolder() {
         if (_audioFolder != null && _audioFolder.exists() && Objects.requireNonNull(
                 _audioFolder.listFiles()).length == 0) {

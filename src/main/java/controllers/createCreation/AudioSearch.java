@@ -12,32 +12,29 @@ import main.java.application.AlertFactory;
 import main.java.application.Folders;
 import main.java.application.StringManipulator;
 import main.java.controllers.Controller;
-import main.java.tasks.ViewSearchTask;
+import main.java.tasks.ViewAudioTermsTask;
 
 import java.io.File;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Controller for AudioSearch
+ * Controller for AudioSearch. Allows the user to search for existing audio creations.
  *
- * @author wcho400
+ * @author Milk, OverCry
  */
 public class AudioSearch extends Controller {
 
-    @FXML
-    private ListView<String> _wikitTerm;
-
-    @FXML
-    private Button _enterBtn;
+    @FXML private ListView<String> _wikitTerm;
+    @FXML private Button _enterBtn;
 
     /**
-     * checks if any audio has been made and display possible wikit terms
+     * Checks if any audio has been made and display possible Wikipedia terms
      * else return to main menu
      */
     public void initialize() {
 
-        ViewSearchTask searchTask = new ViewSearchTask();
+        ViewAudioTermsTask searchTask = new ViewAudioTermsTask();
         new Thread(searchTask).start();
 
         try {
@@ -62,14 +59,12 @@ public class AudioSearch extends Controller {
             });
         }
 
-        // list out files generated and add into ListView
     }
 
     /**
-     * checks if audio files exists and pass the list of audio into the new scene
+     * Checks if audio files exists and passes the list of audio into the new scene
      */
-    @FXML
-    private void enter() {
+    @FXML private void enter() {
 
         //assume all made directors have SOMETHING in it
         String term = _wikitTerm.getSelectionModel().getSelectedItem();
@@ -86,10 +81,8 @@ public class AudioSearch extends Controller {
                 _mainApp.displayCreateCreationChooseAudioScene(term);
 
             } else {
-
                 new AlertFactory(AlertType.ERROR, "Error", "Audio files do not exist.",
                         "You need to create audio files for this wikit term first.");
-
             }
         } else {
             new AlertFactory(AlertType.ERROR, "Error", "Audio wikit not selected.",
@@ -97,8 +90,7 @@ public class AudioSearch extends Controller {
         }
     }
 
-    @FXML
-    private void onEnter(KeyEvent keyEvent) {
+    @FXML private void onEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             enter();
         }

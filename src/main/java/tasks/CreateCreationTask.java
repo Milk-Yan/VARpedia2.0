@@ -15,9 +15,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Creates the video creation for quiz and practice.
+ *
+ * @author Milk, OverCry
+ */
 public class CreateCreationTask extends Task<Void> {
 
     private String _name;
@@ -30,6 +36,15 @@ public class CreateCreationTask extends Task<Void> {
     private ArrayList<Process> _listOfProcesses = new ArrayList<>();
     private ArrayList<File> _listOfOutputFolders = new ArrayList<>();
 
+    /**
+     * Creates a video creation using the BASH FFMPEG function.
+     * @param name The name of the creation.
+     * @param term The Wikipedia term the creation is of.
+     * @param audioList The list of audio to include in the creation.
+     * @param imageList The list of images to include in the creation.
+     * @param musicSelection The music selected for the creation.
+     * @param mainApp The main of the application, used for switching between scenes.
+     */
     public CreateCreationTask(String name, String term, ArrayList<String> audioList,
                               ArrayList<String> imageList, String musicSelection, Main mainApp) {
         _name = name;
@@ -44,8 +59,12 @@ public class CreateCreationTask extends Task<Void> {
         _listOfOutputFolders.add(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getFile());
     }
 
+    /**
+     * Invoked when the Task is executed. Performs the background thread logic to create the
+     * video creation.
+     */
     @Override
-    protected Void call() throws Exception {
+    protected Void call() {
 
         // create audio for practice
         String audioInputPracticeFolder =
@@ -74,7 +93,6 @@ public class CreateCreationTask extends Task<Void> {
                 Folders.TEMP_VIDEO_TEST_FOLDER.getPath() + File.separator + _term;
         imageMerge(imageInputTestFolder, videoOutputTestFolder, audioOutputTestFolder, true);
 
-
         // merge overall for practice
         String creationOutputPracticeFolder =
                 Folders.CREATION_PRACTICE_FOLDER.getPath() + File.separator + _term;
@@ -89,6 +107,11 @@ public class CreateCreationTask extends Task<Void> {
         return null;
     }
 
+    /**
+     * Merge the audio in the audio list.
+     * @param audioInputFolder The folder the list of audio is in.
+     * @param audioOutputFolder The folder to save the output audio.
+     */
     private void audioMerge(String audioInputFolder, String audioOutputFolder) {
 
         File tempFolder =
@@ -133,10 +156,15 @@ public class CreateCreationTask extends Task<Void> {
                 _mainApp.displayMainMenuScene();
             });
         }
-
-
     }
 
+    /**
+     * Merge the images in the image list.
+     * @param imageInputFolder The folder the images are from.
+     * @param videoOutputFolder The folder to output the slideshow video from the merged images.
+     * @param audioOutputFolder The folder the audio output has been stored.
+     * @param isTest If creating a test.
+     */
     private void imageMerge(String imageInputFolder, String videoOutputFolder,
                             String audioOutputFolder, boolean isTest) {
 
@@ -222,6 +250,12 @@ public class CreateCreationTask extends Task<Void> {
         }
     }
 
+    /**
+     * Merge the audio and the slideshow video to make the final creation.
+     * @param audioInputFolder The folder that contains the merged audio.
+     * @param videoInputFolder The folder that contains the slideshow video.
+     * @param creationOutputFolder The folder to store the output creation.
+     */
     private void mergeOverall(String audioInputFolder, String videoInputFolder,
                               String creationOutputFolder) {
 
@@ -231,6 +265,7 @@ public class CreateCreationTask extends Task<Void> {
         try {
             Process mergeOverallProcess;
             if (_musicSelection == null) {
+                // if music is not selected
                 mergeOverallProcess = new ProcessBuilder("bash", "-c",
                         // get video
                         "ffmpeg -i " + videoInputFolder + File.separator + _name + ".mp4 " +
@@ -241,6 +276,7 @@ public class CreateCreationTask extends Task<Void> {
                                 ".mp4"
                 ).start();
             } else {
+                // if music is selected
                 String bgm =
                         (Folders.MUSIC_FOLDER.getPath() + File.separator + _musicSelection);
                 mergeOverallProcess = new ProcessBuilder("bash", "-c",
@@ -258,14 +294,12 @@ public class CreateCreationTask extends Task<Void> {
 
             _listOfProcesses.add(mergeOverallProcess);
 
-
             try {
                 mergeOverallProcess.waitFor();
 
             } catch (InterruptedException e) {
                 cancel();
             }
-
 
             if (mergeOverallProcess.exitValue() != 0) {
                 cancel();
@@ -274,6 +308,7 @@ public class CreateCreationTask extends Task<Void> {
                             "image did not merge properly");
                     _mainApp.displayMainMenuScene();
                 });
+
             } else {
                 // create a score file for the term if it doesn't exist already
                 File scoreNotMastered =
@@ -283,6 +318,7 @@ public class CreateCreationTask extends Task<Void> {
                         new File(Folders.CREATION_SCORE_MASTERED_FOLDER.getPath() + File.separator +
                                 _term + ".txt");
                 if (!scoreNotMastered.exists() && !scoreMastered.exists()) {
+                    // create a score file for the term if the term is new.
                     createNewScoreFile(scoreNotMastered);
                 }
             }
@@ -295,15 +331,16 @@ public class CreateCreationTask extends Task<Void> {
                 _mainApp.displayMainMenuScene();
             });
         }
-
-
     }
 
+    /**
+     * Create a new score file for the term if the term is new.
+     * @param newFile The file to store the new score.
+     */
     private void createNewScoreFile(File newFile) {
-        List<String> zero = Arrays.asList("0");
+        List<String> zero = Collections.singletonList("0");
         try {
             new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath()).mkdirs();
-
             newFile.createNewFile();
             Files.write(Paths.get(newFile.getPath()), zero, StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -311,6 +348,10 @@ public class CreateCreationTask extends Task<Void> {
         }
     }
 
+    /**
+     * This method is called whenever the Task transforms to the cancelled state. It destroys all
+     * processes and deletes empty folders before finishing.
+     */
     @Override
     public void cancelled() {
         super.cancelled();
@@ -325,20 +366,21 @@ public class CreateCreationTask extends Task<Void> {
 
         // delete folder if creation didn't go properly
         for (File folder:_listOfOutputFolders) {
-            if (folder.exists() && folder.listFiles().length == 0) {
+            if (folder.exists() && Objects.requireNonNull(folder.listFiles()).length == 0) {
                 folder.delete();
             }
         }
 
     }
 
+    /**
+     * This method is called when the Task transforms to the succeeded state. It asks the user if
+     * they want to play the video immediately, or go back to the main menu.
+     */
     @Override
     public void succeeded() {
 
         Platform.runLater(() -> {
-//			new AlertFactory(AlertType.INFORMATION, "Complete", "Creation complete", "Let's go
-//			back to the main menu!");
-//			_mainApp.displayMainMenuScene();
             Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Next",
                     "Would you like to play your creation?",
                     "Press 'OK'. Otherwise, press 'Cancel'").getAlert();
