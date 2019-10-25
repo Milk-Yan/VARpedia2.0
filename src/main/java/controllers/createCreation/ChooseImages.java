@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Controller for ChooseImages.fxml
- * Allows user to select images to be used
+ * Controller for ChooseImages.fxml.
+ * Allows user to select images to be used.
  *
  * @author Milk, OverCry
  */

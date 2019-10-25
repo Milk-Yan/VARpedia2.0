@@ -24,7 +24,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
- * Controller for displaying Wikipedia search results
+ * Controller for ChooseText.fxml. Displays Wikipedia search results.
  *
  * @author Milk, OverCry
  */

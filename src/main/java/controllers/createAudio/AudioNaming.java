@@ -16,14 +16,13 @@ import main.java.tasks.CreateAudioTask;
 import java.io.File;
 
 /**
- * Controller for functionality of Naming.fxml
+ * Controller for functionality of Naming.fxml. Allows user to name the audio creation.
  *
  * @author Milk, OverCry
  */
 public class AudioNaming extends Controller {
 
     @FXML private TextField _nameInput;
-
     @FXML private ProgressIndicator _indicator;
 
     private String _name;

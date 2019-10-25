@@ -8,11 +8,12 @@ import main.java.application.Main;
 import main.java.application.StringManipulator;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
- * Searches for terms uses bash wikit on a new thread.
+ * Searches for terms using BASH wikit.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class SearchTermTask extends Task<String> {
 
@@ -21,13 +22,24 @@ public class SearchTermTask extends Task<String> {
     private boolean _isInvalid = false;
     private Main _mainApp;
 
+    /**
+     * Searches for the Wikipedia term using the BASH wikit.
+     * @param searchTerm The Wikipedia term to search.
+     * @param mainApp The main of this application, used for switching between scenes.
+     */
     public SearchTermTask(String searchTerm, Main mainApp) {
         _term = searchTerm;
         _mainApp = mainApp;
     }
 
+    /**
+     * Invoked when the Task is executed. Performs the background thread logic to get the search
+     * results on Wikipedia.
+     *
+     * @return The search results for the term on Wikipedia.
+     */
     @Override
-    protected String call() throws Exception {
+    protected String call() {
         try {
 
             StringManipulator manipulator = new StringManipulator();
@@ -67,7 +79,7 @@ public class SearchTermTask extends Task<String> {
             // run on GUI thread
             Platform.runLater(() -> {
                 new AlertFactory(AlertType.ERROR, "Error encountered", "I/O Exception",
-                        e.getStackTrace().toString());
+                        Arrays.toString(e.getStackTrace()));
                 _mainApp.displayMainMenuScene();
             });
         }
@@ -75,6 +87,12 @@ public class SearchTermTask extends Task<String> {
         return null;
     }
 
+    /**
+     * This method is called when the Task transforms to the succeeded state. It checks if wikit
+     * was able to find this term, and cancels the task if wikit was unable. If everything is
+     * successful, it switches scene to allow the user to choose the text they want to include in
+     * their audio.
+     */
     @Override
     protected void succeeded() {
 
@@ -91,6 +109,10 @@ public class SearchTermTask extends Task<String> {
 
     }
 
+    /**
+     * This method is called whenever the Task transforms to the cancelled state. It tells the
+     * user and goes back to the audio search screen.
+     */
     @Override
     protected void cancelled() {
         super.cancelled();

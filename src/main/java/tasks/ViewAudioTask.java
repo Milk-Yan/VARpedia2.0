@@ -7,49 +7,45 @@ import main.java.application.Folders;
 import java.io.File;
 import java.util.Objects;
 
+/**
+ * Gets the list of current audio creations.
+ *
+ * @author Milk, OverCry
+ */
 public class ViewAudioTask extends Task<TreeItem<String>> {
 
-    private TreeItem<String> _root;
-
+    /**
+     * Invoked when the Task is executed. Performs the background thread logic to get the list of
+     * current audio and add them as children to the root audio folder.
+     *
+     * @return The root audio.
+     */
     @Override
-    protected TreeItem<String> call() throws Exception {
+    protected TreeItem<String> call() {
         File audioFolder = Folders.AUDIO_PRACTICE_FOLDER.getFile();
 
-        _root = new TreeItem<String>("Audio");
-        _root.setExpanded(true);
+        TreeItem<String> root = new TreeItem<>("Audio");
+        root.setExpanded(true);
 
         // gets all folders in the audio folder
-        File[] audioFolders = audioFolder.listFiles((file) -> {
-            if (file.isDirectory()) {
-                return true;
-            } else {
-                return false;
-            }
-        });
-
+        File[] audioFolders = audioFolder.listFiles(File::isDirectory);
 
         for (File audioTermFolder : Objects.requireNonNull(audioFolders)) {
 
-            TreeItem<String> term = new TreeItem<String>(audioTermFolder.getName());
-            _root.getChildren().add(term);
+            TreeItem<String> term = new TreeItem<>(audioTermFolder.getName());
+            root.getChildren().add(term);
 
             // gets all .wav files in the folder
-            File[] audioFiles = audioTermFolder.listFiles((file) -> {
-                if (file.getName().contains(".wav")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+            File[] audioFiles = audioTermFolder.listFiles((file) -> file.getName().contains(".wav"));
 
             for (File audioFile : Objects.requireNonNull(audioFiles)) {
-                TreeItem<String> audio = new TreeItem<String>(audioFile.getName());
+                TreeItem<String> audio = new TreeItem<>(audioFile.getName());
                 term.getChildren().add(audio);
             }
 
         }
 
-        return _root;
+        return root;
     }
 
 

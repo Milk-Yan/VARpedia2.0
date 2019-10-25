@@ -17,10 +17,10 @@ import java.io.File;
 import java.util.*;
 
 /**
- * Controller for ChooseAudio.fxml
- * For displaying pre-existing creations
+ * Controller for ChooseAudio.fxml.
+ * Displays existing creations.
  *
- * @author wcho400
+ * @author Milk, OverCry
  */
 public class ChooseAudio extends Controller {
 

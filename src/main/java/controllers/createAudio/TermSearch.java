@@ -11,7 +11,7 @@ import main.java.controllers.Controller;
 import main.java.tasks.SearchTermTask;
 
 /**
- * Controller for functionality of Create.fxml
+ * Controller for functionality of Create.fxml. Allows the user to search for a Wikipedia term.
  *
  * @author Milk, OverCry
  */

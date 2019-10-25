@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Controller for CreationNaming.fxml
+ * Controller for CreationNaming.fxml. Allows the user to name the creation.
  *
  * @author Milk, OverCry
  */
