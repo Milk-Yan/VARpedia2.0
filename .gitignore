@@ -36,3 +36,9 @@ wiki.docx
 .preview.scm
 /bin/
 *.iml
+
+out/
+VARpedia.iml
+VARpedia2.0.userlibraries
+VARpedia2.0.eml
+src/META-INF

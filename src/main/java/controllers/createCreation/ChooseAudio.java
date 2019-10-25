@@ -103,6 +103,7 @@ public class ChooseAudio extends Controller {
             String musicName = music.getName().replace(".wav", "");
             _musicChoice.getItems().add(musicName);
         }
+        _musicChoice.getSelectionModel().selectFirst();
     }
 
     /**

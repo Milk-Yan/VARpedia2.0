@@ -38,7 +38,7 @@
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </GridPane.margin>
       </ProgressIndicator>
-        <Button fx:id="_createButton" mnemonicParsing="false" onAction="#enter" prefHeight="42.0" prefWidth="600.0" text="Enter" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Button fx:id="_createButton" mnemonicParsing="false" onAction="#enter" prefHeight="42.0" prefWidth="600.0" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <font>
                 <Font size="26.0" />
             </font>
