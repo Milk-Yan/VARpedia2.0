@@ -143,6 +143,13 @@
     -fx-background-color: #00fbff;
 }
 
+#quiz{
+    -fx-background-image: url("../images/Quiz.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
 #confirm{
     -fx-background-image: url("../images/Confirm.png");
     -fx-background-size: 50px;
