@@ -260,7 +260,6 @@ public class ChooseText extends Controller {
      * Check the number of words in the chosen text
      */
     @FXML private void editCount() {
-//        _chosenText.setText(_chosenText.getText().trim());
         removeSpacesOnly();
         updateCount();
     }
