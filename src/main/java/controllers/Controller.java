@@ -4,11 +4,10 @@ import javafx.fxml.FXML;
 import main.java.application.Main;
 
 /**
- * Controller abstract for all controller classes
- * Each controller has reference to the same wikiApplication
- * and is declared within this class
+ * Controller abstract for all controller classes.
+ * Each controller has reference to the same wikiApplication and is declared within this class.
  *
- * @author wcho400
+ * @author Milk, OverCry
  */
 public abstract class Controller {
 
@@ -26,8 +25,7 @@ public abstract class Controller {
     /**
      * Changes the scene back to the main menu and discards all edits.
      */
-    @FXML
-    protected void mainMenu() {
+    @FXML protected void mainMenu() {
         _mainApp.displayMainMenuScene();
     }
 }

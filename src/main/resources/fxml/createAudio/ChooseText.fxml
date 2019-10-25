@@ -44,13 +44,17 @@
             <Font size="20.0" />
          </font>
       </TextArea>
-          <Button mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+          <Button fx:id="_chooseBtn" mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
           <Button id="reset" minWidth="242.0" mnemonicParsing="false" onAction="#selectReset" prefHeight="50.0" prefWidth="242.0" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+
          <font>
             <Font size="16.0" />
          </font>
       </Button>
+
           <Button id="home" minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="242.0" text="Quit" GridPane.columnIndex="2" GridPane.rowIndex="4">
+
               <font>
                   <Font size="16.0" />
               </font>

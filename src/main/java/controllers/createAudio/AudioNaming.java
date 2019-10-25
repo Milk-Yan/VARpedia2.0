@@ -16,17 +16,14 @@ import main.java.tasks.CreateAudioTask;
 import java.io.File;
 
 /**
- * Controller for functionality of Naming.fxml
+ * Controller for functionality of Naming.fxml. Allows user to name the audio creation.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class AudioNaming extends Controller {
 
-    @FXML
-    private TextField _nameInput;
-
-    @FXML
-    private ProgressIndicator _indicator;
+    @FXML private TextField _nameInput;
+    @FXML private ProgressIndicator _indicator;
 
     private String _name;
     private String _term;
@@ -35,26 +32,44 @@ public class AudioNaming extends Controller {
     private CreateAudioTask _task;
 
     /**
-     * sets inputs of audio creation parameters
+     * Sets up inputs of audio creation parameters.
      *
-     * @param term
-     * @param chosenText
-     * @param voice
+     * @param term The term of the audio creation.
+     * @param chosenText The text for the audio creation to contain.
+     * @param voice The voice to synthesise.
      */
     public void setUp(String term, String chosenText, String voice) {
         _term = term;
         _chosenText = chosenText;
         _voice = voice;
+
+        setUpDefaultName();
     }
 
     /**
-     * button to submit a name for the audio
-     * checks if the name is valid or a repeat and sends an alert
+     * Sets the name to the term plus the number of current audio for the term. This is for
+     * convenience when creating the audio, if the user does not want to create the audio they
+     * could just go with the default name.
      */
-    @FXML
-    private void enter() {
+    private void setUpDefaultName() {
+        File termFolder =
+                new File(Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term);
 
-        String s = File.separator;
+        int fileNumber;
+        if (termFolder.exists()) {
+            fileNumber = termFolder.listFiles().length+1;
+        } else {
+            fileNumber = 1;
+        }
+
+        _nameInput.setText(_term + fileNumber);
+    }
+
+    /**
+     * Functionality of the enter button to submit a name for the audio.
+     * Checks if the name is valid or a repeat and sends an alert if not.
+     */
+    @FXML private void enter() {
 
         // check for correct input
         _name = _nameInput.getText().trim();
@@ -69,7 +84,7 @@ public class AudioNaming extends Controller {
                     "a-A and 0-9.");
 
         } else if (new File(
-                Folders.AUDIO_FOLDER.getPath() + s + _term + s +
+                Folders.AUDIO_FOLDER.getPath() + File.separator + _term + File.separator +
                         _name + ".wav").isFile()) {
 
             // check if want to overwrite
@@ -85,9 +100,13 @@ public class AudioNaming extends Controller {
         }
     }
 
+    /**
+     * Create the audio file.
+     */
     private void create() {
 
         _term = _term.replaceAll(" ", "-");
+
         // folder to store audio
         File audioFolder =
                 new File(Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator +  _term);
@@ -101,8 +120,11 @@ public class AudioNaming extends Controller {
         _indicator.setVisible(true);
     }
 
-    @FXML
-    private void mainMenuPress() {
+    /**
+     * Functionality of the mainMenu button. Cancels current tasks before returning to the main
+     * menu.
+     */
+    @FXML private void mainMenuPress() {
 
         // cancel current task before going back to main menu
         if (_task != null && !_task.isCancelled()) {
@@ -113,8 +135,12 @@ public class AudioNaming extends Controller {
         mainMenu();
     }
 
-    @FXML
-    private void onEnter(KeyEvent keyEvent) {
+    /**
+     * Functionality of the parent pane. If the user presses the enter key while not selecting
+     * anything else, it will be the same as clicking the enter button.
+     * @param keyEvent The event triggered on a key press.
+     */
+    @FXML private void onEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             enter();
         }

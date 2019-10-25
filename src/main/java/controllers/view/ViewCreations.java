@@ -14,42 +14,33 @@ import main.java.tasks.ViewAudioTask;
 import main.java.tasks.ViewCreationsTask;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Controller for functionality of View.fxml
+ * Controller for functionality of ViewCreations.fxml. Allows the view current audio and video
+ * creations.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class ViewCreations extends Controller {
 
     private MediaPlayer _audioPlayer;
+    private TreeItem<String> _creationsTreeRoot;
+    private TreeItem<String> _audioTreeRoot;
 
-    @FXML
-    private TabPane _tabPane;
-
-    @FXML
-    private Tab _creationTab;
-
-    @FXML
-    private Tab _audioTab;
-
-    @FXML
-    private TreeView<String> _listOfCreations;
-
-    @FXML
-    private TreeView<String> _listOfAudio;
-
-    @FXML
-    private Button _playBtn;
-
-    @FXML
-    private Button _deleteBtn;
+    @FXML private TabPane _tabPane;
+    @FXML private Tab _creationTab;
+    @FXML private Tab _audioTab;
+    @FXML private TreeView<String> _listOfCreations;
+    @FXML private TreeView<String> _listOfAudio;
+    @FXML private Button _playBtn;
+    @FXML private Button _deleteBtn;
 
     /**
-     * Creates a ListView of current creations. The search for
-     * current creations is implemented on a different thread to
-     * allow concurrency.
+     * This method is to be called before the scene is showed to users. It creates a ListView of
+     * current creations. The search for current creations is implemented on a different thread
+     * to not freeze up the GUI thread if there is a large amount of creations.
      */
     public void setUp() {
 
@@ -60,59 +51,62 @@ public class ViewCreations extends Controller {
         new Thread(viewAudioTask).start();
 
         try {
-            TreeItem<String> creationsTreeRoot = viewCreationsTask.get();
-            TreeItem<String> audioTreeRoot = viewAudioTask.get();
+            _creationsTreeRoot = viewCreationsTask.get();
+            _audioTreeRoot = viewAudioTask.get();
 
-            if (creationsTreeRoot.getChildren().isEmpty() && audioTreeRoot.getChildren().isEmpty()) {
-                _playBtn.setVisible(false);
-                _deleteBtn.setVisible(false);
-            }
-
-            if (creationsTreeRoot.getChildren().isEmpty()) {
-                // show that there are no creations available
-                _listOfCreations.setVisible(false);
-                _creationTab.setDisable(true);
-
-//                Text text = new Text("There are currently no creations available.");
-//                _creationTab.setContent(text);
-                //_container.getChildren().add(1, text);
-
-            } else {
-                _listOfCreations.setRoot(creationsTreeRoot);
-            }
-
-            if (audioTreeRoot.getChildren().isEmpty()) {
-                // show that there are no audio available
-                _listOfAudio.setVisible(false);
-
-                Text text = new Text("There are currently no audio available.");
-                _audioTab.setContent(text);
-
-            } else {
-                _listOfAudio.setRoot(audioTreeRoot);
-
-            }
-
+            disableUnnecessaryButtons();
 
         } catch (InterruptedException e) {
             // probably intended, don't do anything
         } catch (ExecutionException e) {
             Platform.runLater(() -> {
-                e.printStackTrace();
                 new AlertFactory(AlertType.ERROR, "Error", "Execution Exception", "Could not " +
                         "execute the view function");
             });
+        }
+    }
+
+    /**
+     * Disable specific buttons depending on the current number of creations.
+     */
+    private void disableUnnecessaryButtons() {
+        // if there are no creations, disable play and delete buttons
+        if (_creationsTreeRoot.getChildren().isEmpty() && _audioTreeRoot.getChildren().isEmpty()) {
+            _playBtn.setVisible(false);
+            _deleteBtn.setVisible(false);
+        }
+
+        // if there are no creations, tell the user.
+        if (_creationsTreeRoot.getChildren().isEmpty()) {
+            _listOfCreations.setVisible(false);
+
+            Text text = new Text("There are currently no creations available.");
+            _creationTab.setContent(text);
+
+        } else {
+            _listOfCreations.setRoot(_creationsTreeRoot);
+        }
+
+        // if there are no audio creations, tell the user.
+        if (_audioTreeRoot.getChildren().isEmpty()) {
+            // show that there are no audio available
+            _listOfAudio.setVisible(false);
+
+            Text text = new Text("There are currently no audio available.");
+            _audioTab.setContent(text);
+
+        } else {
+            _listOfAudio.setRoot(_audioTreeRoot);
+
         }
 
 
     }
 
     /**
-     * method to play a selected creation
-     * Allowed both audio and video to be play back
+     * Functionality of the play button. Plays a selected creation.
      */
-    @FXML
-    private void play() {
+    @FXML private void play() {
 
         stopAudioPlayer();
 
@@ -129,6 +123,11 @@ public class ViewCreations extends Controller {
         }
     }
 
+    /**
+     * Plays the selected media.
+     * @param selectedItem The selected media.
+     * @param mediaFolder The folder the item is in.
+     */
     private void playMedia(TreeItem<String> selectedItem, String mediaFolder) {
         if (selectedItem.isLeaf()) {
             String term = selectedItem.getParent().getValue();
@@ -148,10 +147,10 @@ public class ViewCreations extends Controller {
     }
 
     /**
-     * deletes a selected creation. Can be an audio, video and the entire folder
+     * Functionality of the delete button. Deletes a selected creation. Can be an audio, video and
+     * the entire folder.
      */
-    @FXML
-    private void delete() {
+    @FXML private void delete() {
         stopAudioPlayer();
 
         Tab tab = _tabPane.getSelectionModel().getSelectedItem();
@@ -167,8 +166,16 @@ public class ViewCreations extends Controller {
             deleteMedia(_listOfAudio.getSelectionModel().getSelectedItem(), audioFolder, _listOfAudio);
         }
 
+        disableUnnecessaryButtons();
+
     }
 
+    /**
+     * Deletes the selected item from the tree and the file itself.
+     * @param selectedItem The selected item.
+     * @param mediaFolder The folder containing the selected item.
+     * @param treeView The TreeView that displays the selected item.
+     */
     private void deleteMedia(TreeItem<String> selectedItem, String mediaFolder,
                              TreeView<String> treeView) {
         if (selectedItem.isLeaf()) {
@@ -190,10 +197,11 @@ public class ViewCreations extends Controller {
                         new File(mediaFolder + File.separator + "practice" + File.separator + term);
                 File termTestFolder =
                         new File(mediaFolder + File.separator + "test" + File.separator + term);
-                if (termPracticeFolder.exists() && termPracticeFolder.listFiles().length == 0) {
+                if (termPracticeFolder.exists() && Objects.requireNonNull(
+                        termPracticeFolder.listFiles()).length == 0) {
                     termPracticeFolder.delete();
                 }
-                if (termTestFolder.exists() && termTestFolder.listFiles().length == 0) {
+                if (termTestFolder.exists() && Objects.requireNonNull(termTestFolder.listFiles()).length == 0) {
                     termTestFolder.delete();
                 }
 
@@ -202,10 +210,8 @@ public class ViewCreations extends Controller {
                         parentTerm.getChildren().remove(selectedItem);
                     }
                 }
-
-
             }
-        } else if (selectedItem != null) {
+        } else {
             // selected is a folder
             String term = selectedItem.getValue();
             Alert alert = new AlertFactory(AlertType.CONFIRMATION, "Confirmation", "Deleting " +
@@ -215,11 +221,11 @@ public class ViewCreations extends Controller {
                         new File(mediaFolder + File.separator + "practice" + File.separator + term);
                 File termTestFolder =
                         new File(mediaFolder + File.separator + "test" + File.separator + term);
-                for (File media: termPracticeFolder.listFiles()) {
+                for (File media: Objects.requireNonNull(termPracticeFolder.listFiles())) {
                     media.delete();
                 }
                 termPracticeFolder.delete();
-                for (File media: termTestFolder.listFiles()) {
+                for (File media: Objects.requireNonNull(termTestFolder.listFiles())) {
                     media.delete();
                 }
                 termTestFolder.delete();
@@ -230,25 +236,23 @@ public class ViewCreations extends Controller {
     }
 
     /**
-     * Returns to the main menu
+     * Functionality of the main menu button. Stops the audio player before returning to the main
+     * menu.
      */
-    @FXML
-    private void mainMenuPress() {
+    @FXML private void mainMenuPress() {
 
         stopAudioPlayer();
-
         mainMenu();
 
     }
 
     /**
-     * stops the current audio playback
+     * Stops the current audio playback
      */
     private void stopAudioPlayer() {
         // stop current player if it is playing
         if (_audioPlayer != null) {
             _audioPlayer.stop();
-            _audioPlayer = null;
         }
     }
 

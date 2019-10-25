@@ -2,6 +2,11 @@ package main.java.application;
 
 import java.io.File;
 
+/**
+ * The Folders enum is used to specify the paths for different folders.
+ *
+ * @author Milk, OverCry
+ */
 public enum Folders {
 
     BIN_FOLDER(System.getProperty("user.dir") + File.separator + "bin"),
@@ -39,6 +44,9 @@ public enum Folders {
         return _path;
     }
 
+    /**
+     * @return The File created from the folder path of the enum.
+     */
     public File getFile() {
         return new File(this.getPath());
     }

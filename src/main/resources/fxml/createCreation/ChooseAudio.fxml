@@ -32,13 +32,17 @@
       </Button>
       <HBox alignment="CENTER" prefHeight="120.0" prefWidth="1075.0" spacing="50.0" GridPane.rowIndex="2">
          <children>
+
             <Button id="preview" fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefHeight="50.0" prefWidth="300.0" text="Listen">
+
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
             <ProgressIndicator fx:id="_indicator" visible="false" />
+
             <Button id="confirm" fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefHeight="50.0" prefWidth="300.0" text="Confirm">
+
                <font>
                   <Font size="26.0" />
                </font>

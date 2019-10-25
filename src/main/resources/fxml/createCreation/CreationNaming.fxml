@@ -34,12 +34,16 @@
          </font>
       </TextField>
       <ProgressIndicator fx:id="_indicator" prefWidth="30.0" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
       <Button id="create" fx:id="_createBtn" mnemonicParsing="false" onAction="#create" prefHeight="50.0" prefWidth="600.0" text="Create" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+
          <font>
             <Font size="26.0" />
          </font>
       </Button>
+
       <Button id="home" fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+
          <font>
             <Font size="26.0" />
          </font>

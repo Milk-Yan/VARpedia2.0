@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Main class of the Main. Extends JavaFX Application.
- * Allows user to create and manage movie creations from Wikipedia
- * entries of the user's choice. Enjoy!
+ * Main class (entry point) of the VARpedia. Extends JavaFX Application.
+ * Facilitates changing of screens for the application, set ups, and cleans up temporary files.
  *
  * @author Milk, OverCry
  */
@@ -33,12 +32,26 @@ public class Main extends Application {
     // -----------------------------INITIALISATION--------------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
+    /**
+     * Launches the main application. This is a JavaFX Application method that loads and initialises
+     * the JavaFX Application Thread. An instance of this class is then constructed on the JavaFX
+     * Application Thread.
+     *
+     * @param args The argument given by the system on startup.
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * The main entry point for this application. This method is called immediately after this class
+     * is loaded and constructed. This method is not called on the JavaFX Application Thread. Scenes
+     * and Stages cannot be constructed in this method, but other JavaFX objects can be constructed.
+     *
+     * @param primaryStage The primary stage of the application
+     */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         _primaryStage = primaryStage;
         primaryStage.setTitle("VARpedia");
@@ -49,25 +62,28 @@ public class Main extends Application {
     }
 
     /**
-     * Initialises folders if they do not already exist.
+     * Initialises the folders required for this application.
      */
     private void createFolders() {
+
+        // insert folders to create (if more need to be added) here
         Folders[] foldersToCreate = new Folders[]{Folders.CREATION_SCORE_NOT_MASTERED_FOLDER,
                 Folders.CREATION_SCORE_MASTERED_FOLDER, Folders.AUDIO_PRACTICE_FOLDER,
-                Folders.AUDIO_TEST_FOLDER, Folders.CREATION_PRACTICE_FOLDER, Folders.CREATION_TEST_FOLDER};
+                Folders.AUDIO_TEST_FOLDER, Folders.CREATION_PRACTICE_FOLDER,
+                Folders.CREATION_TEST_FOLDER};
 
-        for (Folders folderPath: foldersToCreate) {
+        for (Folders folderPath : foldersToCreate) {
             folderPath.getFile().mkdirs();
         }
 
     }
 
     // ---------------------------------------------------------------------------------------------
-    // ----------------------DISPLAY METHODS (MAIN)-------------------------------------------------
+    // -----------------------------DISPLAY METHODS-------------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Set the current scene back to the main menu
+     * Changes the primary stage to the main menu scene.
      */
     public void displayMainMenuScene() {
         // only clean the temporary files when the user goes back to the main screen, i.e. cancels
@@ -78,24 +94,20 @@ public class Main extends Application {
         update();
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // ----------------------DISPLAY METHODS (AUDIO)------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-
     /**
-     * Change the scene to search for a wikit term
+     * Changes the primary stage to search for a Wikipedia term.
      */
     public void displayCreateAudioSearchScene() {
-
         _currentScene = new SceneFactory(SceneType.CreateAudioSearch, this).getScene();
         update();
     }
 
     /**
-     * Set scene to show the displays of search results as well as editing editing scene
+     * Changes the primary stage to show the displays of search results as well as editing text
+     * scene, to choose the text to include in the audio creation.
      *
-     * @param term
-     * @param searchResults
+     * @param term          The term searched.
+     * @param searchResults The search results for the term.
      */
     public void displayCreateAudioChooseTextScene(String term, String searchResults) {
 
@@ -107,19 +119,25 @@ public class Main extends Application {
         controller.setUp(term, searchResults);
 
         _currentScene = sceneFactory.getScene();
-        //test might not work
-
         _audioWikitScene = _currentScene;
         update();
 
     }
 
     /**
-     * Set scene to allow the audio creation to be named
+     * Set scene back to original Wikipedia search display
+     */
+    public void displayPreviousAudioScene() {
+        _currentScene = _audioWikitScene;
+        update();
+    }
+
+    /**
+     * Changes the primary stage to allow the audio creation to be named.
      *
-     * @param term
-     * @param chosenText
-     * @param voice
+     * @param term       The term searched.
+     * @param chosenText The selected text to be synthesised by the audio synthesiser.
+     * @param voice      The voice to synthesise the audio.
      */
     public void displayCreateAudioNamingScene(String term, String chosenText, String voice) {
 
@@ -131,12 +149,9 @@ public class Main extends Application {
         update();
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // ----------------------DISPLAY METHODS (CREATION)---------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-
     /**
-     * Set scene to show a list of existing wikit searches
+     * Changes the primary stage to show a list of existing Wikipedia terms that have audio files
+     * created, so that they can be selected for the creation of a video creation.
      */
     public void displayCreateCreationSearchScene() {
 
@@ -146,9 +161,11 @@ public class Main extends Application {
     }
 
     /**
-     * Set scene to show all existing audio files of the wikit search
+     * Changes the primary stage to allow user to select and order the audio files that they want
+     * to include in
+     * their video creation.
      *
-     * @param term
+     * @param term The Wikipedia term searched for the creation.
      */
     public void displayCreateCreationChooseAudioScene(String term) {
 
@@ -161,11 +178,11 @@ public class Main extends Application {
     }
 
     /**
-     * Set scene to allow creation to be named
+     * Changes the primary stage to allow creation to be named.
      *
-     * @param term
-     * @param audioList
-     * @param imageList
+     * @param term      The Wikipedia term of the video creation.
+     * @param audioList The list of chosen audio for the video creation.
+     * @param imageList The list of chosen images for the video creation.
      */
     public void displayCreateCreationNamingScene(String term, ArrayList<String> audioList,
                                                  ArrayList<String> imageList,
@@ -180,10 +197,11 @@ public class Main extends Application {
     }
 
     /**
-     * Set seen to display images relevant to the search term
+     * Changes the primary stage to display 10 relevant images for the search term. Allows user to
+     * choose images and order these images.
      *
-     * @param term
-     * @param audioList
+     * @param term      The Wikipedia term for the creation.
+     * @param audioList The list of chosen audio for the creation.
      */
     public void displayCreateCreationChooseImagesScene(String term, ArrayList<String> audioList,
                                                        String musicSelection) {
@@ -196,12 +214,8 @@ public class Main extends Application {
         update();
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // ----------------------DISPLAY METHODS (VIEW)-------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-
     /**
-     * set seen to show the creations the user has created up to this point
+     * Changes the primary stage to show the creations the user has created up to this point.
      */
     public void displayViewCreationsScene() {
 
@@ -215,9 +229,9 @@ public class Main extends Application {
     }
 
     /**
-     * Creates a new stage and plays the video.
+     * Creates a new stage to play the chosen video creation.
      *
-     * @param videoFile file to play
+     * @param videoFile The video file to play.
      */
     public void playVideo(File videoFile) {
 
@@ -228,12 +242,27 @@ public class Main extends Application {
 
     }
 
+    /**
+     * Changes the primary stage
+     *
+     * @param includeMastered Whether to include the mastered terms or not in the quiz.
+     */
+    public void displayQuizScene(boolean includeMastered) {
+        SceneFactory sceneFactory = new SceneFactory(SceneType.Quiz, this);
+        Quiz controller = (Quiz) sceneFactory.getController();
+        controller.setIncludeMastered(includeMastered);
+
+        _currentScene = sceneFactory.getScene();
+        update();
+    }
+
     // ---------------------------------------------------------------------------------------------
     // -----------------------------HELPER METHODS--------------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Update the primary stage to show the current scene.
+     * Update the primary stage to show the current scene. Used whenever it is necessary to
+     * change the primary stage.
      */
     private void update() {
         _primaryStage.setScene(_currentScene);
@@ -241,7 +270,8 @@ public class Main extends Application {
     }
 
     /**
-     * clean up any temporary files created previously recursively
+     * Clean up any temporary files created previously. These files are all inside the temporary
+     * folder, so can just be deleted with bash forcefully and recursively.
      */
     private void cleanUpTempFiles() {
         File tempFolder = Folders.TEMP_FOLDER.getFile();
@@ -253,28 +283,4 @@ public class Main extends Application {
         }
     }
 
-    // ---------------------------------------------------------------------------------------------
-    // ----------------------DISPLAY QUIZ SCENES ---------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-
-    public void displayQuizScene(boolean includeMastered){
-        SceneFactory sceneFactory = new SceneFactory(SceneType.Quiz, this);
-        Quiz controller = (Quiz) sceneFactory.getController();
-        controller.setIncludeMastered(includeMastered);
-
-        _currentScene = sceneFactory.getScene();
-        update();
-    }
-
-    // ---------------------------------------------------------------------------------------------
-    // ----------------------DISPLAY PAST SCENES ---------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
-
-    /**
-     * Set scene back to original wikit search display
-     */
-    public void setAudioScene() {
-        _currentScene = _audioWikitScene;
-        update();
-    }
 }

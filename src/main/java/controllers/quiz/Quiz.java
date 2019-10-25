@@ -20,57 +20,40 @@ import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
+/**
+ * Controller for Quiz.fxml. Allows the user to play a quiz to test their knowledge.
+ *
+ * @author Milk, OverCry
+ */
 public class Quiz extends Controller {
 
-    // delegate for delegation pattern. Takes care of most of the video-playing.
+    // delegate for delegation pattern. Takes care of most of the video-playing functionality.
     private VideoPlayer _videoPlayer;
+
     private MediaPlayer _player;
 
-    @FXML
-    private Slider _volSlider;
+    @FXML private Slider _volSlider;
+    @FXML private Slider _timeSlider;
+    @FXML private Label _playTime;
+    @FXML private Label _maxTime;
+    @FXML private MediaView _videoViewer;
+    @FXML private CheckBox _includeMastered;
+    @FXML private HBox _contentContainer;
+    @FXML private Button _playPauseBtn;
+    @FXML private Button _confirmBtn;
+    @FXML private TextField _termInput;
+    @FXML private Label _correctionLabel;
+    @FXML private Label _promptLabel;
+    @FXML private Pane _buttonPane;
 
-    @FXML
-    private Slider _timeSlider;
-
-    @FXML
-    private Label _playTime;
-
-    @FXML
-    private Label _maxTime;
-
-    @FXML
-    private MediaView _videoViewer;
-
-    @FXML
-    private CheckBox _includeMastered;
-
-    @FXML
-    private HBox _contentContainer;
-
-    @FXML
-    private Button _playPauseBtn;
-
-    @FXML
-    private Button _confirmBtn;
-
-    @FXML
-    private TextField _termInput;
-
-    @FXML
-    private Label _correctionLabel;
-
-    @FXML
-    private Label _promptLabel;
-
-    @FXML
-    private Pane _buttonPane;
-
-    @FXML
-    private void initialize() {
+    /**
+     * Called immediately after the root element of the scene is processed by the FXMLLoader.
+     * Note that FXML elements may have not been initialized yet and therefore should not be
+     * called from this method.
+     */
+    @FXML private void initialize() {
         // create the score folder
         new File(Folders.CREATION_SCORE_FOLDER.getPath()).mkdirs();
 
@@ -80,44 +63,50 @@ public class Quiz extends Controller {
 
     }
 
-    public void setIncludeMastered(boolean includeMastered) {
-        if (includeMastered) {
-            includeMastered();
-        }
-    }
-
+    /**
+     * Sets the quiz to display only not mastered creations.
+     */
     private void displayNotMasteredCreation() {
+
         stopCurrentPlayer();
+        setVisibilityOfVideo(true);
+
         File notMasteredFolder = new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath());
 
-        int numberOfTerms = 0;
-        if (notMasteredFolder.listFiles() != null) {
-            numberOfTerms = notMasteredFolder.listFiles().length;
-        }
+        int numberOfTerms;
+        numberOfTerms = Objects.requireNonNull(notMasteredFolder.listFiles()).length;
 
+        // if there are no terms available, hide everything related to the video.
         if (numberOfTerms == 0) {
             setVisibilityOfVideo(false);
         } else {
-            setVisibilityOfVideo(true);
-            ArrayList<File> listOfFiles = new ArrayList<File>();
-            for (File notMasteredScoreFile: notMasteredFolder.listFiles()) {
+
+            ArrayList<File> listOfFiles = new ArrayList<>();
+
+            // create a list of the path to all not mastered creations
+            for (File notMasteredScoreFile: Objects.requireNonNull(notMasteredFolder.listFiles())) {
                 listOfFiles.add(new File(Folders.CREATION_TEST_FOLDER.getPath() + File.separator + notMasteredScoreFile.getName().replace(".txt", "")));
             }
+
             File randomCreation = getRandomCreationFile(numberOfTerms,
-                    listOfFiles.toArray(new File[listOfFiles.size()]));
+                    listOfFiles.toArray(new File[0]));
 
             _player = _videoPlayer.createPlayer(randomCreation, _playPauseBtn, _timeSlider,
                     _volSlider,
                     _playTime, _maxTime);
+
             // don't autoplay the video
             _player.setAutoPlay(false);
 
             _videoViewer.setMediaPlayer(_player);
-
             _videoPlayer.setUpSliders(_timeSlider, _volSlider, _player);
         }
     }
 
+    /**
+     * Sets the visibility of video content.
+     * @param isVisible Whether the video content should be visible.
+     */
     private void setVisibilityOfVideo(boolean isVisible) {
         _contentContainer.setVisible(isVisible);
         _promptLabel.setVisible(!isVisible);
@@ -125,47 +114,22 @@ public class Quiz extends Controller {
         _buttonPane.setVisible(isVisible);
 
     }
-    @FXML
-    private void playPause() {
-        _videoPlayer.playPauseFunctionality(_player, _playPauseBtn);
-    }
 
-    @FXML
-    private void fastForward() {
-        _videoPlayer.fastForwardFunctionality(_player);
-    }
-
-    @FXML
-    private void slowDown() {
-        _videoPlayer.slowDownFunctionality(_player);
-    }
-
-    @FXML
-    private void forward() {
-        _videoPlayer.forwardFunctionality(_player);
-    }
-
-    @FXML
-    private void backward() {
-        _videoPlayer.backwardFunctionality(_player);
-    }
-
-    @FXML
-    private void includeMastered() {
+    /**
+     * Sets the quiz to display all creations, including mastered creations.
+     */
+    @FXML private void displayIncludeMastered() {
         stopCurrentPlayer();
         setVisibilityOfVideo(true);
 
         if (_includeMastered.isSelected()) {
             // get the number of terms to test on and the files
-
             File testFolder = new File(Folders.CREATION_TEST_FOLDER.getPath());
-            File[] creations = testFolder.listFiles((file) -> {
-                if (file.isDirectory() && !file.getName().equals("score")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+
+            // exclude the score folder from the list of creations
+            File[] creations = testFolder.listFiles((file) ->
+                    file.isDirectory() && !file.getName().equals("score"));
+
             int numberOfTerms = creations.length;
             File randomCreation = getRandomCreationFile(numberOfTerms, creations);
             _player = _videoPlayer.createPlayer(randomCreation, _playPauseBtn, _timeSlider,
@@ -176,19 +140,67 @@ public class Quiz extends Controller {
 
             _videoViewer.setMediaPlayer(_player);
 
-
         } else {
             displayNotMasteredCreation();
         }
 
     }
 
+    /**
+     * Play button functionality. For more details, see
+     * {@link main.java.controllers.view.VideoPlayer#playPauseFunctionality(MediaPlayer, Button)} ()}
+     */
+    @FXML private void playPause() {
+        _videoPlayer.playPauseFunctionality(_player, _playPauseBtn);
+    }
+
+    /**
+     * Fast forward button functionality. For more details, see
+     * {@link main.java.controllers.view.VideoPlayer#forwardFunctionality(MediaPlayer)}
+     */
+    @FXML private void fastForward() {
+        _videoPlayer.fastForwardFunctionality(_player);
+    }
+
+    /**
+     * Slow down button functionality. For more details, see
+     * {@link main.java.controllers.view.VideoPlayer#slowDownFunctionality(MediaPlayer)}
+     */
+    @FXML private void slowDown() {
+        _videoPlayer.slowDownFunctionality(_player);
+    }
+
+    /**
+     * Forward button functionality. For more details, see
+     * {@link main.java.controllers.view.VideoPlayer#forwardFunctionality(MediaPlayer)}
+     */
+    @FXML private void forward() {
+        _videoPlayer.forwardFunctionality(_player);
+    }
+
+    /**
+     * Backward button functionality. For more details, see
+     * {@link main.java.controllers.view.VideoPlayer#backwardFunctionality(MediaPlayer)}
+     */
+    @FXML private void backward() {
+        _videoPlayer.backwardFunctionality(_player);
+    }
+
+    /**
+     * Stops the current player.
+     */
     private void stopCurrentPlayer() {
         if (_player != null) {
             _player.stop();
         }
     }
 
+    /**
+     * Gets a random creation file from the list of files.
+     * @param numberOfTerms Number of current terms available.
+     * @param arrayOfFiles The array of files of the term.
+     * @return The random creation file chosen.
+     */
     private File getRandomCreationFile(int numberOfTerms, File[] arrayOfFiles) {
         // choose a random term for user
         int randomTermIndex = (int)Math.round (Math.random() * numberOfTerms);
@@ -202,13 +214,7 @@ public class Quiz extends Controller {
         File randomTermFolder =
                 new File(Folders.CREATION_TEST_FOLDER.getPath() + File.separator + randomTerm);
 
-        File[] creations = randomTermFolder.listFiles((file) -> {
-            if (file.getName().contains(".mp4")) {
-                return true;
-            } else {
-                return false;
-            }
-        });
+        File[] creations = randomTermFolder.listFiles((file) -> file.getName().contains(".mp4"));
 
         int numberOfCreations = creations.length;
         int randomCreationIndex = (int) (Math.random() * numberOfCreations);
@@ -218,10 +224,13 @@ public class Quiz extends Controller {
         return randomCreation;
     }
 
-    @FXML
-    private void confirm() {
+    /**
+     * Functionality of the confirm button. Checks if the user input is correct, and updates
+     * their score accordingly.
+     */
+    @FXML private void confirm() {
 
-        if (_confirmBtn.getText().equals("CONFIRM")) {
+        if (_confirmBtn.getText().equals("Confirm")) {
             // get the name of the creation
             File currentFile = new File(_player.getMedia().getSource());
             File termFolder = new File(currentFile.getParent());
@@ -243,20 +252,22 @@ public class Quiz extends Controller {
 
             _confirmBtn.setText("Next");
         } else {
-            _confirmBtn.setText("CONFIRM");
-
+            _confirmBtn.setText("Confirm");
+            _correctionLabel.setVisible(false);
+            _termInput.clear();
             if (_includeMastered.isSelected()) {
-                includeMastered();
+                displayIncludeMastered();
             } else {
                 displayNotMasteredCreation();
             }
         }
-
-
-
-
     }
 
+    /**
+     * Updates the score for the term.
+     * @param termName The term whose score is to be updated.
+     * @param ifCorrect If the user input was correct.
+     */
     private void updateScore(String termName, boolean ifCorrect) {
 
         // check which folder the creation is in
@@ -264,13 +275,13 @@ public class Quiz extends Controller {
 
         if (ifCorrect) {
             if (isMastered) {
-                // don't need to do anything
+                // don't need to do anything, it is already mastered
             } else {
                 // update score to +1
                 File scoreFile =
                         new File(Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getPath() + File.separator + termName + ".txt");
                 try {
-                    int score = Integer.valueOf(new StringManipulator().readScoreFromFile(scoreFile));
+                    int score = Integer.parseInt(new StringManipulator().readScoreFromFile(scoreFile));
                     int newScore = score + 1;
                     if (newScore >= 5) {
                         // remove from not mastered folder
@@ -307,13 +318,15 @@ public class Quiz extends Controller {
                 updateScoreFile(score, "0");
             }
         }
-
-
-
     }
 
+    /**
+     * Updates the score in a file depending on the score given.
+     * @param newFile The file to put the score in.
+     * @param score The score to put in the file.
+     */
     private void updateScoreFile(File newFile, String score) {
-        List<String> zero = Arrays.asList(score);
+        List<String> zero = Collections.singletonList(score);
         try {
             // create new file if it does not exist
             newFile.createNewFile();
@@ -323,33 +336,40 @@ public class Quiz extends Controller {
         }
     }
 
+    /**
+     * Checks if the term is mastered by checking if it is in the mastered folder.
+     * @param termName The Wikipedia term.
+     * @return If the term is mastered.
+     */
     private boolean checkIfMastered(String termName) {
         File masteredFolder = Folders.CREATION_SCORE_MASTERED_FOLDER.getFile();
 
         if (masteredFolder.listFiles() != null) {
-            for (File notMasteredTerm:masteredFolder.listFiles()) {
+            for (File notMasteredTerm: Objects.requireNonNull(masteredFolder.listFiles())) {
                 if (notMasteredTerm.getName().replace(".txt","").equals(termName)) {
                     return true;
                 }
             }
         }
-
         return false;
     }
 
-    @FXML
-    private void clearProgress() {
+    /**
+     * Functionality of the clear progress button. Makes the scores of all creations 0 and puts
+     * them all back to the not mastered folder.
+     */
+    @FXML private void clearProgress() {
         File notMasteredFolder = Folders.CREATION_SCORE_NOT_MASTERED_FOLDER.getFile();
         File masteredFolder = Folders.CREATION_SCORE_MASTERED_FOLDER.getFile();
 
         // change all the scores in the not mastered folder to 0
-        for (File notMasteredTerm: notMasteredFolder.listFiles()) {
+        for (File notMasteredTerm: Objects.requireNonNull(notMasteredFolder.listFiles())) {
             updateScoreFile(notMasteredTerm, "0");
         }
 
         // move all terms from the mastered folder to the not mastered folder and make their
         // score to be 0
-        for (File masteredTerm: masteredFolder.listFiles()) {
+        for (File masteredTerm: Objects.requireNonNull(masteredFolder.listFiles())) {
             updateScore(masteredTerm.getName().replace(".txt", ""), false);
         }
 
@@ -357,16 +377,34 @@ public class Quiz extends Controller {
         displayNotMasteredCreation();
     }
 
-    @FXML
-    private void mainMenuPressed() {
+    /**
+     * Functionality of the main menu button. Stops the current player before returning to the
+     * main screen.
+     */
+    @FXML private void mainMenuPressed() {
         stopCurrentPlayer();
         mainMenu();
     }
 
-    @FXML
-    private void onEnter(KeyEvent keyEvent) {
+    /**
+     * When the user presses the enter key, it will be the same as clicking the confirm button.
+     * @param keyEvent The event triggered when a key is pressed.
+     */
+    @FXML private void onEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             confirm();
+        }
+    }
+
+    /**
+     * Used to define if to include the mastered creations from outside this class.
+     * @param includeMastered If the mastered creations should be included.
+     */
+    public void setIncludeMastered(boolean includeMastered) {
+        if (includeMastered) {
+            displayIncludeMastered();
+        } else {
+            displayNotMasteredCreation();
         }
     }
 }

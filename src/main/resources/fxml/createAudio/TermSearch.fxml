@@ -41,12 +41,16 @@
             <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
          </GridPane.margin>
       </ProgressIndicator>
+
         <Button id="search" fx:id="_searchBtn" minWidth="300.0" mnemonicParsing="false" onAction="#search" prefHeight="50.0" prefWidth="600.0" text="Search" GridPane.columnIndex="1" GridPane.rowIndex="2">
+
             <font>
                 <Font size="26.0" />
             </font>
         </Button>
+
         <Button id="home" fx:id="_mainMenuBtn" minWidth="300.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="3">
+
             <font>
                 <Font size="26.0" />
             </font>

@@ -9,42 +9,33 @@ import java.io.File;
 /**
  * Searches and returns the list of current creations.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 public class ViewCreationsTask extends Task<TreeItem<String>> {
 
-    private TreeItem<String> _root;
-
+    /**
+     * Invoked when the Task is executed. Performs the background thread logic to get the list of
+     * current video creations and add them as children to the root creation folder.
+     * @return The root creation.
+     */
     @Override
     protected TreeItem<String> call() {
 
         File folder =
                 Folders.CREATION_PRACTICE_FOLDER.getFile();
 
-        _root = new TreeItem<String>("Creations");
-        _root.setExpanded(true);
+        TreeItem<String> root = new TreeItem<>("Creations");
+        root.setExpanded(true);
 
         // get all creations in the creation folder
-        File[] creationFolders = folder.listFiles((file) -> {
-            if (file.isDirectory()) {
-                return true;
-            } else {
-                return false;
-            }
-        });
+        File[] creationFolders = folder.listFiles(File::isDirectory);
 
         for (File creationFolder: creationFolders) {
             TreeItem<String> term = new TreeItem<>(creationFolder.getName());
-            _root.getChildren().add(term);
+            root.getChildren().add(term);
 
             // get all mp4 files in the folder
-            File[] creationFiles = creationFolder.listFiles((file -> {
-                if (file.getName().contains(".mp4")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }));
+            File[] creationFiles = creationFolder.listFiles((file -> file.getName().contains(".mp4")));
 
             for (File creationFile:creationFiles) {
                 TreeItem<String> creation = new TreeItem<>(creationFile.getName());
@@ -52,7 +43,7 @@ public class ViewCreationsTask extends Task<TreeItem<String>> {
             }
         }
 
-        return _root;
+        return root;
 
 
     }

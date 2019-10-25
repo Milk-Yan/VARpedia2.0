@@ -3,9 +3,9 @@ package main.java.application;
 import java.io.File;
 
 /**
- * Constant type names and addresses so easy to change.
+ * The SceneType enum is used to specify the addresses of the FXML files for the scene.
  *
- * @author Milk
+ * @author Milk, OverCry
  */
 
 public enum SceneType {
@@ -29,10 +29,9 @@ public enum SceneType {
     }
 
     /**
-     * @return Address of the fxml for the SceneType.
+     * @return Address of the FXML for the SceneType.
      */
     public String getAddress() {
-        // string is immutable so ok to send like this
         return _address;
     }
 
