@@ -166,6 +166,10 @@
   -fx-mark-color: white;
 }
 
+.choice-box .label .text{
+    -fx-font-size: 24;
+}
+
 #confirm{
     -fx-background-image: url("../images/Confirm.png");
     -fx-background-size: 50px;
@@ -233,7 +237,7 @@
     -fx-background-image: url("../images/Play.png");
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+    -fx-background-position: 90%,0%,0%,10%;
 }
 
 #pause{

@@ -25,6 +25,15 @@
    <children>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
             <children>
+                <Button id="jumpBack" fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" prefHeight="42.0" prefWidth="165.0">
+
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+                <Button id="back" fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" prefHeight="42.0" prefWidth="180.0">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
                 <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefHeight="42.0" prefWidth="114.0" text="Pause">
                <font>
                   <Font size="16.0" />
@@ -34,16 +43,7 @@
                <font>
                   <Font size="16.0" />
                </font></Button>
-                <Button id="back" fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" prefHeight="42.0" prefWidth="180.0">
-               <font>
-                  <Font size="16.0" />
-               </font></Button>
                 <Button id="jumpForward" fx:id="_forwardBtn" mnemonicParsing="false" onAction="#forward" prefHeight="42.0" prefWidth="160.0">
-               <font>
-                  <Font size="16.0" />
-               </font></Button>
-                <Button id="jumpBack" fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" prefHeight="42.0" prefWidth="165.0">
-
                <font>
                   <Font size="16.0" />
                </font></Button>
