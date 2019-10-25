@@ -76,7 +76,7 @@
             </Button>
          </children>
       </HBox>
-      <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="42.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="42.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>

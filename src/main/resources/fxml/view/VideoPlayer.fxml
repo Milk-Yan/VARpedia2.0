@@ -29,19 +29,19 @@
                <font>
                   <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_fastForwardBtn" mnemonicParsing="false" onAction="#fastForward" prefHeight="42.0" prefWidth="205.0" text="Fast Forward">
+                <Button mnemonicParsing="false" onAction="#fastForward" prefHeight="42.0" prefWidth="205.0" text="Fast Forward">
                <font>
                   <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_slowDownBtn" mnemonicParsing="false" onAction="#slowDown" prefHeight="42.0" prefWidth="180.0" text="Slow Down">
+                <Button mnemonicParsing="false" onAction="#slowDown" prefHeight="42.0" prefWidth="180.0" text="Slow Down">
                <font>
                   <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_forwardBtn" mnemonicParsing="false" onAction="#forward" prefHeight="42.0" prefWidth="160.0" text="Forward">
+                <Button mnemonicParsing="false" onAction="#forward" prefHeight="42.0" prefWidth="160.0" text="Forward">
                <font>
                   <Font size="16.0" />
                </font></Button>
-                <Button fx:id="_backwardBtn" mnemonicParsing="false" onAction="#backward" prefHeight="42.0" prefWidth="165.0" text="Backward">
+                <Button mnemonicParsing="false" onAction="#backward" prefHeight="42.0" prefWidth="165.0" text="Backward">
                <font>
                   <Font size="16.0" />
                </font></Button>
