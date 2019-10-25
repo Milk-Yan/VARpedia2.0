@@ -45,28 +45,27 @@
          </font>
       </TextArea>
           <Button mnemonicParsing="false" onAction="#searchToChosen" prefHeight="40.0" prefWidth="40.0" text="&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-          <Button minWidth="242.0" mnemonicParsing="false" onAction="#selectReset" prefHeight="42.0" prefWidth="242.0" text="Reset Selected Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+          <Button id="reset" minWidth="242.0" mnemonicParsing="false" onAction="#selectReset" prefHeight="50.0" prefWidth="242.0" text="Reset Selected Text" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-          <Button minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress"
-                  prefHeight="42.0" prefWidth="242.0" text="Quit to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="4">
+          <Button id="home" minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="242.0" text="Quit to Main Menu" GridPane.columnIndex="2" GridPane.rowIndex="4">
               <font>
                   <Font size="16.0" />
               </font>
           </Button>
-          <Button fx:id="_createBtn" minWidth="242.0" mnemonicParsing="false" onAction="#create" prefHeight="42.0" prefWidth="242.0" text="Create" GridPane.columnSpan="3" GridPane.rowIndex="4">
+          <Button id="confirm" fx:id="_createBtn" minWidth="242.0" mnemonicParsing="false" onAction="#create" prefHeight="50.0" prefWidth="242.0" text="Create" GridPane.columnSpan="3" GridPane.rowIndex="4">
               <font>
                   <Font size="16.0" />
               </font>
           </Button>
-          <Button fx:id="_previewBtn" minWidth="242.0" mnemonicParsing="false" onAction="#preview" prefHeight="42.0" prefWidth="242.0" text="Preview" GridPane.rowIndex="4">
+          <Button id="preview" fx:id="_previewBtn" minWidth="242.0" mnemonicParsing="false" onAction="#preview" prefHeight="50.0" prefWidth="242.0" text="Preview" GridPane.rowIndex="4">
               <font>
                   <Font size="16.0" />
               </font>
           </Button>
-          <Button minWidth="242.0" mnemonicParsing="false" onAction="#reset" prefHeight="42.0" prefWidth="242.0" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+          <Button id="reset" minWidth="242.0" mnemonicParsing="false" onAction="#reset" prefHeight="50.0" prefWidth="242.0" text="Reset to Default Text" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font size="16.0" />
          </font>

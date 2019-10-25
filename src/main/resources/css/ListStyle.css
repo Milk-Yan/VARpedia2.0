@@ -165,100 +165,108 @@
   -fx-background-color: black;
   -fx-mark-color: white;
 }
-#back{
-    -fx-background-image: url("../images/back.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#delete{
-    -fx-background-image: url("../images/bin.png");
-    -fx-background-size: 32px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
 
 #confirm{
     -fx-background-image: url("../images/Confirm.png");
-    -fx-background-size: 30px;
+    -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+    -fx-background-position: 90%,0%,0%,10%;
 }
 
 #create{
     -fx-background-image: url("../images/Create.png");
-    -fx-background-size: 30px;
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#help{
+    -fx-background-image: url("../images/Help.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#home{
+    -fx-background-image: url("../images/Home.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#makeAudio{
+    -fx-background-image: url("../images/MakeAudio.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#preview{
+    -fx-background-image: url("../images/Preview.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#reset{
+    -fx-background-image: url("../images/Reset.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#search{
+    -fx-background-image: url("../images/Search.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#delete{
+    -fx-background-image: url("../images/bin.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%,0%,0%,10%;
+}
+
+#play{
+    -fx-background-image: url("../images/Play.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#pause{
+    -fx-background-image: url("../images/Pause.png");
+    -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
 #ff{
     -fx-background-image: url("../images/FF.png");
-    -fx-background-size: 30px;
+    -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-#help{
-    -fx-background-image: url("../images/Help.png");
-    -fx-background-size: 30px;
+#back{
+    -fx-background-image: url("../images/Back.png");
+    -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-#Home{
-    -fx-background-image: url("../images/Home.png");
-    -fx-background-size: 30px;
+#jumpForward{
+    -fx-background-image: url("../images/JumpFoward.png");
+    -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-#makeAudio{
-    -fx-background-image: url("../images/MakeAudio.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#play{
-    -fx-background-image: url("../images/Play.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#preview{
-    -fx-background-image: url("../images/Preview.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#reset{
-    -fx-background-image: url("../images/reset.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#search{
-    -fx-background-image: url("../images/Search.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#right{
-    -fx-background-image: url("../images/Happy.png");
-    -fx-background-size: 30px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#wrong{
-    -fx-background-image: url("../images/Sad.png");
-    -fx-background-size: 30px;
+#jumpBack{
+    -fx-background-image: url("../images/JumpBackwards.png");
+    -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }

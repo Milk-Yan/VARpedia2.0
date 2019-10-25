@@ -25,20 +25,20 @@
       <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Button fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="42.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+      <Button id="home" fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <font>
             <Font size="26.0" />
          </font>
       </Button>
       <HBox alignment="CENTER" prefHeight="120.0" prefWidth="1075.0" spacing="50.0" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefHeight="42.0" prefWidth="300.0" text="Listen">
+            <Button id="preview" fx:id="_listenBtn" mnemonicParsing="false" onAction="#listen" prefHeight="50.0" prefWidth="300.0" text="Listen">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
             <ProgressIndicator fx:id="_indicator" visible="false" />
-            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefHeight="42.0" prefWidth="300.0" text="Confirm">
+            <Button id="confirm" fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefHeight="50.0" prefWidth="300.0" text="Confirm">
                <font>
                   <Font size="26.0" />
                </font>

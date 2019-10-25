@@ -38,12 +38,12 @@
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </GridPane.margin>
       </ProgressIndicator>
-        <Button fx:id="_createButton" mnemonicParsing="false" onAction="#enter" prefHeight="42.0" prefWidth="600.0" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Button id="create" fx:id="_createButton" mnemonicParsing="false" onAction="#enter" prefHeight="50.0" prefWidth="600.0" text="Create" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <font>
                 <Font size="26.0" />
             </font>
         </Button>
-        <Button fx:id="_mainMenuBtn" minHeight="49.0" minWidth="300.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="42.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <Button id="home" fx:id="_mainMenuBtn" minHeight="49.0" minWidth="300.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <font>
                 <Font size="26.0" />
             </font>

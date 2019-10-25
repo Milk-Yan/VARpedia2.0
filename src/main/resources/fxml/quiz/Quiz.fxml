@@ -37,27 +37,27 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" text="Play">
+                  <Button id="pause" fx:id="_playPauseBtn" mnemonicParsing="false" onAction="#playPause" prefWidth="100.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#fastForward" text="Fast Forward">
+                  <Button id="ff" mnemonicParsing="false" onAction="#fastForward" prefWidth="120.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#slowDown" text="Slow Down">
+                  <Button id="back" mnemonicParsing="false" onAction="#slowDown" prefWidth="120.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#forward" text="Forward">
+                  <Button id="jumpForward" mnemonicParsing="false" onAction="#forward" prefWidth="120.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#backward" text="Backward">
+                  <Button id="jumpBack" mnemonicParsing="false" onAction="#backward" prefWidth="120.0">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -106,16 +106,16 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="45.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#clearProgress" prefWidth="230.0" text="Clear Progress" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#clearProgress" prefHeight="50.0" prefWidth="230.0" text="Clear Progress" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#mainMenuPressed" prefWidth="230.0" text="Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Button id="home" mnemonicParsing="false" onAction="#mainMenuPressed" prefHeight="50.0" prefWidth="230.0" text="Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>

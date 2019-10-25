@@ -37,17 +37,17 @@
             <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="_createAudioBtn" mnemonicParsing="false" onAction="#createAudio" prefHeight="50.0" prefWidth="400.0" text="1. Create Audio" GridPane.halignment="RIGHT">
+            <Button id="makeAudio" fx:id="_createAudioBtn" mnemonicParsing="false" onAction="#createAudio" prefHeight="50.0" prefWidth="400.0" text="1. Create Audio" GridPane.halignment="RIGHT">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button fx:id="_viewCreationsBtn" mnemonicParsing="false" onAction="#viewCreations" prefHeight="50.0" prefWidth="400.0" text="3. View current creations" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Button id="list" fx:id="_viewCreationsBtn" mnemonicParsing="false" onAction="#viewCreations" prefHeight="50.0" prefWidth="400.0" text="3. View current creations" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button fx:id="_createCreationBtn" mnemonicParsing="false" onAction="#createCreation" prefHeight="50.0" prefWidth="400.0" text="2. Create new creation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+            <Button id="create" fx:id="_createCreationBtn" mnemonicParsing="false" onAction="#createCreation" prefHeight="50.0" prefWidth="400.0" text="2. Create new creation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <font>
                   <Font size="26.0" />
                </font>
