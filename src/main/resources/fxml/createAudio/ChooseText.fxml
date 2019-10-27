@@ -88,7 +88,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-                <ChoiceBox fx:id="_voiceSelection" prefHeight="32.0" prefWidth="198.0" />
+                <ChoiceBox fx:id="_voiceSelection" prefHeight="32.0" prefWidth="300.0" />
          </children>
       </HBox>
    </children>

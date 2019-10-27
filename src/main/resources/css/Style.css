@@ -61,6 +61,7 @@
 .choice-box .context-menu {
     -fx-background-color: black;
     -fx-font-color: black;
+    -fx-pref-width: 300px;
 }
 
 .choice-box .menu-item:focused {
