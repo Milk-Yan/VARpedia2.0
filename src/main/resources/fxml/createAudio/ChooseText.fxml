@@ -17,6 +17,8 @@
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="47.5" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="47.5" prefWidth="100.0" />
+      <ColumnConstraints />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -39,7 +41,7 @@
             <Font size="25.0" />
          </font>
           </Label>
-          <TextArea fx:id="_chosenText" onKeyPressed="#editCount" onKeyReleased="#editCount" onMouseMoved="#editCount" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here. You can edit both sections! The reset will reset the search results in case you mess anything up :) NOTE: Some voices are unable to speak non-English words, so it cannot be previewed or created." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+          <TextArea fx:id="_chosenText" onKeyPressed="#editCount" onKeyReleased="#editCount" onMouseMoved="#editCount" prefHeight="131.0" prefWidth="293.0" promptText="Highlight the text from the search results or enter your own here." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <font>
             <Font size="20.0" />
          </font>

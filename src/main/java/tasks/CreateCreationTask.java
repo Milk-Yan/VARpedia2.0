@@ -211,8 +211,7 @@ public class CreateCreationTask extends Task<Void> {
                                 File.separator + "img" +
                                 "%01d.jpg -r 30 -t $VIDEO_LENGTH " +
                                 "-vf \"scale=w=600:h=400:force_original_aspect_ratio=1," +
-                                "pad=600:400:(ow-iw)/2:(oh-ih)/2, drawtext=fontfile=font" +
-                                ".ttf:fontsize=100:fontcolor=white:"
+                                "pad=600:400:(ow-iw)/2:(oh-ih)/2, drawtext= fontsize=80:fontcolor=white:"
                                 +
                                 "x=(w-text_w)/2:y=(h-text_h-20):text=" + _term + ", drawbox=y" +
                                 "=ih-h:color=black@0.5:width=iw:height=100:t=fill\"" +
