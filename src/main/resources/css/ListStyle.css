@@ -15,6 +15,7 @@
     -fx-background-radius: 16;
 }
 
+
 .button:hover {
     -fx-border-color: #00fbff;
     -fx-border-width: 3;
@@ -175,6 +176,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #create{
@@ -182,6 +184,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #help{
@@ -189,6 +192,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #home{
@@ -196,6 +200,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #makeAudio{
@@ -203,6 +208,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #preview{
@@ -210,6 +216,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #reset{
@@ -217,6 +224,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #search{
@@ -224,6 +232,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #delete{
@@ -231,6 +240,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #play{
@@ -238,6 +248,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: 90%,0%,0%,10%;
+
 }
 
 #pause{
@@ -245,6 +256,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+
 }
 
 #ff{
@@ -252,6 +264,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+
 }
 
 #back{
@@ -259,6 +272,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+
 }
 
 #jumpForward{
@@ -266,6 +280,7 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+
 }
 
 #jumpBack{
@@ -273,4 +288,5 @@
     -fx-background-size: 50px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+
 }

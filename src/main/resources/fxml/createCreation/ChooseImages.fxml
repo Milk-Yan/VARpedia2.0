@@ -107,12 +107,12 @@
          <children>
             <Button id="create" mnemonicParsing="false" onAction="#create" prefHeight="50.0" prefWidth="600.0" text="Create!" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
             <Button id="home" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="600.0" text="Back to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
-                  <Font size="26.0" />
+                  <Font size="16.0" />
                </font>
             </Button>
          </children>

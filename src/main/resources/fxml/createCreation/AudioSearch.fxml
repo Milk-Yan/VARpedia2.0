@@ -32,14 +32,14 @@
       </ListView>
         <Button id="confirm" fx:id="_enterBtn" mnemonicParsing="false" onAction="#enter" prefHeight="50.0" prefWidth="600.0" text="Enter" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
             <font>
-                <Font size="26.0" />
+                <Font size="16.0" />
             </font>
         </Button>
 
         <Button id="home" fx:id="_mainMenuBtn" mnemonicParsing="false" onAction="#mainMenu" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
 
             <font>
-                <Font size="26.0" />
+                <Font size="16.0" />
             </font>
         </Button>
    </children>
