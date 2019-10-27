@@ -53,13 +53,13 @@
          </font>
       </Button>
 
-          <Button id="home" minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="242.0" text="Quit" GridPane.columnIndex="2" GridPane.rowIndex="4">
+          <Button id="home" minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="242.0" text="Quit" GridPane.columnIndex="1" GridPane.rowIndex="4">
 
               <font>
                   <Font size="16.0" />
               </font>
           </Button>
-          <Button id="confirm" fx:id="_createBtn" minWidth="242.0" mnemonicParsing="false" onAction="#create" prefHeight="50.0" prefWidth="242.0" text="Create" GridPane.columnSpan="3" GridPane.rowIndex="4">
+          <Button id="confirm" fx:id="_createBtn" minWidth="242.0" mnemonicParsing="false" onAction="#create" prefHeight="50.0" prefWidth="242.0" text="Create" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="4">
               <font>
                   <Font size="16.0" />
               </font>

@@ -44,12 +44,12 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button id="list" fx:id="_viewCreationsBtn" mnemonicParsing="false" onAction="#viewCreations" prefHeight="50.0" prefWidth="400.0" text="3. View current creations" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <Button id="list" fx:id="_viewCreationsBtn" mnemonicParsing="false" onAction="#viewCreations" prefHeight="50.0" prefWidth="400.0" text="3. View Current Creations" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <font>
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button id="create" fx:id="_createCreationBtn" mnemonicParsing="false" onAction="#createCreation" prefHeight="50.0" prefWidth="400.0" text="2. Create new creation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+            <Button id="create" fx:id="_createCreationBtn" mnemonicParsing="false" onAction="#createCreation" prefHeight="50.0" prefWidth="400.0" text="2. Create New Creation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                <font>
                   <Font size="26.0" />
                </font>
