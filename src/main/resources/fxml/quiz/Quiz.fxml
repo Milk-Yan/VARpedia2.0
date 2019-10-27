@@ -58,6 +58,9 @@
                      <font>
                         <Font size="18.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </Button>
                   <Button id="jumpForward" mnemonicParsing="false" onAction="#forward" prefWidth="120.0">
                      <font>
@@ -65,7 +68,15 @@
                      </font>
                   </Button>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="* Note: The answer has been replaced with &quot;Secret Word&quot; in the audio*" textAlignment="CENTER" wrappingWidth="691.89892578125">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
          </children>
       </VBox>
       <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">

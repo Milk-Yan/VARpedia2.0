@@ -1,9 +1,9 @@
 #background {
-    -fx-background-color: #000a36;
+    -fx-background-color: #3b3b3b;
 }
 
 #naming {
-    -fx-background-color: #000a36;
+    -fx-background-color: #3b3b3b;
 }
 
 {
@@ -59,7 +59,7 @@
 }
 
 .choice-box .context-menu {
-    -fx-background-color: #000a36;
+    -fx-background-color: black;
     -fx-font-color: black;
 }
 
