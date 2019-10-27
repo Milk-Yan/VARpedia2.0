@@ -2,6 +2,8 @@ package main.java.controllers.quiz;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -20,7 +22,10 @@ import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Controller for Quiz.fxml. Allows the user to play a quiz to test their knowledge.
@@ -31,8 +36,13 @@ public class Quiz extends Controller {
 
     // delegate for delegation pattern. Takes care of most of the video-playing functionality.
     private VideoPlayer _videoPlayer;
-
     private MediaPlayer _player;
+    private final File _happyFaceFile = new File(System.getProperty("user.dir") +
+            File.separator + "src" + File.separator + "main" + File.separator + "resources" +
+            File.separator + "images" + File.separator + "Happy.png");
+    private final File _sadFaceFile = new File(System.getProperty("user.dir") +
+            File.separator + "src" + File.separator + "main" + File.separator + "resources" +
+            File.separator + "images" + File.separator + "Sad.png");
 
     @FXML private Slider _volSlider;
     @FXML private Slider _timeSlider;
@@ -47,6 +57,7 @@ public class Quiz extends Controller {
     @FXML private Label _correctionLabel;
     @FXML private Label _promptLabel;
     @FXML private Pane _buttonPane;
+    @FXML private ImageView _emotionViewer;
 
     /**
      * Called immediately after the root element of the scene is processed by the FXMLLoader.
@@ -240,27 +251,53 @@ public class Quiz extends Controller {
             // check whether the user got the term correct
             if (text.equalsIgnoreCase(termName)) {
                 // correct input
-                _correctionLabel.setText("Correct!");
-                _correctionLabel.setVisible(true);
+                showCorrect();
                 updateScore(termName, true);
             } else {
                 // incorrect input
-                _correctionLabel.setText("Incorrect. Answer: " + termName);
-                _correctionLabel.setVisible(true);
+                showWrong(termName);
                 updateScore(termName, false);
             }
-
             _confirmBtn.setText("Next");
         } else {
+            clearCorrection();
             _confirmBtn.setText("Confirm");
-            _correctionLabel.setVisible(false);
-            _termInput.clear();
+
             if (_includeMastered.isSelected()) {
                 displayIncludeMastered();
             } else {
                 displayNotMasteredCreation();
             }
         }
+    }
+
+    private void showCorrect() {
+        _correctionLabel.setText("Correct!");
+        _correctionLabel.setVisible(true);
+        _videoViewer.setVisible(false);
+
+        // show the user a happy face
+        Image image = new Image(_happyFaceFile.toURI().toString());
+        _emotionViewer.setImage(image);
+        _emotionViewer.setVisible(true);
+    }
+
+    private void showWrong(String termName) {
+        _correctionLabel.setText("Incorrect. Answer: " + termName);
+        _correctionLabel.setVisible(true);
+        _videoViewer.setVisible(false);
+
+        // show the user a happy face
+        Image image = new Image(_sadFaceFile.toURI().toString());
+        _emotionViewer.setImage(image);
+        _emotionViewer.setVisible(true);
+    }
+
+    private void clearCorrection() {
+        _correctionLabel.setVisible(false);
+        _termInput.clear();
+        _emotionViewer.setVisible(false);
+        _videoViewer.setVisible(true);
     }
 
     /**

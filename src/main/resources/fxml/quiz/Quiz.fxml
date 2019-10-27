@@ -6,10 +6,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
@@ -76,7 +78,7 @@
           <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" text="CONFIRM" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" text="Confirm" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <font>
                   <Font size="16.0" />
                </font>
@@ -130,7 +132,12 @@
                   <Slider fx:id="_volSlider" orientation="VERTICAL" VBox.vgrow="SOMETIMES" />
                </children>
             </VBox>
-            <MediaView fx:id="_videoViewer" fitHeight="400.0" fitWidth="600.0" />
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <MediaView fx:id="_videoViewer" fitHeight="400.0" fitWidth="600.0" />
+                  <ImageView fx:id="_emotionViewer" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+               </children>
+            </StackPane>
          </children>
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
