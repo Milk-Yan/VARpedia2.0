@@ -55,6 +55,7 @@ public class ViewCreations extends Controller {
             _audioTreeRoot = viewAudioTask.get();
 
             disableUnnecessaryButtons();
+            _playBtn.setDisable(true);
 
         } catch (InterruptedException e) {
             // probably intended, don't do anything
@@ -257,7 +258,7 @@ public class ViewCreations extends Controller {
     }
 
     /**
-    * check if selected can be played
+    * check if selected can be played, otherwise disable the button
     */
     @FXML
     private void checkPlayable(){
