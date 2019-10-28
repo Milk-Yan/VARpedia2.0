@@ -55,7 +55,7 @@
          </font>
       </Button>
 
-          <Button id="home" minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="242.0" text="Quit" GridPane.columnIndex="1" GridPane.rowIndex="4">
+          <Button id="home" fx:id="_returnBtn" minWidth="242.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="242.0" text="Quit" GridPane.columnIndex="1" GridPane.rowIndex="4">
 
               <font>
                   <Font size="16.0" />

@@ -50,6 +50,7 @@ public class ChooseText extends Controller {
     @FXML private Button _previewBtn;
     @FXML private Button _createBtn;
     @FXML private Button _chooseBtn;
+    @FXML private Button _returnBtn;
 
     /**
      * Initialises the searchResults TextArea and also the number of lines displayed to user.
@@ -269,6 +270,7 @@ public class ChooseText extends Controller {
     @FXML private void editCount() {
         removeSpacesOnly();
         updateCount();
+        _returnBtn.setText("Quit");
     }
 
     /**
@@ -286,7 +288,11 @@ public class ChooseText extends Controller {
      */
     @FXML private void mainMenuPress() {
         stopCurrentPreview();
-        mainMenu();
+        if (_returnBtn.getText().equals("Quit")){
+            _returnBtn.setText("Are you sure?");
+        } else if (!_returnBtn.getText().equals("Quit")) {
+            mainMenu();
+        }
     }
 
     /**
