@@ -36,6 +36,8 @@
     -fx-background-color: #2e2e2e;
     -fx-border-color: #7289DA;
     -fx-border-radius: 10;
+    -fx-highlight-text-fill: white;
+    -fx-highlight-fill: white;
 }
 
 .text-area .content{
