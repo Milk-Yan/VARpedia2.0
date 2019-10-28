@@ -75,6 +75,9 @@ public class ChooseAudio extends Controller {
         setUpMusicChoice();
     }
 
+    /**
+     * Set up the music choice textbox with the list of current music available..
+     */
     private void setUpMusicChoice() {
 
         // add a choice for no music
@@ -297,12 +300,15 @@ public class ChooseAudio extends Controller {
             File audioFile = new File(
                     Folders.AUDIO_PRACTICE_FOLDER.getPath() + File.separator + _term + File.separator + audioName +
                             ".wav");
-            File musicFile =
-                    new File(Folders.MUSIC_FOLDER.getPath() + File.separator + _musicChoice.getSelectionModel().getSelectedItem() + ".wav");
 
             playFile(audioFile);
-            playFile(musicFile);
 
+            // only play music if music is selected
+            if (_musicChoice.getSelectionModel().getSelectedIndex() != 0) {
+                File musicFile =
+                        new File(Folders.MUSIC_FOLDER.getPath() + File.separator + _musicChoice.getSelectionModel().getSelectedItem() + ".wav");
+                playFile(musicFile);
+            }
         } else {
             new AlertFactory(AlertType.ERROR, "Error", "Invalid selection",
                     "You can only listen to one audio at a time");
@@ -347,11 +353,15 @@ public class ChooseAudio extends Controller {
      * Stop audio playback.
      */
     private void stopAudioPlayer() {
+        ArrayList<MediaPlayer> toRemove = new ArrayList<>();
+
         for (MediaPlayer player:_listOfMediaPlayers) {
             if (player != null) {
                 player.stop();
             }
-            _listOfMediaPlayers.remove(player);
+            toRemove.add(player);
         }
+
+        _listOfMediaPlayers.removeAll(toRemove);
     }
 }

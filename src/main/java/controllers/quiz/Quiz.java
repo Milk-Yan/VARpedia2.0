@@ -265,6 +265,9 @@ public class Quiz extends Controller {
         }
     }
 
+    /**
+     * Display a smiley face to the user when they get the quiz correct.
+     */
     private void showCorrect() {
         _correctionLabel.setText("Correct!");
         _correctionLabel.setVisible(true);
@@ -276,6 +279,10 @@ public class Quiz extends Controller {
         _emotionViewer.setVisible(true);
     }
 
+    /**
+     * Display a sad face to the user when the get the quiz wrong.
+     * @param termName The correct answer.
+     */
     private void showWrong(String termName) {
         _correctionLabel.setText("Incorrect. Answer: " + termName);
         _correctionLabel.setVisible(true);
@@ -287,6 +294,9 @@ public class Quiz extends Controller {
         _emotionViewer.setVisible(true);
     }
 
+    /**
+     * Clear the correction messages for the next quiz.
+     */
     private void clearCorrection() {
         _correctionLabel.setVisible(false);
         _termInput.clear();

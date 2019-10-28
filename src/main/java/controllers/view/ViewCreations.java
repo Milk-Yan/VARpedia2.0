@@ -208,6 +208,8 @@ public class ViewCreations extends Controller {
                 for (TreeItem<String> parentTerm: treeView.getRoot().getChildren()) {
                     if (parentTerm.getValue().equals(term)) {
                         parentTerm.getChildren().remove(selectedItem);
+                        removeIfEmpty(termPracticeFolder, termTestFolder, parentTerm);
+                        break;
                     }
                 }
             }
@@ -232,6 +234,28 @@ public class ViewCreations extends Controller {
 
                 treeView.getRoot().getChildren().remove(selectedItem);
             }
+        }
+    }
+
+
+    /**
+     * Deletes the practice, test and tree parents if all children are gone.
+     * @param practiceFolder The practice folder to delete.
+     * @param testFolder The test folder to delete.
+     * @param parent The node which is the parent of the deleted node.
+     */
+    private void removeIfEmpty(File practiceFolder, File testFolder, TreeItem<String> parent) {
+        if (practiceFolder.exists() && practiceFolder.listFiles().length == 0) {
+            practiceFolder.delete();
+        }
+
+        if (testFolder.exists() && testFolder.listFiles().length == 0) {
+            testFolder.delete();
+        }
+
+        if (parent.getChildren().isEmpty()) {
+            TreeItem<String> root = parent.getParent();
+            root.getChildren().remove(parent);
         }
     }
 

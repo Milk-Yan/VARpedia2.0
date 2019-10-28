@@ -63,7 +63,9 @@ public class CreationNaming extends Controller {
             fileNumber = termFolder.listFiles().length+1;
         }
 
-        _nameInput.setText(_term + fileNumber);
+        // replace all spaces with underscores and remove all other special characters
+        String termName = _term.replaceAll(" ", "_").replaceAll("[^A-z0-9]", "");
+        _nameInput.setText(termName + fileNumber);
     }
 
     /**
@@ -79,7 +81,7 @@ public class CreationNaming extends Controller {
 
             new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name cannot be empty");
 
-        } else if (!_name.matches("[A-Za-z0-9]+")) {
+        } else if (!_name.matches("[A-Za-z0-9_]+")) {
 
             new AlertFactory(AlertType.ERROR, "Error", "Input invalid", "Name can only contain " +
                     "a-A and 0-9.");

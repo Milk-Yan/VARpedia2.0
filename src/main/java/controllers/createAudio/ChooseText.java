@@ -148,6 +148,9 @@ public class ChooseText extends Controller {
         }
     }
 
+    /**
+     * Get the list of current Festival voices.
+     */
     private void listOfVoices() {
         _voices = new ArrayList<>();
         _voiceName = new ArrayList<>();
@@ -247,6 +250,10 @@ public class ChooseText extends Controller {
         }
     }
 
+    /**
+     * Disable buttons.
+     * @param disable if to disable.
+     */
     private void setDisable(boolean disable) {
         if (disable) {
             _previewBtn.setDisable(true);

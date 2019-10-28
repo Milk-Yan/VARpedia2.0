@@ -112,7 +112,7 @@ public class ChooseImages extends Controller {
     }
 
     /**
-     * Functionlity of create button to passes desired parameters to a naming scene,
+     * Functionality of create button to passes desired parameters to a naming scene,
      */
     @FXML private void create() {
 

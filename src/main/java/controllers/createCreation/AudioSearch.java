@@ -90,6 +90,11 @@ public class AudioSearch extends Controller {
         }
     }
 
+    /**
+     * If the user presses enter when typing the input, it is the same as clicking the enter button.
+     * @param keyEvent The event triggered when a key is pressed when the input textfield is
+     *                 selected.
+     */
     @FXML private void onEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             enter();
