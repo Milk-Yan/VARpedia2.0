@@ -236,6 +236,7 @@ public class Quiz extends Controller {
     @FXML private void confirm() {
 
         if (_confirmBtn.getText().equals("Confirm")) {
+            playPause();
             // get the name of the creation
             File currentFile = new File(_player.getMedia().getSource());
             File termFolder = new File(currentFile.getParent());
