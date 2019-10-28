@@ -1,11 +1,8 @@
 package main.java.controllers.createAudio;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import main.java.application.AlertFactory;
@@ -24,12 +21,14 @@ public class AudioNaming extends Controller {
 
     @FXML private TextField _nameInput;
     @FXML private ProgressIndicator _indicator;
+    @FXML private Button _mainMenuBtn;
 
     private String _name;
     private String _term;
     private String _chosenText;
     private String _voice;
     private CreateAudioTask _task;
+
 
     /**
      * Sets up inputs of audio creation parameters.
@@ -134,7 +133,22 @@ public class AudioNaming extends Controller {
             _task.cancel();
         }
 
-        mainMenu();
+        if (_mainMenuBtn.getText().equals("Quit to Main Menu")){
+            _mainMenuBtn.setText("Are you sure?");
+        } else if (!_mainMenuBtn.getText().equals("Quit to Main Menu")){
+            mainMenu();
+        }
+
+    }
+
+    /**
+     * resets menu button to original text
+     */
+    @FXML
+    private void setMenu(){
+        if (!(_mainMenuBtn.getText().equals("Quit to Main Menu"))) {
+            _mainMenuBtn.setText("Quit to Main Menu");
+        }
     }
 
     /**

@@ -45,7 +45,7 @@
             </font>
         </Button>
 
-        <Button id="home" fx:id="_mainMenuBtn" minHeight="49.0" minWidth="300.0" mnemonicParsing="false" onAction="#mainMenuPress" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <Button id="home" fx:id="_mainMenuBtn" minHeight="49.0" minWidth="300.0" mnemonicParsing="false" onAction="#mainMenuPress" onMouseExited="#setMenu" prefHeight="50.0" prefWidth="600.0" text="Quit to Main Menu" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <font>
                 <Font size="26.0" />
             </font>
