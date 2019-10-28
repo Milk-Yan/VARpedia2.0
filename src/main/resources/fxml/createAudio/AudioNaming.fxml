@@ -28,7 +28,7 @@
                 <Font size="26.0" />
             </font>
         </Text>
-        <TextField fx:id="_nameInput" onKeyPressed="#onEnter" prefWidth="500.0" promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <TextField fx:id="_nameInput" onKeyPressed="#onEnter" onKeyReleased="#removeOnlySpace" prefWidth="500.0" promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="26.0" />
          </font>

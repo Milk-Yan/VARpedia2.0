@@ -55,6 +55,7 @@ public class ViewCreations extends Controller {
             _audioTreeRoot = viewAudioTask.get();
 
             disableUnnecessaryButtons();
+            _playBtn.setDisable(true);
 
         } catch (InterruptedException e) {
             // probably intended, don't do anything
@@ -280,5 +281,23 @@ public class ViewCreations extends Controller {
         }
     }
 
-
+    /**
+    * check if selected can be played, otherwise disable the button
+    */
+    @FXML
+    private void checkPlayable(){
+        if (_creationTab.isSelected()){
+            if (!(_listOfCreations.getSelectionModel().getSelectedItem()==null)&&_listOfCreations.getSelectionModel().getSelectedItem().isLeaf()){
+                _playBtn.setDisable(false);
+            } else {
+                _playBtn.setDisable(true);
+            }
+        } else if (_audioTab.isSelected()){
+            if (!(_listOfAudio.getSelectionModel().getSelectedItem()==null)&&_listOfAudio.getSelectionModel().getSelectedItem().isLeaf()){
+                _playBtn.setDisable(false);
+            } else {
+                _playBtn.setDisable(true);
+            }
+        }
+    }
 }

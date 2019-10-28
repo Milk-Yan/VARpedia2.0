@@ -71,4 +71,14 @@ public class TermSearch extends Controller {
         }
     }
 
+    /**
+     * checks if only spaces have been entered
+     */
+    @FXML
+    private void removeOnlySpace(){
+        if (_termInput.getText().equals(" ")){
+            _termInput.setText("");
+        }
+    }
+
 }
