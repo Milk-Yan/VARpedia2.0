@@ -332,5 +332,13 @@ public class ChooseText extends Controller {
         }
     }
 
+    /**
+     * allows text transfer between search and selected
+     */
+    @FXML
+    private void enableSend(){
+        _chooseBtn.setDisable(false);
+    }
+
 
 }
