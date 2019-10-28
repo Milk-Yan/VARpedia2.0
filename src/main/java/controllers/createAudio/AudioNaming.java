@@ -62,6 +62,8 @@ public class AudioNaming extends Controller {
             fileNumber = 1;
         }
 
+        // replace all spaces with underscores and remove all other weird characters
+        //String termName = _term.replaceAll(" ", "_")
         _nameInput.setText(_term + fileNumber);
     }
 

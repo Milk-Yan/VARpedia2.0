@@ -106,9 +106,6 @@ public class Quiz extends Controller {
                     _volSlider,
                     _playTime, _maxTime);
 
-            // don't autoplay the video
-            _player.setAutoPlay(false);
-
             _videoViewer.setMediaPlayer(_player);
             _videoPlayer.setUpSliders(_timeSlider, _volSlider, _player);
         }
@@ -145,9 +142,6 @@ public class Quiz extends Controller {
             File randomCreation = getRandomCreationFile(numberOfTerms, creations);
             _player = _videoPlayer.createPlayer(randomCreation, _playPauseBtn, _timeSlider,
                     _volSlider, _playTime, _maxTime);
-
-            // don't autoplay the video
-            _player.setAutoPlay(false);
 
             _videoViewer.setMediaPlayer(_player);
 

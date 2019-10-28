@@ -95,18 +95,18 @@ public class SearchTermTask extends Task<String> {
      */
     @Override
     protected void succeeded() {
-
-        if (_searchResults.contains(":^(")) {
+        if (_searchResults.contains("not found :^(")) {
             _isInvalid = true;
             cancel(); // run cancel operations
-            return;
+            Platform.runLater(() -> {
+                _mainApp.displayCreateAudioSearchScene();
+            });
+        } else {
+            // run on GUI thread
+            Platform.runLater(() -> {
+                _mainApp.displayCreateAudioChooseTextScene(_term, _searchResults);
+            });
         }
-
-        // run on GUI thread
-        Platform.runLater(() -> {
-            _mainApp.displayCreateAudioChooseTextScene(_term, _searchResults);
-        });
-
     }
 
     /**

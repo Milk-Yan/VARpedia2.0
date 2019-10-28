@@ -2,10 +2,8 @@ package main.java.controllers.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
@@ -17,7 +15,6 @@ import javafx.util.Duration;
 import main.java.controllers.Controller;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 /**
  * Controller for functionality of VideoPlayer.fxml. Allows the user to play a creation.
@@ -237,7 +234,7 @@ public class VideoPlayer extends Controller {
     public MediaPlayer createPlayer(File mediaFile, Button playPauseBtn, Slider timeSlider,
                                     Slider volSlider, Label playTime, Label maxTime) {
         Media video =
-                new Media(Paths.get(mediaFile.getPath()).toUri().toString());
+                new Media(mediaFile.toURI().toString());
         MediaPlayer player = new MediaPlayer(video);
         player.setAutoPlay(true);
 
