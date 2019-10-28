@@ -89,7 +89,7 @@
           <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" text="Confirm" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <Button fx:id="_confirmBtn" mnemonicParsing="false" onAction="#confirm" prefWidth="150.0" text="Confirm" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <font>
                   <Font size="16.0" />
                </font>
