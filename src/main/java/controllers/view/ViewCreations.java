@@ -233,6 +233,8 @@ public class ViewCreations extends Controller {
                 }
                 termTestFolder.delete();
 
+                new File(mediaFolder + File.separator + "test" + File.separator + term).delete();
+
                 treeView.getRoot().getChildren().remove(selectedItem);
             }
         }
