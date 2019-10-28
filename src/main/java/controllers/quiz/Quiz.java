@@ -37,13 +37,10 @@ public class Quiz extends Controller {
     // delegate for delegation pattern. Takes care of most of the video-playing functionality.
     private VideoPlayer _videoPlayer;
     private MediaPlayer _player;
-    private final File _happyFaceFile = new File(System.getProperty("user.dir") +
-            File.separator + "src" + File.separator + "main" + File.separator + "resources" +
-            File.separator + "images" + File.separator + "Happy.png");
-    private final File _sadFaceFile = new File(System.getProperty("user.dir") +
-            File.separator + "src" + File.separator + "main" + File.separator + "resources" +
-            File.separator + "images" + File.separator + "Sad.png");
-
+    private final Image _happyFaceImage = new Image(getClass().getResourceAsStream( File.separator + "main" + File.separator + "resources" +
+            File.separator + "images" + File.separator + "Happy.png"));
+    private final Image _sadFaceImage = new Image(getClass().getResourceAsStream( File.separator + "main" + File.separator + "resources" +
+            File.separator + "images" + File.separator + "Sad.png"));
     @FXML private Slider _volSlider;
     @FXML private Slider _timeSlider;
     @FXML private Label _playTime;
@@ -275,8 +272,7 @@ public class Quiz extends Controller {
         _videoViewer.setVisible(false);
 
         // show the user a happy face
-        Image image = new Image(_happyFaceFile.toURI().toString());
-        _emotionViewer.setImage(image);
+        _emotionViewer.setImage(_happyFaceImage);
         _emotionViewer.setVisible(true);
     }
 
@@ -290,8 +286,7 @@ public class Quiz extends Controller {
         _videoViewer.setVisible(false);
 
         // show the user a happy face
-        Image image = new Image(_sadFaceFile.toURI().toString());
-        _emotionViewer.setImage(image);
+        _emotionViewer.setImage(_sadFaceImage);
         _emotionViewer.setVisible(true);
     }
 
