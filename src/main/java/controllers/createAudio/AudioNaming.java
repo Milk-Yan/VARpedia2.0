@@ -148,5 +148,14 @@ public class AudioNaming extends Controller {
         }
     }
 
+    /**
+     * checks if only spaces have been entered
+     */
+    @FXML
+    private void removeOnlySpace(){
+        if (_nameInput.getText().equals(" ")){
+            _nameInput.setText("");
+        }
+    }
 
 }
